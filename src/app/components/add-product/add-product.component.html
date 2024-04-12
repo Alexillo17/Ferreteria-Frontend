@@ -1,0 +1,63 @@
+<div class="wrapper">
+  <div class="body">
+  <div class="bodyproduct">
+  <div class="addproduct">
+    <div class="titulo">
+      <h2><b>Agregar Producto</b></h2>
+    </div>
+
+    <form [formGroup]="form" (ngSubmit)="addProduct()">
+      <div class="row title">
+        <div class="col">
+          <label for="exampleInputEmail1">Nombre</label>
+          <input formControlName="Nombre" type="text" class="form-control custom-border">
+        </div>
+      </div>
+
+      <div class="row title">
+        <div class="col">
+          <label for="exampleInputEmail1">Unidades</label>
+          <input formControlName="Unidades" type="text" class="form-control custom-border">
+        </div>
+        <div class="col">
+          <label for="exampleInputEmail1">Precio</label>
+          <input formControlName="Precio" type="number" class="form-control custom-border">
+        </div>
+      </div>
+
+        <div class="row title">
+          <div class="col">
+            <label for="exampleInputEmail1">Estado</label>
+            <select formControlName="Estado" class="form-select custom-border" aria-label="Default select example">
+              <option value="Activo">Activo</option>
+              <option value="Agotado">Agotado</option>
+            </select>
+          </div>
+          <div class="col">
+            <label for="Categoria">Categoría:</label>
+            <select class="form-select custom-border" formControlName="Categoria">
+              <option *ngFor="let categoria of categorias" [ngValue]="categoria">{{ categoria.nombre }}</option>
+            </select>
+          </div>
+        
+          <div class="col">
+            <label for="Proveedor">Proveedor:</label>
+            <select class="form-select custom-border" formControlName="Proveedor">
+              <option *ngFor="let proveedor of proveedores" [ngValue]="proveedor">{{ proveedor.nombre }}</option>
+            </select>
+          </div>      
+        </div>
+
+      <div class="d-grid gap-2 col-6 mx-auto custom-spaceM">
+        <button type="submit" class="btn btn-primary">Agregar</button>
+      </div>
+      <div class="d-grid gap-2 col-6 mx-auto custom-spaceM">
+        <button type="submit" class="btn btn-danger" routerLink="/list-product">Cancelar</button>
+      </div>
+      
+    </form>
+  </div>
+  </div>
+  </div>
+  </div>
+
