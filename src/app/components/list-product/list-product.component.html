@@ -1,56 +1,47 @@
-<div class="bodylist">
-  <nav class="navbarXD">
-    <a class="navbar-brand" href="#">
-      <img src="../../../assets/img/hammer.png"  class="logo" alt=""></a>
-      <div class="enlances">
-        <a class="nav-item nav-link" href="#"> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list-task" viewBox="0 0 16 16">
-          <path fill-rule="evenodd" d="M2 2.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5V3a.5.5 0 0 0-.5-.5zM3 3H2v1h1z"/>
-          <path d="M5 3.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5M5.5 7a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1zm0 4a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1z"/>
-          <path fill-rule="evenodd" d="M1.5 7a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5H2a.5.5 0 0 1-.5-.5zM2 7h1v1H2zm0 3.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm1 .5H2v1h1z"/>
-        </svg>Lista</a>
-        <a class="nav-item nav-link" href="#"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-receipt" viewBox="0 0 16 16">
-          <path d="M1.92.506a.5.5 0 0 1 .434.14L3 1.293l.646-.647a.5.5 0 0 1 .708 0L5 1.293l.646-.647a.5.5 0 0 1 .708 0L7 1.293l.646-.647a.5.5 0 0 1 .708 0L9 1.293l.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .801.13l.5 1A.5.5 0 0 1 15 2v12a.5.5 0 0 1-.053.224l-.5 1a.5.5 0 0 1-.8.13L13 14.707l-.646.647a.5.5 0 0 1-.708 0L11 14.707l-.646.647a.5.5 0 0 1-.708 0L9 14.707l-.646.647a.5.5 0 0 1-.708 0L7 14.707l-.646.647a.5.5 0 0 1-.708 0L5 14.707l-.646.647a.5.5 0 0 1-.708 0L3 14.707l-.646.647a.5.5 0 0 1-.801-.13l-.5-1A.5.5 0 0 1 1 14V2a.5.5 0 0 1 .053-.224l.5-1a.5.5 0 0 1 .367-.27m.217 1.338L2 2.118v11.764l.137.274.51-.51a.5.5 0 0 1 .707 0l.646.647.646-.646a.5.5 0 0 1 .708 0l.646.646.646-.646a.5.5 0 0 1 .708 0l.646.646.646-.646a.5.5 0 0 1 .708 0l.646.646.646-.646a.5.5 0 0 1 .708 0l.646.646.646-.646a.5.5 0 0 1 .708 0l.509.509.137-.274V2.118l-.137-.274-.51.51a.5.5 0 0 1-.707 0L12 1.707l-.646.647a.5.5 0 0 1-.708 0L10 1.707l-.646.647a.5.5 0 0 1-.708 0L8 1.707l-.646.647a.5.5 0 0 1-.708 0L6 1.707l-.646.647a.5.5 0 0 1-.708 0L4 1.707l-.646.647a.5.5 0 0 1-.708 0z"/>
-          <path d="M3 4.5a.5.5 0 0 1 .5-.5h6a.5.5 0 1 1 0 1h-6a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 1 1 0 1h-6a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 1 1 0 1h-6a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5m8-6a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5"/>
-        </svg>Facturas</a>
-      </div>
-  </nav>
-
+<div class="body">
+  <app-nav-bar></app-nav-bar>
   <div class="wrapper">
     <h2>Lista de Productos</h2>
-    <div class="searchbar">
-      <form class="d-flex" role="search">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success" type="submit">Search</button>
-      </form>
-    </div>\
-    <button type="button" class="btn btn-primary customspace" routerLink="/add-product">Agregar Producto</button>
-    <div class="tablecontainer" >
-      <table class="table height:300px">
-        <thead>
-          <tr class="encabezados">
-            <th class="encabezados" scope="col">#</th>
-            <th class="encabezados" scope="col">Nombre</th>
-            <th  class="encabezados"scope="col">Unidades</th>
-            <th  class="encabezados"scope="col">Precio</th>
-            <th class="encabezados" scope="col">Estado</th>
-            <th  class="encabezados"scope="col">Categoria</th>
-            <th  class="encabezados"scope="col">Proveedor</th>
-          </tr>
-        </thead>
-        <tbody *ngFor="let producto of product_result">
-          <tr >
-            <th scope="row">1</th>
-            <td>{{producto.NOMBRE}}</td>
-            <td>{{producto.UNIDADES}}</td>
-            <td>{{producto.PRECIO}}</td>
-            <td>{{producto.ESTADO}}</td>
-            <td>{{producto.IDCATEGORIA}}</td>
-            <td>{{producto.IDPROVEEDOR}}</td>
-          </tr>
-        </tbody>
-      </table>
+ <button (click)="OpenAddProduct()">XD</button>
+        <div class="mat-elevation-z8 ">
+          <table class="table table-striped">
+            <thead>
+              <tr class="encabezados">
+                <th class="tabledatacolor" scope="col"></th>
+                <th class="tabledatacolor" scope="col"> Nombre </th>
+                <th class="tabledatacolor" scope="col"> Unidades </th>
+                <th class="tabledatacolor" scope="col"> Precio </th>
+                <th class="tabledatacolor" scope="col"> Estado </th>
+                <th class="tabledatacolor" scope="col"> Categoria </th>
+                <th class="tabledatacolor" scope="col"> Proveedor </th>
+                <th class="tabledatacolor" scope="col"> Acciones </th>
+              </tr>
+            </thead>
+            <tbody>
+              <ng-container *ngFor="let producto of product_result?.products">
+                <tr>
+                  <th scope="row"></th>
+                  <td>{{producto.NOMBRE}}</td>
+                  <td>{{producto.UNIDADES}}</td>
+                  <td>{{producto.PRECIO}}</td>
+                  <td>{{producto.ESTADO}}</td>
+                  <td>{{producto.IDCATEGORIA}}</td>
+                  <td>{{producto.IDPROVEEDOR}}</td>
+                  <td>
+                    <button type="button" class="clean-buttom"><img src="../../../assets/img/busqueda (2).png"></button>
+                    <button (click)="OpenEditProduct(producto.IDPRODUCTO)" type="button" class="clean-buttom"><img src="../../../assets/img/editar (4).png"></button>
+                    <button type="button" class="clean-buttom"><img src="../../../assets/img/basura.png"></button>
+                  </td>
+                </tr>
+              </ng-container>
+            </tbody>
+          </table>
+          <mat-paginator [length]="product_result?.totalItems"
+          [pageSize]="10"
+          [pageSizeOptions]="[5, 10]">
+</mat-paginator>
  </div>
- 
+</div>
 </div>
 
-</div>
+  

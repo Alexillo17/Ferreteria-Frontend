@@ -1,7 +1,10 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { ApiService } from 'src/app/service/api.service';
-import { Producto } from 'src/app/interfaces/producto';
-import { HttpClient } from '@angular/common/http';
+import { Producto, Root } from 'src/app/interfaces/producto';
+import { MatDialog } from '@angular/material/dialog';
+import { AddProductComponent } from '../add-product/add-product.component';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-list-product',
@@ -9,32 +12,40 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./list-product.component.scss'],
 })
 
-export class ListProductComponent implements OnInit {
+export class ListProductComponent implements OnInit, AfterViewInit {
 
-  product_result: Producto[] = [];
+  product_result: Root | undefined;
+  dataSource = new MatTableDataSource<Producto>();
 
-  constructor(private productservice: ApiService){
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
 
+  constructor(private productservice: ApiService, 
+    private dialogRef: MatDialog,
+  ) {}
+
+  ngOnInit(): void {}
+
+  ngAfterViewInit(): void {
+    this.paginator.page.subscribe(() => this.MostrarProductos(this.paginator.pageIndex + 1, this.paginator.pageSize));
+    this.MostrarProductos(1, 10);
   }
 
-  ngOnInit(): void {
-
-this.MostrarProductos();
-
+  MostrarProductos(pageNumber: number, pageSize: number): void {
+    this.productservice.getProducts(pageNumber, pageSize).subscribe((result: Root) => {
+      this.product_result = result;
+      this.dataSource.data = result.products;
+    });
   }
 
-  MostrarProductos(){
-    this.productservice.getProducts().subscribe(product_result =>{
-this.product_result = product_result;
-debugger
-console.log(this.product_result);
-    })
+  OpenAddProduct(): void {
+    this.dialogRef.open(AddProductComponent);
   }
 
+  OpenEditProduct(IDPRODUCTO?: number): void{
+   this.dialogRef.open(AddProductComponent,{
+    data: {IDPRODUCTO: IDPRODUCTO}
+   })
+  }
+
+  
 }
-
-
-
-
-
-

@@ -10,6 +10,11 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ToastrModule } from 'ngx-toastr';
+import {MatDialogModule } from '@angular/material/dialog';
+import { NavBarComponent } from './components/nav-bar/nav-bar.component';
+import { ModalCompletadoComponent } from './components/modal-completado/modal-completado.component';
+import { ListCategoryComponent } from './components/list-category/list-category.component'
 
 
 @NgModule({
@@ -17,6 +22,9 @@ import { ReactiveFormsModule } from '@angular/forms';
     AppComponent,
     AddProductComponent,
     ListProductComponent,
+    NavBarComponent,
+    ModalCompletadoComponent,
+    ListCategoryComponent,
   ],
   imports: [
     BrowserModule,
@@ -26,8 +34,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     MatPaginatorModule,
     HttpClientModule,
     ReactiveFormsModule,
-
-    
+    ToastrModule.forRoot(),
+    MatDialogModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

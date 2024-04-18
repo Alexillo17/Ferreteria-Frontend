@@ -1,0 +1,36 @@
+<div class="body">
+  <app-nav-bar></app-nav-bar>
+  <div class="wrapper">
+    <h2>Lista de Categorias</h2>
+
+    <div class="mat-elevation-z8 listcategory">
+      <table class="table table-striped">
+        <thead>
+          <tr class="centertabledata">
+            <th class=""></th>
+            <th class=""></th>
+            <th class="" scope="col"> <button class="btn btn-primary buttonadd">Agregar Categoria</button></th>
+          </tr>
+          <tr class="centertabledata">
+            <th class="" scope="col">Codigo</th>
+            <th class="" scope="col">Nombre</th>
+            <th class="" scope="col">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngFor="let categoria of category_result">
+            <tr class="centertabledata">
+              <td>{{categoria.idCategoria}}</td>
+              <td>{{categoria.Nombre}}</td>
+              <td>
+                <button type="button" class="clean-buttom"><img src="../../../assets/img/busqueda (2).png"></button>
+                <button type="button" class="clean-buttom"><img src="../../../assets/img/editar (4).png"></button>
+                <button type="button" class="clean-buttom"><img src="../../../assets/img/basura.png"></button>
+              </td>
+            </tr>
+          </ng-container>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

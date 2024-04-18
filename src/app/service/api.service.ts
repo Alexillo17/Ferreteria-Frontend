@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, Subject, catchError } from 'rxjs';
-import {Producto} from '../interfaces/producto'
+import {Categoria, Producto, Root} from '../interfaces/producto'
+import { Proveedor } from '../interfaces/proveedor';
 
 @Injectable({
   providedIn: 'root'
@@ -9,21 +10,38 @@ import {Producto} from '../interfaces/producto'
 
 export class ApiService {
 
-  private urlApi = 'http://localhost:3000/api/products'
-
-  private urlApiPost = 'http://localhost:3000/api/createproducts'
+  private urlApi = 'http://localhost:3000/api/'
 
   private product_response$ = new Subject<any>();
 
 
   constructor(private http: HttpClient) { }
 
-  public getProducts(): Observable<Producto[]>{
-    return this.http.get<Producto[]>(this.urlApi);
+  //Category API
+
+
+
+
+  //Product API
+  public getProducts(pageNumber: number, pageSize: number): Observable<Root>{
+    const URL = `${this.urlApi + 'products'}?pageNumber=${pageNumber}&pageSize=${pageSize}`;
+    return this.http.get<Root>(URL);
+  }
+
+  public getCategory(): Observable<Categoria[]>{
+    return this.http.get<Categoria[]>(this.urlApi + 'category')
+  }
+
+  public getProveedor(): Observable<Proveedor[]>{
+    return this.http.get<Proveedor[]>(this.urlApi + 'proveedor')
+  }
+
+  public getProductibyID(IDPRODUCTO: number):Observable<Producto>{
+    return this.http.get<Producto>(`${this.urlApi}${'products/'}${IDPRODUCTO}`)
   }
 
    saveProducts(product: Producto): Observable<Producto>{
- return this.http.post<Producto>(this.urlApiPost,product).pipe(catchError
+ return this.http.post<Producto>(this.urlApi +'createproducts',product).pipe(catchError
   (this.handleError)
  );
   }
