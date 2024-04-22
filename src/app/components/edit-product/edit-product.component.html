@@ -6,9 +6,9 @@
       <button class="btn btn-danger" (click)="CloseAddProduct()">X</button>
     </div>
     <div class="titulo">
-      <h2><b>{{Operacion}} Producto</b></h2>
+      <h2><b>Editar Producto</b></h2>
     </div>
-    <form [formGroup]="form" (ngSubmit)="addProduct()">
+    <form [formGroup]="form" (ngSubmit)="Editroduct()">
       <div class="row title">
         <div class="col">
           <label for="exampleInputEmail1">Nombre</label>
@@ -44,13 +44,13 @@
           <div class="col">
             <label for="Proveedor">Proveedor:</label>
             <select class="form-select custom-border" formControlName="Proveedor">
-              <option *ngFor="let proveedor of proveedor_result" [ngValue]="proveedor">{{proveedor.Nombre + ' ' + proveedor.Apellido}}</option>
+              <option *ngFor="let proveedor of proveedor_result"  [ngValue]="proveedor">{{proveedor.Nombre + ' ' + proveedor.Apellido}}</option>
             </select>
           </div>      
         </div>
 
       <div class="d-grid gap-2 col-6 mx-auto custom-spaceM">
-        <button [disabled]="form.invalid" type="submit" class="btn btn-primary">Agregar</button>
+        <button type="submit" class="btn btn-primary">Editar</button>
       </div>
     </form>
     

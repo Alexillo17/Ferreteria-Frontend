@@ -1,47 +1,43 @@
 <div class="body">
   <app-nav-bar></app-nav-bar>
-  <div class="wrapper">
-    <h2>Lista de Productos</h2>
- <button (click)="OpenAddProduct()">XD</button>
-        <div class="mat-elevation-z8 ">
-          <table class="table table-striped">
-            <thead>
-              <tr class="encabezados">
-                <th class="tabledatacolor" scope="col"></th>
-                <th class="tabledatacolor" scope="col"> Nombre </th>
-                <th class="tabledatacolor" scope="col"> Unidades </th>
-                <th class="tabledatacolor" scope="col"> Precio </th>
-                <th class="tabledatacolor" scope="col"> Estado </th>
-                <th class="tabledatacolor" scope="col"> Categoria </th>
-                <th class="tabledatacolor" scope="col"> Proveedor </th>
-                <th class="tabledatacolor" scope="col"> Acciones </th>
-              </tr>
-            </thead>
-            <tbody>
-              <ng-container *ngFor="let producto of product_result?.products">
-                <tr>
-                  <th scope="row"></th>
-                  <td>{{producto.NOMBRE}}</td>
-                  <td>{{producto.UNIDADES}}</td>
-                  <td>{{producto.PRECIO}}</td>
-                  <td>{{producto.ESTADO}}</td>
-                  <td>{{producto.IDCATEGORIA}}</td>
-                  <td>{{producto.IDPROVEEDOR}}</td>
-                  <td>
-                    <button type="button" class="clean-buttom"><img src="../../../assets/img/busqueda (2).png"></button>
-                    <button (click)="OpenEditProduct(producto.IDPRODUCTO)" type="button" class="clean-buttom"><img src="../../../assets/img/editar (4).png"></button>
-                    <button type="button" class="clean-buttom"><img src="../../../assets/img/basura.png"></button>
-                  </td>
-                </tr>
-              </ng-container>
-            </tbody>
-          </table>
-          <mat-paginator [length]="product_result?.totalItems"
-          [pageSize]="10"
-          [pageSizeOptions]="[5, 10]">
-</mat-paginator>
- </div>
-</div>
-</div>
 
-  
+  <div class="wrapper">
+    <div class="mat-elevation-z8 listproduct">
+      <div class="headertitlebottom">
+        <h2>Lista de Productos</h2>
+        <button class="btn btn-success buttonadd" (click)="OpenEditProduct()">Agregar Producto</button>
+      </div>
+       <table class="table table-striped">
+        <thead>
+          <tr class="centertabledata">
+            <th class="tabledatacolor" scope="col">Nombre</th>
+            <th class="tabledatacolor" scope="col">Unidades</th>
+            <th class="tabledatacolor" scope="col">Precio</th>
+            <th class="tabledatacolor" scope="col">Estado</th>
+            <th class="tabledatacolor" scope="col">Categoria</th>
+            <th class="tabledatacolor" scope="col">Proveedor</th>
+            <th class="tabledatacolor" scope="col">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngFor="let producto of product_result?.products">
+            <tr class="centertabledata">
+              <td>{{producto.NOMBRE}}</td>
+              <td>{{producto.UNIDADES}}</td>
+              <td>{{producto.PRECIO}}</td>
+              <td>{{producto.ESTADO}}</td>
+              <td>{{producto.IDCATEGORIA}}</td>
+              <td>{{producto.IDPROVEEDOR}}</td>
+              <td>
+               <abbr title="Editar"><button (click)="OpenEditProduct(producto.IDPRODUCTO)" type="button" class="btn btn-primary clean-buttom"><img src="../../../assets/img/editar.png"></button></abbr> 
+               <abbr title="Eliminar"><button type="button" class="btn btn-danger clean-buttom"><img src="../../../assets/img/basura (2) (2).png"></button></abbr>
+              </td>
+            </tr>
+          </ng-container>
+        </tbody>
+      </table>
+      <mat-paginator [length]="product_result?.totalItems" [pageSize]="10" [pageSizeOptions]="[5, 10]">
+      </mat-paginator>
+    </div>
+  </div>
+</div>

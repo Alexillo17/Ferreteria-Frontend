@@ -1,0 +1,78 @@
+.custom-border{
+    border: none;
+    border-bottom: 1px solid #ccc;
+    outline: none;
+    box-shadow: none;
+    border-radius: 0;
+  }
+  
+  .wrapper{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    border-radius: 20px;
+  }
+  
+  .addproduct{
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    padding: 0px 50px;
+    margin: 20px;
+  }
+  
+  .body{
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  margin: auto;
+  background-color: white;
+  }
+  
+  .bodyproduct{
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+  }
+  
+  .title{
+    margin-bottom: 10px;
+  }
+  
+  .input-invalidE{
+    border-color: #ff7b5a;
+    color: #ff7b5a;
+  }
+  
+  .input-invalidP{
+    border-color: #ff7b5a;
+    color: #ff7b5a;
+  }
+  
+  .form-floating {
+    position: relative;
+    height: 70px;
+  }
+  
+  .custom-space{
+    margin-bottom: 30px;
+  }
+  
+  .custom-spaceM{
+    margin: 20px 0px;
+  }
+  
+  .titulo{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .custompositionbtnclose{
+  display: flex;
+  justify-content: end;
+  }
+  
+  

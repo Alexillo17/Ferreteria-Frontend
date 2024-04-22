@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, Subject, catchError } from 'rxjs';
 import {Categoria, Producto, Root} from '../interfaces/producto'
 import { Proveedor } from '../interfaces/proveedor';
+import { Factura, FacturaRoot } from '../interfaces/factura';
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +20,9 @@ export class ApiService {
 
   //Category API
 
+ public getCategory(): Observable<Categoria[]>{
+    return this.http.get<Categoria[]>(this.urlApi + 'category')
+  }
 
 
 
@@ -26,14 +30,6 @@ export class ApiService {
   public getProducts(pageNumber: number, pageSize: number): Observable<Root>{
     const URL = `${this.urlApi + 'products'}?pageNumber=${pageNumber}&pageSize=${pageSize}`;
     return this.http.get<Root>(URL);
-  }
-
-  public getCategory(): Observable<Categoria[]>{
-    return this.http.get<Categoria[]>(this.urlApi + 'category')
-  }
-
-  public getProveedor(): Observable<Proveedor[]>{
-    return this.http.get<Proveedor[]>(this.urlApi + 'proveedor')
   }
 
   public getProductibyID(IDPRODUCTO: number):Observable<Producto>{
@@ -44,6 +40,21 @@ export class ApiService {
  return this.http.post<Producto>(this.urlApi +'createproducts',product).pipe(catchError
   (this.handleError)
  );
+  }
+
+  updateProducts(IDPRODUCTO: number,product: Producto): Observable<Producto>{
+    return this.http.put<Producto>(`${this.urlApi}${'updateproduct/'}${IDPRODUCTO}`,product)
+  }
+
+  //Proveedor API
+  public getProveedor(): Observable<Proveedor[]>{
+    return this.http.get<Proveedor[]>(this.urlApi + 'proveedor')
+  }
+
+  //Factura API
+  getFactura(pageNumber: number, pageSize: number): Observable<FacturaRoot>{
+    const URL = `${this.urlApi + 'factura'}?pageNumber=${pageNumber}&pageSize=${pageSize}`;
+    return  this.http.get<FacturaRoot>(URL);
   }
 
   private handleError(error: any): Observable<any> {

@@ -14,7 +14,9 @@ import { ToastrModule } from 'ngx-toastr';
 import {MatDialogModule } from '@angular/material/dialog';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { ModalCompletadoComponent } from './components/modal-completado/modal-completado.component';
-import { ListCategoryComponent } from './components/list-category/list-category.component'
+import { ListCategoryComponent } from './components/list-category/list-category.component';
+import { EditProductComponent } from './components/edit-product/edit-product.component';
+import { ListFacturaComponent } from './components/list-factura/list-factura.component'
 
 
 @NgModule({
@@ -25,6 +27,8 @@ import { ListCategoryComponent } from './components/list-category/list-category.
     NavBarComponent,
     ModalCompletadoComponent,
     ListCategoryComponent,
+    EditProductComponent,
+    ListFacturaComponent,
   ],
   imports: [
     BrowserModule,

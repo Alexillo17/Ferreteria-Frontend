@@ -1,5 +1,7 @@
-<div class="card" style="width: 30rem;" *ngIf="Titulo === 'ADD-Category'">
 
+<!--Este es el modal para los completado como: Agregar y Editar-->
+<!--Estos son los de Producto-->
+<div class="card" style="width: 30rem;">
   <section class="animated_check_circle">
     <svg viewBox="0 0 130.2 130.2">
       <circle
@@ -24,40 +26,10 @@
     </svg>
   </section>
   <div class="card-body centrar">
-    <h2 class="card-title">La categoria se agrego exitosamente</h2>
-    <a href="/list-category" class="btn colorButton">OK!</a>
-  </div>
-</div>
-
-<div class="card" style="width: 30rem;" *ngIf="Titulo === 'ADD'">
-
-  <section class="animated_check_circle">
-    <svg viewBox="0 0 130.2 130.2">
-      <circle
-        class="path circle"
-        fill="none"
-        stroke="#73AF55"
-        stroke-width="6"
-        stroke-miterlimit="10"
-        cx="65.1"
-        cy="65.1"
-        r="62.1"
-      />
-      <polyline
-        class="path check"
-        fill="none"
-        stroke="#73AF55"
-        stroke-width="6"
-        stroke-linecap="round"
-        stroke-miterlimit="10"
-        points="100.2,40.2 51.5,88.8 29.8,67.5"
-      />
-    </svg>
-  </section>
-  <div class="card-body centrar">
-    <h2 class="card-title">El Producto se ha agreagado exitosamente</h2>
+    <h2 class="card-title">El Producto se ha {{Titulo}} exitosamente!</h2>
     <a href="#" class="btn colorButton">OK!</a>
   </div>
 </div>
+
 
 

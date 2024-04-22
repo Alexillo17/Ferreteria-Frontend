@@ -21,7 +21,8 @@ form: FormGroup;
 
   category_result: Categoria[] = [];
   proveedor_result: Proveedor[] = [];
-  IDPRODUCTO: number;
+  editproducto: any
+  Operacion: string = 'Agregar'
 
 
 constructor(private fb: FormBuilder,
@@ -41,7 +42,6 @@ private dialogRef1: MatDialog,
     Categoria: ['',Validators.required],
     Proveedor: ['',Validators.required],
   })
-  this.IDPRODUCTO = data.IDPRODUCTO
 }
 
 CloseAddProduct(): void
@@ -49,10 +49,9 @@ CloseAddProduct(): void
   this.dialogRef.close();
 }
   ngOnInit(): void{
+    
   this.MostrarCategoria();
   this. MostrarProveedor();
-  debugger
-  this.MostrarProductoporID(this.IDPRODUCTO)
   }
 
   MostrarCategoria(){
@@ -65,53 +64,58 @@ CloseAddProduct(): void
   MostrarProveedor(){
     this._ProveedorService.getProveedor().subscribe(proveedor_result =>{
       this.proveedor_result = proveedor_result
-      debugger
       console.log(proveedor_result);
     })
   }
 
-  MostrarProductoporID(IDPRODUCTO: number){
-    this._ProductService.getProductibyID(IDPRODUCTO).subscribe((data: Producto) =>{
-      this.data = data
-      debugger;
-      console.log(data);
+  addProduct() {
+    // Obtener los valores de los campos del formulario
+    const nombre = this.form.value.Nombre;
+    const unidades = this.form.value.Unidades;
+    const precio = this.form.value.Precio;
+    const estado = this.form.value.Estado;
+    const categoria = this.form.value.Categoria;
+    const proveedor = this.form.value.Proveedor;
+  
+    // Validar que los campos no estén vacíos o sean nulos
+    if (!nombre || !unidades || !precio || !estado || !categoria || !proveedor) {
+      // Mostrar un mensaje de error o tomar la acción que desees
+      console.error('Por favor completa todos los campos.');
+      return; // Detener la ejecución de la función
     }
-    )
-  }
-
-  addProduct(){
+  
+    // Crear el objeto de producto
     const product: Producto = {
-      NOMBRE: this.form.value.Nombre,
-      UNIDADES: this.form.value.Unidades,
-      PRECIO: this.form.value.Precio,
-      ESTADO: this.form.value.Estado,
-      IDCATEGORIA: this.form.value.Categoria.idCategoria,
-      IDPROVEEDOR: this.form.value.Proveedor.idProveedor
-    }
-
+      NOMBRE: nombre,
+      UNIDADES: unidades,
+      PRECIO: precio,
+      ESTADO: estado,
+      IDCATEGORIA: categoria.idCategoria,
+      IDPROVEEDOR: proveedor.idProveedor
+    };
+  
+    // Convertir el objeto a JSON
     const jsonProduct = JSON.stringify(product);
-
+  
+    // Mostrar los datos del producto en la consola
     console.log('Datos del producto:', jsonProduct);
-
-    this._ProductService.saveProducts(product).subscribe(()=>{
+  
+    // Guardar el producto utilizando el servicio ProductService
+    this._ProductService.saveProducts(product).subscribe(() => {
       console.log('Producto Agregado');
-    })
-
+    });
+  
+    // Limpiar el formulario o realizar otras acciones necesarias
     this.OpenAddProduct();
-
   }
-
-
+  
 
   OpenAddProduct(): void {
     this.dialogRef1.open(ModalCompletadoComponent, {
       data: {
-        TituloModal: 'ADD'
+        TituloModal: 'agregado'
       }
     });
     
   }
-
- 
- 
 }

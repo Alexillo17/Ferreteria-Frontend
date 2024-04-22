@@ -1,0 +1,33 @@
+<app-nav-bar></app-nav-bar>
+<div class="body">
+    <div class="wrapper">
+      <h2>Lista de Facturas</h2>
+      <div class="mat-elevation-z8 listproduct">   
+        <table class="table table-striped">
+          <thead>
+            <tr class="centertabledata">
+              <th class="" scope="col">Numero Factura</th>
+              <th class="" scope="col">Cliente</th>
+              <th class="" scope="col">Empleado</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container>
+              <tr class="centertabledata" *ngFor="let factura of factura_result?.facturas">
+              <td>{{factura.NumeroFactura}}</td>
+              <td>{{factura.Cliente}}</td>
+              <td>{{factura.Empleado}}</td>
+              <td>
+                <button type="button" class="btn btn-primary clean-buttom"><img src="../../../assets/img/lista.png"></button>
+                <button type="button" class="btn btn-danger clean-buttom"><img src="../../../assets/img/basura (2) (2).png"></button>
+              </td>
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
+        <mat-paginator [length]="factura_result?.totalFacturas" [pageSize]="10" [pageSizeOptions]="[5, 10]">
+        </mat-paginator>
+      </div>
+    </div>
+  </div>

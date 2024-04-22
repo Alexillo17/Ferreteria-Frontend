@@ -5,6 +5,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { AddProductComponent } from '../add-product/add-product.component';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { EditProductComponent } from '../edit-product/edit-product.component';
+import { ListFacturaComponent } from '../list-factura/list-factura.component';
 
 @Component({
   selector: 'app-list-product',
@@ -38,14 +40,27 @@ export class ListProductComponent implements OnInit, AfterViewInit {
   }
 
   OpenAddProduct(): void {
-    this.dialogRef.open(AddProductComponent);
+    this.dialogRef.open(AddProductComponent,{
+      disableClose: true
+    });
   }
 
+
   OpenEditProduct(IDPRODUCTO?: number): void{
-   this.dialogRef.open(AddProductComponent,{
+    if(IDPRODUCTO !== undefined && IDPRODUCTO !== null)
+      {
+        this.dialogRef.open(EditProductComponent,{
     data: {IDPRODUCTO: IDPRODUCTO}
    })
+      }
+      else{
+        IDPRODUCTO = 0;
+        this.OpenAddProduct();
+      }
+   
   }
+
+
 
   
 }

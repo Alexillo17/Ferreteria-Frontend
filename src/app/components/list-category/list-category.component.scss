@@ -11,29 +11,10 @@
      justify-content: center;
      flex-direction: column;
      align-items: center;
-     
-    
     }
     
-    .searchbar{
-      display: flex;
-      justify-content: flex-;
-      margin-right: 100px;
-      margin-bottom: 10px;
-    }
-    
-    
-    .logo{
-      width: 30%;
-      margin: 10% 60px;
-      cursor: pointer;
-      transition: all 0.5%;
-    }
-    
-    .logo:hover{
-      transform: scale(1.3);
-    }
-    
+ 
+  
     
     .mat-elevation-z8{
       background-color: #F2F3F4;
@@ -52,11 +33,8 @@
     }
 
     .clean-buttom{
-        border: none;
-        outline: none; 
-        background-color: transparent; 
-        padding: 0; 
-        margin-right: 10px;
+      border: none;
+      outline: none; 
+      padding: 3px; 
+      margin-right: 10px;
     }
-
-  

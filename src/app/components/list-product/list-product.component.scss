@@ -1,5 +1,4 @@
 .body{
-
 height: 100%;
 background-color: white;
 }
@@ -7,16 +6,11 @@ background-color: white;
 .wrapper{
  width: 97%;
  margin: 0px 20px;
-
+ display: flex;
+ justify-content: center;
+ flex-direction: column;
+ align-items: center;
 }
-
-.searchbar{
-  display: flex;
-  justify-content: flex-;
-  margin-right: 100px;
-  margin-bottom: 10px;
-}
-
 
 .logo{
   width: 30%;
@@ -31,13 +25,33 @@ background-color: white;
 
 
 .mat-elevation-z8{
-  background-color: #F2F3F4;
+  background-color: white;
+}
+
+.listproduct{
+  margin-top: 10px;
+  width: 80%;
+  background-color: white;
 }
 
 .clean-buttom{
   border: none;
   outline: none; 
-  background-color: transparent; 
-  padding: 0; 
+  padding: 5px; 
   margin-right: 10px;
 }
+
+.centertabledata{
+  text-align: center;
+}
+
+.buttonadd{
+  margin-left: 65%;
+}
+
+.headertitlebottom{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
