@@ -2,12 +2,15 @@
   <app-nav-bar></app-nav-bar>
 
   <div class="wrapper">
+    <h2>Lista de Productos</h2>
     <div class="mat-elevation-z8 listproduct">
       <div class="headertitlebottom">
-        <h2>Lista de Productos</h2>
+        <div class="searchbar">
+          <input (input)="MostraProductosPorNombre(paginator.pageIndex + 1, paginator.pageSize)" class="form-control mr-sm-2" type="search" placeholder="Buscar..." aria-label="Search" [(ngModel)]="NOMBRE">
+        </div>
         <button class="btn btn-success buttonadd" (click)="OpenEditProduct()">Agregar Producto</button>
       </div>
-       <table class="table table-striped">
+      <table class="table table-striped">
         <thead>
           <tr class="centertabledata">
             <th class="tabledatacolor" scope="col">Nombre</th>
@@ -20,8 +23,24 @@
           </tr>
         </thead>
         <tbody>
-          <ng-container *ngFor="let producto of product_result?.products">
-            <tr class="centertabledata">
+          <!-- Mostrar productos de la búsqueda si se realizó una búsqueda -->
+          <ng-container *ngIf="busquedarealizada">
+            <tr *ngFor="let productobyname of productosbyname?.products" class="centertabledata">
+              <td>{{productobyname.NOMBRE}}</td>
+              <td>{{productobyname.UNIDADES}}</td>
+              <td>{{productobyname.PRECIO}}</td>
+              <td>{{productobyname.ESTADO}}</td>
+              <td>{{productobyname.IDCATEGORIA}}</td>
+              <td>{{productobyname.IDPROVEEDOR}}</td>
+              <td>
+                <abbr title="Editar"><button (click)="OpenEditProduct(productobyname.IDPRODUCTO)" type="button" class="btn btn-primary clean-buttom"><img src="../../../assets/img/editar.png"></button></abbr> 
+                <abbr title="Eliminar"><button type="button" class="btn btn-danger clean-buttom"><img src="../../../assets/img/basura (2) (2).png"></button></abbr>
+              </td>
+            </tr>
+          </ng-container>
+          <!-- Mostrar todos los productos si no se realizó una búsqueda -->
+          <ng-container *ngIf="!busquedarealizada">
+            <tr *ngFor="let producto of product_result?.products" class="centertabledata">
               <td>{{producto.NOMBRE}}</td>
               <td>{{producto.UNIDADES}}</td>
               <td>{{producto.PRECIO}}</td>
@@ -29,14 +48,18 @@
               <td>{{producto.IDCATEGORIA}}</td>
               <td>{{producto.IDPROVEEDOR}}</td>
               <td>
-               <abbr title="Editar"><button (click)="OpenEditProduct(producto.IDPRODUCTO)" type="button" class="btn btn-primary clean-buttom"><img src="../../../assets/img/editar.png"></button></abbr> 
-               <abbr title="Eliminar"><button type="button" class="btn btn-danger clean-buttom"><img src="../../../assets/img/basura (2) (2).png"></button></abbr>
+                <abbr title="Editar"><button (click)="OpenEditProduct(producto.IDPRODUCTO)" type="button" class="btn btn-primary clean-buttom"><img src="../../../assets/img/editar.png"></button></abbr> 
+                <abbr title="Eliminar"><button type="button" class="btn btn-danger clean-buttom"><img src="../../../assets/img/basura (2) (2).png"></button></abbr>
               </td>
+              
             </tr>
           </ng-container>
         </tbody>
       </table>
-      <mat-paginator [length]="product_result?.totalItems" [pageSize]="10" [pageSizeOptions]="[5, 10]">
+      <mat-paginator #paginator [length]="busquedarealizada ? (productosbyname?.totalItems || 0) : (product_result?.totalItems || 0)"
+                     [pageSize]="10"
+                     [pageSizeOptions]="[5, 10]"
+                     (page)="cambiarPagina()">
       </mat-paginator>
     </div>
   </div>

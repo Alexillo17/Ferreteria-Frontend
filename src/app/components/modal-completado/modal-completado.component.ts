@@ -14,7 +14,7 @@ constructor(
   @Inject(MAT_DIALOG_DATA) public data: any
 )
 {
-this.Titulo = this.data.TituloModal
+this.Titulo = this.data
 }
 
 

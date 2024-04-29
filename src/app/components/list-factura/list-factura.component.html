@@ -19,14 +19,14 @@
               <td>{{factura.Cliente}}</td>
               <td>{{factura.Empleado}}</td>
               <td>
-                <button type="button" class="btn btn-primary clean-buttom"><img src="../../../assets/img/lista.png"></button>
+                <button type="button" (click)="OpenDetalleFactura(factura.NumeroFactura)" class="btn btn-primary clean-buttom"><img src="../../../assets/img/lista.png"></button>
                 <button type="button" class="btn btn-danger clean-buttom"><img src="../../../assets/img/basura (2) (2).png"></button>
               </td>
               </tr>
             </ng-container>
           </tbody>
         </table>
-        <mat-paginator [length]="factura_result?.totalFacturas" [pageSize]="10" [pageSizeOptions]="[5, 10]">
+        <mat-paginator [length]="factura_result?.totalFacturas" [pageSize]="5" [pageSizeOptions]="[5, 10]">
         </mat-paginator>
       </div>
     </div>

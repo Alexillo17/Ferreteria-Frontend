@@ -1,0 +1,71 @@
+.body {
+  height: 100%;
+}
+
+.factura {
+  display: flex;
+  justify-content: center;
+}
+
+.wrapper {
+  flex-direction: column; /* Establece la dirección del flex a columna */
+  margin-top: 10px; 
+  border: 2px solid #275DAD;
+  width: 80%;
+}
+
+.cliente {
+  margin-top: 10px;
+  width: 100%;
+  background-color: white;
+}
+
+.producto {
+  width: 100%;
+  background-color: white;
+  margin: 0 10px;
+}
+
+.form-cliente {
+display: flex;
+flex-direction: row;
+justify-content: space-between;
+margin-left: 40px;
+margin-right: 20px;
+}
+
+.input-reducido {
+  width: 300px; /* Ancho reducido */
+  font-size: 16px; /* Tamaño de fuente reducido */
+}
+
+.titulo {
+  width: 100%;
+  text-align: center;
+  color: white;
+  margin-top: 0;
+  background-color: #275DAD;
+}
+
+.clean-buttom {
+  outline: none;
+  padding: 5%;
+}
+
+.contenidotabla {
+  text-align: center;
+}
+
+.input-cantidad {
+  width: 100px; /* Ancho reducido */
+  font-size: 14px;
+}
+
+.tablasfactura{
+  display: flex;
+  flex-direction: row;
+}
+
+.botonagregar{
+  margin: 5px 5px;
+}

@@ -6,6 +6,7 @@ import { Producto } from 'src/app/interfaces/producto';
 import { Proveedor } from 'src/app/interfaces/proveedor';
 import { ApiService } from 'src/app/service/api.service';
 import { ModalCompletadoComponent } from '../modal-completado/modal-completado.component';
+import { ProveedorService } from 'src/app/service/proveedor.service';
 
 @Component({
   selector: 'app-edit-product',
@@ -16,7 +17,7 @@ export class EditProductComponent {
 
   category_result: Categoria[] = [];
   proveedor_result: Proveedor[] = [];
-  editdata: any = {}
+  editdata: any 
   inputdata: any
   IDPRODUCTO: number;
   form: FormGroup;
@@ -27,7 +28,7 @@ export class EditProductComponent {
   private service: ApiService,
   private fb: FormBuilder,
   private _CategoryService: ApiService,
-  private _ProveedorService: ApiService,
+  private _ProveedorService: ProveedorService,
   private _ProductService: ApiService, 
   private dialogRefModal: MatDialog,
 ){
@@ -49,6 +50,7 @@ export class EditProductComponent {
     if(this.inputdata.IDPRODUCTO>0){
       this.MostrarProductoporID(this.IDPRODUCTO)
     }
+    debugger;
   }
 
   CloseAddProduct(): void
@@ -99,7 +101,7 @@ export class EditProductComponent {
       PRECIO: this.form.value.Precio,
       ESTADO: this.form.value.Estado,
       IDCATEGORIA: this.form.value.Categoria.idCategoria,
-      IDPROVEEDOR: this.form.value.Proveedor.idProveedor
+      IDPROVEEDOR: this.form.value.Proveedor.IDPROVEEDOR
     }
 
     product.IDPRODUCTO = this.IDPRODUCTO;
@@ -113,7 +115,9 @@ export class EditProductComponent {
   OpenModalCompletado(): void {
     this.dialogRefModal.open(ModalCompletadoComponent, {
       data: {
-        TituloModal: 'editado'
+        TituloModalAccion: 'editado',
+        TituloModal: 'Producto',
+        Link: '/list-product'
       }
     });
     

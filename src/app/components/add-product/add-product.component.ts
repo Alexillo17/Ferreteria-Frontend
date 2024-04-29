@@ -7,6 +7,7 @@ import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dial
 import { Categoria } from 'src/app/interfaces/categoria';
 import { Proveedor } from 'src/app/interfaces/proveedor';
 import { ModalCompletadoComponent } from '../modal-completado/modal-completado.component';
+import { ProveedorService } from 'src/app/service/proveedor.service';
 
 
 
@@ -28,7 +29,7 @@ form: FormGroup;
 constructor(private fb: FormBuilder,
 private _ProductService: ApiService,
 private _CategoryService: ApiService,
-private _ProveedorService: ApiService,
+private _ProveedorService: ProveedorService,
 private dialogRef: MatDialogRef<AddProductComponent>,
 private dialogRef1: MatDialog,
 @Inject(MAT_DIALOG_DATA) public data: any,
@@ -69,7 +70,6 @@ CloseAddProduct(): void
   }
 
   addProduct() {
-    // Obtener los valores de los campos del formulario
     const nombre = this.form.value.Nombre;
     const unidades = this.form.value.Unidades;
     const precio = this.form.value.Precio;
@@ -77,35 +77,33 @@ CloseAddProduct(): void
     const categoria = this.form.value.Categoria;
     const proveedor = this.form.value.Proveedor;
   
-    // Validar que los campos no estén vacíos o sean nulos
+
     if (!nombre || !unidades || !precio || !estado || !categoria || !proveedor) {
-      // Mostrar un mensaje de error o tomar la acción que desees
+
       console.error('Por favor completa todos los campos.');
-      return; // Detener la ejecución de la función
+      return; 
     }
   
-    // Crear el objeto de producto
+
     const product: Producto = {
       NOMBRE: nombre,
       UNIDADES: unidades,
       PRECIO: precio,
       ESTADO: estado,
       IDCATEGORIA: categoria.idCategoria,
-      IDPROVEEDOR: proveedor.idProveedor
+      IDPROVEEDOR: proveedor.IDPROVEEDOR
     };
   
-    // Convertir el objeto a JSON
+
     const jsonProduct = JSON.stringify(product);
   
-    // Mostrar los datos del producto en la consola
     console.log('Datos del producto:', jsonProduct);
   
-    // Guardar el producto utilizando el servicio ProductService
+
     this._ProductService.saveProducts(product).subscribe(() => {
       console.log('Producto Agregado');
     });
   
-    // Limpiar el formulario o realizar otras acciones necesarias
     this.OpenAddProduct();
   }
   
@@ -113,7 +111,9 @@ CloseAddProduct(): void
   OpenAddProduct(): void {
     this.dialogRef1.open(ModalCompletadoComponent, {
       data: {
-        TituloModal: 'agregado'
+        TituloModalAccion: 'agregado',
+        TituloModal: 'Producto',
+        Link: '/list-product'
       }
     });
     

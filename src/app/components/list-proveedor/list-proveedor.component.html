@@ -1,0 +1,46 @@
+<div class="body">
+  <app-nav-bar></app-nav-bar>
+  
+  <div class="wrapper">
+    <h2>Lista de Proveedores</h2>
+    <div class="mat-elevation-z8 listproduct">
+      <div class="headertitlebottom">
+        <section class="example-section">
+          <!-- Agrega [(ngModel)] para enlazar el valor del checkbox con la propiedad checkbox -->
+          <mat-checkbox [(ngModel)]="checkbox" (change)="toggleProveedorList()" class="example-margin">Mostrar Inactivos</mat-checkbox>
+        </section>
+        <button (click)="OpenAddProveedor()" class="btn btn-success buttonadd">Agregar Proveedor</button>
+      </div>
+      <table class="table table-striped">
+        <thead>
+          <tr class="centertabledata">
+            <th class="tabledatacolor" scope="col">Codigo</th>
+            <th class="tabledatacolor" scope="col">Nombre</th>
+            <th class="tabledatacolor" scope="col">Apellido</th>
+            <th class="tabledatacolor" scope="col">Correo</th>
+            <th class="tabledatacolor" scope="col">Telefono</th>
+            <th class="tabledatacolor" scope="col">Cedula</th>
+            <th class="tabledatacolor" scope="col">Estado</th>
+            <th class="tabledatacolor" scope="col">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Elimina los ng-container y simplemente usa *ngFor con la variable proveedor_result -->
+          <tr class="centertabledata" *ngFor="let proveedor of (checkbox ? proveedorDis_result : proveedor_result)">
+            <td>{{proveedor.IDPROVEEDOR}}</td>
+            <td>{{proveedor.Nombre}}</td>
+            <td>{{proveedor.Apellido}}</td>
+            <td>{{proveedor.Correo}}</td>
+            <td>{{proveedor.Telefono}}</td>
+            <td>{{proveedor.Cedula}}</td>
+            <td>{{proveedor.Estado}}</td>
+            <td>
+              <abbr title="Editar"><button (click)="OpenEditProveedor(proveedor.IDPROVEEDOR)" type="button" class="btn btn-primary clean-buttom"><img src="../../../assets/img/editar.png"></button></abbr> 
+              <abbr title="Eliminar"><button (click)="DeleteProveedor(proveedor)" type="button" class="btn btn-danger clean-buttom"><img src="../../../assets/img/basura (2) (2).png"></button></abbr>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

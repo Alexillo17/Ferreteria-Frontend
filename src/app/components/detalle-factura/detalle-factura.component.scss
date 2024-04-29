@@ -1,0 +1,55 @@
+.body{
+    height: 100%;
+    background-color: white;
+    }
+    
+    .wrapper{
+     width: 97%;
+     margin: 0px 20px;
+     display: flex;
+     justify-content: center;
+     flex-direction: column;
+     align-items: center;
+    }
+    
+    .logo{
+      width: 30%;
+      margin: 10% 60px;
+      cursor: pointer;
+      transition: all 0.5%;
+    }
+    
+    .logo:hover{
+      transform: scale(1.3);
+    }
+    
+    
+    .mat-elevation-z8{
+      background-color: white;
+    }
+    
+    .listfactura{
+      margin-top: 10px;
+      width: 100%;
+      background-color: white;
+    }
+    
+    .clean-buttom{
+      border: none;
+      outline: none; 
+      padding: 5px; 
+      margin-right: 10px;
+    }
+    
+    .centertabledata{
+      text-align: center;
+    }
+    
+    .headertitlebottom{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: auto;
+    }
+    
+    

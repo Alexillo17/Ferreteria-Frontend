@@ -1,0 +1,66 @@
+<div class="wrapper">
+    <div class="body">
+    <div class="bodyproduct">
+    <div class="addproduct">
+      <div class="custompositionbtnclose">
+        <button (click)="CloseAddEditProveedor()" class="btn btn-danger">X</button>
+      </div>
+      <div class="titulo">
+        <h2>{{Titulo}} Proveedor</h2>
+      </div>
+      <form [formGroup]="form" (ngSubmit)="AddEditProveedor()" class="formcustom">
+        <div class="row title" *ngIf="IDPROVEEDOR === 0">
+           <div class="col">
+          <label for="exampleInputEmail1">Codigo Proveedor</label>
+          <input  formControlName="Codigo" type="number" class="form-control custom-border">
+        </div>
+        </div>
+        <div class="row title">
+          <div class="col">
+            <label for="exampleInputEmail1">Nombre</label>
+            <input formControlName="Nombre" type="text" class="form-control custom-border">
+          </div>
+          <div class="col">
+            <label for="exampleInputEmail1">Apellido</label>
+            <input formControlName="Apellido" type="text" class="form-control custom-border">
+          </div>
+        </div>
+        <div class="row title">
+              <div class="col">
+                <label for="exampleInputEmail1">Correo</label>
+                <input formControlName="Correo" type="text" class="form-control custom-border">
+              </div>
+        </div>
+        <div class="row title">
+          <div class="col">
+            <label for="exampleInputEmail1">Cedula</label>
+            <input formControlName="Cedula" type="text" class="form-control custom-border">
+          </div>
+      </div>
+          <div class="row title">
+            <div class="col">
+                <label for="exampleInputEmail1">Telefono</label>
+                <input formControlName="Telefono" type="number" class="form-control custom-border">
+            </div>  
+            <div class="col">
+              <label for="exampleInputEmail1">Estado</label>
+              <select formControlName="Estado" class="form-select custom-border" aria-label="Default select example">
+                <option value="Activo">Activo</option>
+                <option value="Inactivo">Inactivo</option>
+              </select>
+            </div>  
+          </div>
+  
+        <div class="d-grid gap-2 col-6 mx-auto custom-spaceM">
+          <button [disabled]="form.invalid" type="submit" class="btn btn-primary">{{Accion}}</button>
+        </div>
+      </form>
+      
+    </div>
+    <div>
+    </div>
+    </div>
+  
+    </div>
+  </div>
+  

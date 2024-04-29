@@ -1,0 +1,36 @@
+<div class="body">
+    <app-nav-bar></app-nav-bar>
+    
+    <div class="wrapper">
+      <h2>Lista de Empleados</h2>
+      <div class="mat-elevation-z8 listempleado">
+        <div class="headertitlebottom">
+            <button (click)="OpenAddEmpleado()" class="btn btn-success buttonadd">Agregar Empleado</button>
+          </div>
+        <table class="table table-striped">
+          <thead>
+            <tr class="centertabledata">
+              <th  scope="col">Nombre</th>
+              <th  scope="col">Apellido</th>
+              <th  scope="col">Telefono</th>
+              <th  scope="col">Cedula</th>
+              <th  scope="col">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="centertabledata" *ngFor="let empleado of empleado_result">
+              <td>{{empleado.Nombre}}</td>
+              <td>{{empleado.Apellido}}</td>
+              <td>{{empleado.Telefono}}</td>
+              <td>{{empleado.Cedula}}</td>
+              <td>
+                <abbr title="Editar"><button (click)="OpenEditEmpleado(empleado.IDEMPLEADO)" type="button" class="btn btn-primary clean-buttom"><img src="../../../assets/img/editar.png"></button></abbr> 
+                <abbr title="Eliminar"><button type="button" class="btn btn-danger clean-buttom"><img src="../../../assets/img/basura (2) (2).png"></button></abbr>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  

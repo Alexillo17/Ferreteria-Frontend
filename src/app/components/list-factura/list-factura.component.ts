@@ -3,6 +3,8 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Factura, FacturaRoot } from 'src/app/interfaces/factura';
 import { ApiService } from 'src/app/service/api.service';
 import { MatPaginator } from '@angular/material/paginator';
+import { MatDialog } from '@angular/material/dialog';
+import { DetalleFacturaComponent } from '../detalle-factura/detalle-factura.component';
 
 @Component({
   selector: 'app-list-factura',
@@ -19,6 +21,7 @@ export class ListFacturaComponent {
 
   constructor(
     private _FacturaService: ApiService,
+    private dialogRef: MatDialog
   ){
 
   }
@@ -37,7 +40,13 @@ export class ListFacturaComponent {
     this.dataSource.data = result.facturas
    })
   
-     
+  }
+
+  OpenDetalleFactura(NumeroFactura?: number): void{
+    this.dialogRef.open(DetalleFacturaComponent,{
+       data: {NumeroFactura: NumeroFactura}
+    })
+   debugger
   }
 
 }

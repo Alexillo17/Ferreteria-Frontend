@@ -9,14 +9,22 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
 import { HttpClientModule } from '@angular/common/http';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
 import {MatDialogModule } from '@angular/material/dialog';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { ModalCompletadoComponent } from './components/modal-completado/modal-completado.component';
 import { ListCategoryComponent } from './components/list-category/list-category.component';
 import { EditProductComponent } from './components/edit-product/edit-product.component';
-import { ListFacturaComponent } from './components/list-factura/list-factura.component'
+import { ListFacturaComponent } from './components/list-factura/list-factura.component';
+import { ListProveedorComponent } from './components/list-proveedor/list-proveedor.component';
+import { AddEditProveedorComponent } from './components/add-edit-proveedor/add-edit-proveedor.component'
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import { ListEmpleadoComponent } from './components/list-empleado/list-empleado.component';
+import { AddEditEmpleadoComponent } from './components/add-edit-empleado/add-edit-empleado.component';
+import { DetalleFacturaComponent } from './components/detalle-factura/detalle-factura.component';
+import { CrearFacturaComponent } from './components/crear-factura/crear-factura.component';
+import { AddProductofacturaComponent } from './components/add-productofactura/add-productofactura.component';
 
 
 @NgModule({
@@ -29,6 +37,13 @@ import { ListFacturaComponent } from './components/list-factura/list-factura.com
     ListCategoryComponent,
     EditProductComponent,
     ListFacturaComponent,
+    ListProveedorComponent,
+    AddEditProveedorComponent,
+    ListEmpleadoComponent,
+    AddEditEmpleadoComponent,
+    DetalleFacturaComponent,
+    CrearFacturaComponent,
+    AddProductofacturaComponent,
   ],
   imports: [
     BrowserModule,
@@ -40,6 +55,8 @@ import { ListFacturaComponent } from './components/list-factura/list-factura.com
     ReactiveFormsModule,
     ToastrModule.forRoot(),
     MatDialogModule,
+    FormsModule,
+    MatCheckboxModule
   ],
   providers: [],
   bootstrap: [AppComponent]
