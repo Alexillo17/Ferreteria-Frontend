@@ -1,0 +1,49 @@
+<div class="wrapper">
+    <div class="body">
+    <div class="bodyproduct">
+    <div class="addproduct">
+      <div class="custompositionbtnclose">
+        <button (click)="CloseAddEditCliente()" class="btn btn-danger">X</button>
+      </div>
+      <div class="titulo">
+        <h2>{{Titulo}} Clienter</h2>
+      </div>
+      <form [formGroup]="form" (ngSubmit)="AddEditCliente()" class="formcustom">
+
+        <div class="row title">
+          <div class="col">
+            <label for="exampleInputEmail1">Nombre</label>
+            <input formControlName="Nombre" type="text" class="form-control custom-border">
+          </div>
+          <div class="col">
+            <label for="exampleInputEmail1">Apellido</label>
+            <input formControlName="Apellido" type="text" class="form-control custom-border">
+          </div>
+        </div>
+        <div class="row title">
+          <div class="col">
+            <label for="exampleInputEmail1">Cedula</label>
+            <input formControlName="Cedula" type="text" class="form-control custom-border" maxlength="16">
+            <!-- Mensaje de cédula inválida -->
+            <div class="warning" *ngIf="form.get('Cedula')?.hasError('cedulaInvalida') && form.get('Cedula')?.touched && !form.get('Cedula')?.hasError('required')">
+              La cédula no es válida.
+            </div>
+            <!-- Mensaje de cédula existente -->
+            <div class="warning" *ngIf="form.get('Cedula')?.hasError('cedulaExistente') && form.get('Cedula')?.touched && !form.get('Cedula')?.hasError('required')">
+              Esta cédula ya está registrada.
+            </div>
+          </div>
+        </div>
+        <div class="d-grid gap-2 col-6 mx-auto custom-spaceM">
+          <button [disabled]="form.invalid" type="submit" class="btn btn-primary">{{Accion}}</button>
+        </div>
+      </form>
+      
+    </div>
+    <div>
+    </div>
+    </div>
+  
+    </div>
+  </div>
+  

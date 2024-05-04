@@ -11,9 +11,12 @@ import { ApiService } from 'src/app/service/api.service';
 })
 export class AddProductofacturaComponent {
 
+
+  busquedarealizada: boolean = false
   NOMBRE: string = '';
-  cantidades: number[] = []; // Arreglo para las cantidades
+  cantidades: number[] = []; 
   product_result: Producto[] = [];
+  productsbyname: Producto[] = [];
   Detallefactura: DatosDetalleFactura[] = [];
   productosFactura: DatosDetalleFactura[] = []; //
 
@@ -30,7 +33,6 @@ export class AddProductofacturaComponent {
   }
 
   MostrarUltimaFactura(){
-
     this._FacturaService.getUltimaFactura().subscribe(numfactura =>{
       this.Detallefactura = numfactura
       console.log(numfactura);
@@ -47,7 +49,7 @@ export class AddProductofacturaComponent {
     })
   }
 
-  agregarProducto(producto: Producto, cantidad: number) {
+  async agregarProducto(producto: Producto, cantidad: number) {
     if (cantidad && cantidad > 0) {
       const productoFactura: DatosDetalleFactura = {
         NUMEROFACTURA: this.Detallefactura ? this.Detallefactura[0].NUMEROFACTURA : 0,
@@ -55,13 +57,23 @@ export class AddProductofacturaComponent {
         Cantidad: cantidad,
         PrecioUnitario: producto.PRECIO
       };
-      
-     this._FacturaService.CrearDetalleFactura(productoFactura).subscribe(()=>{
-      console.log('MALDITA FACTURA CREADA')
-     })
-     
-     debugger
+  
+      try {
+        await this._FacturaService.CrearDetalleFactura(productoFactura).toPromise();
+        console.log('MALDITA FACTURA CREADA');
+      } catch (error) {
+        console.error('Error al crear factura:', error);
+      }
     }
+  }
+  
+
+  BuscarProductobyName(){
+    this._ProductService.getAllProductsbyName(this.NOMBRE).subscribe((producto: Producto[])=>{
+      this.productsbyname = producto;
+      this.cantidades = new Array(this.productsbyname.length).fill(undefined);
+      this.busquedarealizada = true
+    })
   }
 
 }

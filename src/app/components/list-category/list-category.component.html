@@ -2,30 +2,32 @@
   <app-nav-bar></app-nav-bar>
   <div class="wrapper">
     <h2>Lista de Categorias</h2>
-
     <div class="mat-elevation-z8 listcategory">
+      <div class="headertitlebottom">
+        <section class="example-section">
+          <!-- Agrega [(ngModel)] para enlazar el valor del checkbox con la propiedad checkbox -->
+          <mat-checkbox [(ngModel)]="checkbox" (change)="toggleCategoriaList()" class="example-margin">Mostrar Inactivos</mat-checkbox>
+        </section>
+        <button (click)="OpenAddEditCategory()" class="btn btn-success buttonadd">Agregar Categoria</button>
+      </div>
       <table class="table table-striped">
         <thead>
           <tr class="centertabledata">
-            <th class=""></th>
-            <th class=""></th>
-            <th class="" scope="col"> <button class="btn btn-primary buttonadd">Agregar Categoria</button></th>
-          </tr>
-          <tr class="centertabledata">
             <th class="" scope="col">Codigo</th>
             <th class="" scope="col">Nombre</th>
+            <th class="" scope="col">Estado</th>
             <th class="" scope="col">Acciones</th>
           </tr>
         </thead>
         <tbody>
-          <ng-container *ngFor="let categoria of category_result">
+          <ng-container *ngFor="let categoria of (checkbox ? categoryDis_result :category_result)">
             <tr class="centertabledata">
-              <td>{{categoria.idCategoria}}</td>
+              <td>{{categoria.IDCATEGORIA}}</td>
               <td>{{categoria.Nombre}}</td>
+              <td>{{categoria.Estado}}</td>
               <td>
-                <button type="button" class="clean-buttom"><img src="../../../assets/img/busqueda (2).png"></button>
-                <button type="button" class="clean-buttom"><img src="../../../assets/img/editar (4).png"></button>
-                <button type="button" class="btn btn-danger clean-buttom"><img src="../../../assets/img/basura (2) (2).png"></button>
+                <abbr title="Editar"><button (click)="OpenEditCategoria(categoria.IDCATEGORIA)"  type="button" class="btn btn-primary clean-buttom"><img src="../../../assets/img/editar.png"></button></abbr> 
+                <abbr title="Eliminar"><button (click)="DeleteCategoria(categoria)" type="button" class="btn btn-danger clean-buttom"><img src="../../../assets/img/basura (2) (2).png"></button></abbr>
               </td>
             </tr>
           </ng-container>

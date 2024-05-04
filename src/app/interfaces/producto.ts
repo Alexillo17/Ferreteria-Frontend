@@ -15,8 +15,4 @@ export interface Producto {
   IDPROVEEDOR: string
 }
 
-export interface Categoria {
-  idCategoria: number
-  Nombre: string
-}
 

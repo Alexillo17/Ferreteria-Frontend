@@ -25,6 +25,10 @@ import { AddEditEmpleadoComponent } from './components/add-edit-empleado/add-edi
 import { DetalleFacturaComponent } from './components/detalle-factura/detalle-factura.component';
 import { CrearFacturaComponent } from './components/crear-factura/crear-factura.component';
 import { AddProductofacturaComponent } from './components/add-productofactura/add-productofactura.component';
+import { SpinnerComponent } from './shared/spinner/spinner.component';
+import { ListClienteComponent } from './components/list-cliente/list-cliente.component';
+import { AddEditCategoriaComponent } from './components/add-edit-categoria/add-edit-categoria.component';
+import { AddEditClienteComponent } from './components/add-edit-cliente/add-edit-cliente.component';
 
 
 @NgModule({
@@ -44,6 +48,10 @@ import { AddProductofacturaComponent } from './components/add-productofactura/ad
     DetalleFacturaComponent,
     CrearFacturaComponent,
     AddProductofacturaComponent,
+    SpinnerComponent,
+    ListClienteComponent,
+    AddEditCategoriaComponent,
+    AddEditClienteComponent
   ],
   imports: [
     BrowserModule,

@@ -8,7 +8,7 @@
           <div class="mat-elevation-z8 producto">
             <div class="form-group searchbar">
               <div>
-                <input type="text" class="form-control input-reducido" id="formGroupExampleInput" placeholder="Buscar" [(ngModel)]="NOMBRE"> 
+                <input (input)="BuscarProductobyName()" type="text" class="form-control input-reducido" id="formGroupExampleInput" placeholder="Buscar" [(ngModel)]="NOMBRE"> 
               </div>
             </div>
             <table class="table table-striped contenidotabla">
@@ -22,24 +22,41 @@
                 </tr>
               </thead>
               <tbody>
-              <!-- Dentro del <tbody> -->
-<tr *ngFor="let producto of product_result; let i = index">
-  <th scope="row">{{producto.IDPRODUCTO}}</th>
-  <td>{{producto.NOMBRE}}</td>
-  <td>
-    <input type="number" class="form-control input-cantidad" id="Cantidad_{{i}}" [(ngModel)]="cantidades[i]" onkeypress="return event.charCode >= 48" min="1">
-  </td>
-  <td>C${{producto.PRECIO}}</td>
-  <td>
-    <abbr title="Agregar">
-      <button  [disabled]="cantidades[i] === undefined || cantidades[i] === null || cantidades[i] === 0" type="button" class="btn btn-success clean-buttom" (click)="agregarProducto(producto, cantidades[i])">
-        <img src="../../../assets/img/agregar.png">
-      </button>
-    </abbr>
-  </td>
-</tr>
-
-              </tbody>
+              <ng-container *ngIf="!busquedarealizada">
+                <tr *ngFor="let producto of product_result; let i = index">
+                  <th scope="row">{{producto.IDPRODUCTO}}</th>
+                  <td>{{producto.NOMBRE}}</td>
+                  <td>
+                  <input type="number" class="form-control input-cantidad" id="Cantidad_{{i}}" [(ngModel)]="cantidades[i]" onkeypress="return event.charCode >= 48" min="1">
+                  </td>
+                  <td>C${{producto.PRECIO}}</td>
+                  <td>
+                  <abbr title="Agregar">
+                  <button  [disabled]="cantidades[i] === undefined || cantidades[i] === null || cantidades[i] === 0" type="button" class="btn btn-success clean-buttom" (click)="agregarProducto(producto, cantidades[i])">
+                  <img src="../../../assets/img/agregar.png">
+                 </button>
+                 </abbr>
+                 </td>
+                 </tr>
+              </ng-container>
+              <ng-container *ngIf="busquedarealizada">
+                <tr *ngFor="let producto of productsbyname; let i = index">
+                  <th scope="row">{{producto.IDPRODUCTO}}</th>
+                  <td>{{producto.NOMBRE}}</td>
+                  <td>
+                  <input type="number" class="form-control input-cantidad" id="Cantidad_{{i}}" [(ngModel)]="cantidades[i]" onkeypress="return event.charCode >= 48" min="1">
+                  </td>
+                  <td>C${{producto.PRECIO}}</td>
+                  <td>
+                  <abbr title="Agregar">
+                  <button  [disabled]="cantidades[i] === undefined || cantidades[i] === null || cantidades[i] === 0" type="button" class="btn btn-success clean-buttom" (click)="agregarProducto(producto, cantidades[i])">
+                  <img src="../../../assets/img/agregar.png">
+                  </button>
+                  </abbr>
+                  </td>
+                  </tr>
+              </ng-container>
+             </tbody>
             </table>
           </div>
         </div>

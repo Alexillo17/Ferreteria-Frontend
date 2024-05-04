@@ -10,6 +10,7 @@
         <table class="table table-striped">
           <thead>
             <tr class="centertabledata">
+              <th  scope="col">Codigo</th>
               <th  scope="col">Nombre</th>
               <th  scope="col">Apellido</th>
               <th  scope="col">Telefono</th>
@@ -19,6 +20,7 @@
           </thead>
           <tbody>
             <tr class="centertabledata" *ngFor="let empleado of empleado_result">
+              <td>{{empleado.IDEMPLEADO}}</td>
               <td>{{empleado.Nombre}}</td>
               <td>{{empleado.Apellido}}</td>
               <td>{{empleado.Telefono}}</td>

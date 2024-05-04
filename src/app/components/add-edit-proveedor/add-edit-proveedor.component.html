@@ -12,7 +12,10 @@
         <div class="row title" *ngIf="IDPROVEEDOR === 0">
            <div class="col">
           <label for="exampleInputEmail1">Codigo Proveedor</label>
-          <input  formControlName="Codigo" type="number" class="form-control custom-border">
+          <input  formControlName="Codigo" type="number" class="form-control custom-border"  onkeypress="return event.charCode >= 48" min="1">
+          <div class="warning" *ngIf="form.get('Codigo')?.hasError('idExistente') && form.get('Codigo')?.touched && !form.get('Codigo')?.hasError('required')">
+            EL codigo ya esta en uso
+          </div>
         </div>
         </div>
         <div class="row title">
@@ -34,9 +37,12 @@
         <div class="row title">
           <div class="col">
             <label for="exampleInputEmail1">Cedula</label>
-            <input formControlName="Cedula" type="text" class="form-control custom-border">
+            <input formControlName="Cedula" type="text" class="form-control custom-border" maxlength="16">
+            <div class="warning" *ngIf="form.get('Cedula')?.hasError('cedulaInvalida') && form.get('Cedula')?.touched && !form.get('Cedula')?.hasError('required')">
+              La cédula no es válida.
+            </div>
           </div>
-      </div>
+        </div>
           <div class="row title">
             <div class="col">
                 <label for="exampleInputEmail1">Telefono</label>

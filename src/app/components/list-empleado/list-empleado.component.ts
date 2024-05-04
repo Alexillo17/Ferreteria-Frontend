@@ -21,7 +21,7 @@ export class ListEmpleadoComponent {
 
   ngOnInit(): void{
 
-this.MostrarEmpleado();
+  this.MostrarEmpleado();
       }
 
       MostrarEmpleado(){
@@ -39,16 +39,21 @@ this.MostrarEmpleado();
     if (IDEMPLEADO !== null) {
       this.dialogRef.open(AddEditEmpleadoComponent, {
         data: { IDEMPLEADO: IDEMPLEADO }
+      }).afterClosed().subscribe(()=>{
+        debugger;
+        this.MostrarEmpleado();
       })
     } else {
       IDEMPLEADO = 0;
       this.OpenEditAddEmpleado();
     }
-  debugger
+  debugger;
   }
 
   OpenAddEmpleado(){
-    this.dialogRef.open(AddEditEmpleadoComponent)
+    this.dialogRef.open(AddEditEmpleadoComponent).afterClosed().subscribe(()=>{
+      this.MostrarEmpleado();
+    })
   }
     
 

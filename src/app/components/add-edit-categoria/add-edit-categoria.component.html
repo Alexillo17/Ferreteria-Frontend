@@ -1,0 +1,41 @@
+<div class="wrapper">
+    <div class="body">
+      <div class="bodyproduct">
+        <div class="addproduct">
+          <div class="custompositionbtnclose">
+            <button (click)="CloseCategoria()" class="btn btn-danger">X</button>
+          </div>
+          <div class="titulo">
+            <h2>{{Titulo}} Categoria</h2>
+          </div>
+          <form [formGroup]="form" (submit)="AddEditCategoria()" class="formcustom">
+            <div class="row title">
+              <div class="col" *ngIf="IDCATEGORIA === 0">
+                <label for="exampleInputEmail1">Codigo Categoria</label>
+                <input formControlName="Codigo" type="number" class="form-control custom-border" onkeypress="return event.charCode >= 48" min="1">
+                <div class="warning" *ngIf="form.get('Codigo')?.hasError('idExistente') && form.get('Codigo')?.touched && !form.get('Codigo')?.hasError('required')">
+                  EL codigo ya esta en uso
+                </div>
+              </div>
+            </div>
+            <div class="col">
+              <label for="exampleInputEmail1">Nombre categoria</label>
+              <input formControlName="Nombre" type="text" class="form-control custom-border">
+            </div>
+            <div class="col">
+              <label for="exampleInputEmail1">Estado</label>
+              <select formControlName="Estado" class="form-select custom-border" aria-label="Default select example">
+                <option value="Activo">Activo</option>
+                <option value="Inactivo">Inactivo</option>
+              </select>
+            </div>  
+            <div class="d-grid gap-2 col-6 mx-auto custom-spaceM">
+              <button type="submit" [disabled]="form.invalid" class="btn btn-primary">{{Accion}}</button>
+            </div>
+          </form>
+        </div>
+        <div>
+        </div>
+      </div>
+    </div>
+  </div>

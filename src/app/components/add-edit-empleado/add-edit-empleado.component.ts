@@ -1,9 +1,10 @@
 import { Component, Inject } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Empleado } from 'src/app/interfaces/empleado';
 import { ApiService } from 'src/app/service/api.service';
 import { ModalCompletadoComponent } from '../modal-completado/modal-completado.component';
+
 
 @Component({
   selector: 'app-add-edit-empleado',
@@ -18,20 +19,23 @@ export class AddEditEmpleadoComponent {
   IDEMPLEADO: number;
   Titulo: string = 'Agregar'
   Accion: string = 'Agregar'
+  idExistente: boolean = false;
+  cedulaExistente: boolean = false; 
 
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private fb: FormBuilder,
     private _EmpleadoService: ApiService,
-    private dialogRefModal: MatDialog
+    private dialogRefModal: MatDialog,
+    private dialogRef: MatDialogRef<AddEditEmpleadoComponent>,
   ){
     this.form = this.fb.group({
-      Codigo: ['',Validators.required],
+      Codigo: ['', [Validators.required], [this.validarIdExistente.bind(this)]],
       Nombre: ['',Validators.required],
       Apellido: ['',Validators.required],
       Telefono: ['',Validators.required],
-      Cedula: ['',Validators.required],
+      Cedula: ['', [Validators.required], [this.validarCedula.bind(this)]],
     })
 
      this.IDEMPLEADO = data?.IDEMPLEADO || 0;
@@ -49,6 +53,32 @@ export class AddEditEmpleadoComponent {
     }
     debugger;
   }
+
+  validarCedula(control: AbstractControl): Promise<ValidationErrors | null> {
+    const cedula = control.value;
+    if (!cedula) {
+      return Promise.resolve(null);
+    }
+    return new Promise((resolve, reject) => {
+      const cedulaValida = /^[0-9]{3}-[0-9]{6}-[0-9]{4}[A-Z]$/.test(cedula);
+      if (!cedulaValida) {
+        resolve({ cedulaInvalida: true });
+      } else {
+        this._EmpleadoService.getEmpleadobyCedula(cedula).subscribe((empleado: Empleado) => {
+          if (empleado && empleado.IDEMPLEADO !== this.IDEMPLEADO) {
+            this.cedulaExistente = true;
+            resolve({ cedulaExistente: true });
+          } else {
+            this.cedulaExistente = false;
+            resolve(null);
+          }
+        }, (error) => {
+          console.error("Error al buscar proveedor por cédula", error);
+          reject({ cedulaInvalida: true });
+        });
+      }
+    });
+}
  
   MostrarEmpleadoporID(IDEMPLEADO: number){
     this._EmpleadoService.getEmpleadobyID(IDEMPLEADO).subscribe((empleado_result: Empleado) =>{
@@ -117,8 +147,9 @@ export class AddEditEmpleadoComponent {
       data: {
         TituloModalAccion: 'agregado',
         TituloModal: 'Empleado',
-        Link: '/list-empleado'
       }
+    }).afterClosed().subscribe(()=>{
+      this.CloseEmpleado();
     });
     
   }
@@ -128,10 +159,37 @@ export class AddEditEmpleadoComponent {
       data: {
         TituloModalAccion: 'actualizado',
         TituloModal: 'Empleado',
-        Link: '/list-empleado'
       }
+    }).afterClosed().subscribe(()=>{
+      this.CloseEmpleado();
     });
     
   }
+
+  CloseEmpleado(){
+    this.dialogRef.close();
+  }
+
+  validarIdExistente(control: FormControl): Promise<ValidationErrors | null> {
+    const id = control.value;
+    if (!id) {
+      return Promise.resolve(null);
+    }
+    return new Promise((resolve, reject) => {
+      this._EmpleadoService.getEmpleadobyID(id).subscribe((empleado: Empleado) => {
+        if (empleado && empleado.IDEMPLEADO !== this.IDEMPLEADO) {
+          this.idExistente = true;
+          resolve({ idExistente: true });
+        } else {
+          this.idExistente = false;
+          resolve(null);
+        }
+      }, (error) => {
+        console.error("Error al buscar proveedor por ID", error);
+        reject({ idInvalido: true });
+      });
+    });
+  }
+  
 
 }

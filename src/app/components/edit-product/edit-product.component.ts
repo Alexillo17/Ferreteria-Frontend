@@ -73,26 +73,34 @@ export class EditProductComponent {
   }
 
 
-  MostrarProductoporID(IDPRODUCTO: number) {
-    this.service.getProductibyID(IDPRODUCTO).subscribe((product_result: Producto) => {
-      this.editdata = product_result
-     console.log(this.editdata);
-
-     const categoriaSeleccionado = this.category_result.find(categoria => categoria.Nombre === this.editdata.IDCATEGORIA);
-     const proveedorSeleccionado = this.proveedor_result.find(proveedor => proveedor.Nombre === this.editdata.IDPROVEEDOR);
-    
-     console.log(categoriaSeleccionado);
-     this.form.patchValue({
-      Nombre: this.editdata.NOMBRE,
-      Unidades: this.editdata.UNIDADES,
-      Precio: this.editdata.PRECIO,
-      Estado: this.editdata.ESTADO,
-      Categoria: categoriaSeleccionado,
-      Proveedor: proveedorSeleccionado,
-    })
-      debugger;
- });
-  } 
+  async MostrarProductoporID(IDPRODUCTO: number) {
+    try {
+      const product_result: Producto | undefined = await this.service.getProductibyID(IDPRODUCTO).toPromise();
+      if (product_result) {
+        this.editdata = product_result;
+        console.log(this.editdata);
+  
+        const categoriaSeleccionado = this.category_result.find(categoria => categoria.Nombre === this.editdata.IDCATEGORIA);
+        const proveedorSeleccionado = this.proveedor_result.find(proveedor => proveedor.Nombre === this.editdata.IDPROVEEDOR);
+  
+        console.log(categoriaSeleccionado);
+        this.form.patchValue({
+          Nombre: this.editdata.NOMBRE,
+          Unidades: this.editdata.UNIDADES,
+          Precio: this.editdata.PRECIO,
+          Estado: this.editdata.ESTADO,
+          Categoria: categoriaSeleccionado,
+          Proveedor: proveedorSeleccionado,
+        });
+        debugger;
+      } else {
+        console.error("No se encontró ningún producto con el ID especificado.");
+      }
+    } catch (error) {
+      console.error("Error al mostrar el producto:", error);
+    }
+  }
+  
   
   Editroduct(){
     const product: Producto = {
@@ -100,7 +108,7 @@ export class EditProductComponent {
       UNIDADES: this.form.value.Unidades,
       PRECIO: this.form.value.Precio,
       ESTADO: this.form.value.Estado,
-      IDCATEGORIA: this.form.value.Categoria.idCategoria,
+      IDCATEGORIA: this.form.value.Categoria.IDCATEGORIA,
       IDPROVEEDOR: this.form.value.Proveedor.IDPROVEEDOR
     }
 

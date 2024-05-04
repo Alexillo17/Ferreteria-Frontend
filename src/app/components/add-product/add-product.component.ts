@@ -52,7 +52,7 @@ CloseAddProduct(): void
   ngOnInit(): void{
     
   this.MostrarCategoria();
-  this. MostrarProveedor();
+  this.MostrarProveedor();
   }
 
   MostrarCategoria(){
@@ -90,7 +90,7 @@ CloseAddProduct(): void
       UNIDADES: unidades,
       PRECIO: precio,
       ESTADO: estado,
-      IDCATEGORIA: categoria.idCategoria,
+      IDCATEGORIA: categoria.IDCATEGORIA,
       IDPROVEEDOR: proveedor.IDPROVEEDOR
     };
   
@@ -112,10 +112,11 @@ CloseAddProduct(): void
     this.dialogRef1.open(ModalCompletadoComponent, {
       data: {
         TituloModalAccion: 'agregado',
-        TituloModal: 'Producto',
-        Link: '/list-product'
+        TituloModal: 'Producto'
       }
-    });
+    }).afterClosed().subscribe(()=>{
+      this.CloseAddProduct();
+    })
     
   }
 }

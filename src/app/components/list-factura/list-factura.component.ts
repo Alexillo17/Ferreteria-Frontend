@@ -31,7 +31,7 @@ export class ListFacturaComponent {
 
   ngAfterViewInit(): void {
     this.paginator.page.subscribe(() => this.MostrarFactura(this.paginator.pageIndex + 1, this.paginator.pageSize));
-    this.MostrarFactura(1, 10);
+    this.MostrarFactura(1, 5);
   }
 
   MostrarFactura(pageNumber: number, pageSize: number): void{

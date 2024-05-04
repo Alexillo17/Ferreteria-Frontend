@@ -1,0 +1,39 @@
+<div class="body">
+    <app-nav-bar></app-nav-bar>
+    <div class="wrapper">
+      <h2>Lista de Proveedores</h2>
+      <div class="mat-elevation-z8 listproduct">
+        <div class="headertitlebottom">
+          <div class="searchbar">
+            <input  class="form-control mr-sm-2" type="search" placeholder="Buscar..." aria-label="Search">
+          </div>
+          <button (click)="OpenAddCliente()" class="btn btn-success buttonadd">Agregar Cliente</button>
+        </div>
+        <table class="table table-striped">
+          <thead>
+            <tr class="centertabledata">
+              <th class="tabledatacolor" scope="col">Nombre</th>
+              <th class="tabledatacolor" scope="col">Apellido</th>
+              <th class="tabledatacolor" scope="col">Cedula</th>
+              <th class="tabledatacolor" scope="col">Estado</th>
+              <th class="tabledatacolor" scope="col">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="centertabledata" *ngFor="let cliente of cliente_result">
+              <td>{{cliente.Nombre}}</td>
+              <td>{{cliente.Apellido}}</td>
+              <td>{{cliente.Cedula}}</td>
+              <td>XD</td>
+              <td>
+                <abbr title="Editar"><button (click)="OpenEditCliente(cliente.IDCLIENTE)"  type="button" class="btn btn-primary clean-buttom"><img src="../../../assets/img/editar.png"></button></abbr> 
+                <abbr title="Eliminar"><button type="button" class="btn btn-danger clean-buttom"><img src="../../../assets/img/basura (2) (2).png"></button></abbr>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+ 
+      </div>
+    </div>
+  </div>
+  

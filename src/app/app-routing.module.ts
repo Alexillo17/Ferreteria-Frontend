@@ -11,6 +11,7 @@ import { ListEmpleadoComponent } from './components/list-empleado/list-empleado.
 import { DetalleFacturaComponent } from './components/detalle-factura/detalle-factura.component';
 import { CrearFacturaComponent } from './components/crear-factura/crear-factura.component';
 import { AddProductofacturaComponent } from './components/add-productofactura/add-productofactura.component';
+import { ListClienteComponent } from './components/list-cliente/list-cliente.component';
 
 const routes: Routes = [
 {path: '', redirectTo: 'list-product', pathMatch: 'full'},
@@ -26,6 +27,7 @@ const routes: Routes = [
 {path: 'detalle-factura', component: DetalleFacturaComponent},
 {path: 'crear-factura', component: CrearFacturaComponent},
 {path: 'addproducto-factura', component: AddProductofacturaComponent},
+{path: 'list-cliente', component: ListClienteComponent},
 ];
 
 @NgModule({

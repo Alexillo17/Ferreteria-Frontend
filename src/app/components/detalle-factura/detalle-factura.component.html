@@ -3,12 +3,11 @@
   <div class="body">
     <div>
       <p>Numero de Factura: {{factura_resultbyID[0].NumeroFactura}}</p>
-      <p>Fecha: {{factura_resultbyID[0].Fecha}}</p>
+      <p>Fecha: {{factura_resultbyID[0].Fecha | date:'dd/MM/yyyy'}}</p>
       <p>Cliente: {{factura_resultbyID[0].Cliente}}</p>
       <p>Vendedor: {{factura_resultbyID[0].Empleado}}</p>
       </div>
     <div class="wrapper">
-    
       <div class="mat-elevation-z8 listfactura">
         <div class="headertitlebottom">
           </div>
@@ -19,7 +18,6 @@
               <th  scope="col">Precio Unitario</th>
               <th  scope="col">Cantidad</th>
               <th  scope="col">Total</th>
-              <th  scope="col">Acciones</th>
             </tr>
           </thead>
           <tbody>
@@ -28,22 +26,17 @@
               <td>${{factura.Precio}}</td>
               <td>{{factura.Cantidad}}</td>
               <td>${{factura.Total}}</td>
-              <td>
-                <abbr title="Editar"><button  type="button" class="btn btn-primary clean-buttom"><img src="../../../assets/img/editar.png"></button></abbr> 
-                <abbr title="Eliminar"><button type="button" class="btn btn-danger clean-buttom"><img src="../../../assets/img/basura (2) (2).png"></button></abbr>
-              </td>
             </tr>
-             <tr>
+             <tr class="centertabledata">
               <td></td>
               <td></td>
               <td>Total:</td>
               <td>${{TotalSum}}</td>
-              <td>
-              </td>
              </tr>
           </tbody>
         </table>
       </div>
+      
     </div>
   </div>
 </mat-dialog-content>

@@ -30,7 +30,11 @@ this.MostrarProveedor();
   }
 
   OpenAddProveedor(){
-    this.dialogRef.open(AddEditProveedorComponent);
+    this.dialogRef.open(AddEditProveedorComponent
+
+    ).afterClosed().subscribe(() =>{
+      this.MostrarProveedor();
+    });
   }
 
 MostrarAllProveedor(){
@@ -60,6 +64,13 @@ toggleProveedorList() {
     if(IDPROVEEDOR !== undefined && IDPROVEEDOR !== null){
       this.dialogRef.open(AddEditProveedorComponent,{
         data: {IDPROVEEDOR: IDPROVEEDOR}
+      }).afterClosed().subscribe(()=>{
+        if(this.checkbox){
+          this.MostrarAllProveedor();
+        }
+        else{
+          this.MostrarProveedor();
+        }  
       })
     }
     else{
@@ -83,8 +94,9 @@ toggleProveedorList() {
       data: {
         TituloModalAccion: 'eliminado',
         TituloModal: 'Proveedor',
-        Link: '/list-proveedor'
       }
+    }).afterClosed().subscribe(()=>{
+      this.MostrarProveedor();
     });
     
   }

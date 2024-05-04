@@ -1,9 +1,12 @@
 <div class="body">
   <app-nav-bar></app-nav-bar>
-
   <div class="wrapper">
     <h2>Lista de Productos</h2>
-    <div class="mat-elevation-z8 listproduct">
+    <div class="loading" *ngIf="loading">
+      <app-spinner></app-spinner>
+      <p>Cargando...</p>
+    </div>
+    <div *ngIf="!loading" class="mat-elevation-z8 listproduct">
       <div class="headertitlebottom">
         <div class="searchbar">
           <input (input)="MostraProductosPorNombre(paginator.pageIndex + 1, paginator.pageSize)" class="form-control mr-sm-2" type="search" placeholder="Buscar..." aria-label="Search" [(ngModel)]="NOMBRE">
@@ -23,7 +26,6 @@
           </tr>
         </thead>
         <tbody>
-          <!-- Mostrar productos de la búsqueda si se realizó una búsqueda -->
           <ng-container *ngIf="busquedarealizada">
             <tr *ngFor="let productobyname of productosbyname?.products" class="centertabledata">
               <td>{{productobyname.NOMBRE}}</td>
@@ -38,7 +40,6 @@
               </td>
             </tr>
           </ng-container>
-          <!-- Mostrar todos los productos si no se realizó una búsqueda -->
           <ng-container *ngIf="!busquedarealizada">
             <tr *ngFor="let producto of product_result?.products" class="centertabledata">
               <td>{{producto.NOMBRE}}</td>

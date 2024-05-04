@@ -19,6 +19,7 @@ export class ListProductComponent implements OnInit, AfterViewInit {
   busquedarealizada: boolean = false;
   dataSource = new MatTableDataSource<Producto>();
   NOMBRE: string = '';
+  loading: boolean = false 
 
   @ViewChild('paginator') paginator!: MatPaginator;
 
@@ -39,15 +40,19 @@ export class ListProductComponent implements OnInit, AfterViewInit {
   }
 
   MostrarProductos(pageNumber: number, pageSize: number): void {
+    this.loading = true
     this.productservice.getProducts(pageNumber, pageSize).subscribe((result: Root) => {
       this.product_result = result;
       this.dataSource.data = result.products;
+      this.loading = false
     });
   }
 
   OpenAddProduct(): void {
     this.dialogRef.open(AddProductComponent,{
       disableClose: true
+    }).afterClosed().subscribe(()=>{
+      this.MostrarProductos(1, this.paginator.pageSize);
     });
   }
 

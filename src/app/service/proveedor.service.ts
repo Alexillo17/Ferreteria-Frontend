@@ -44,5 +44,9 @@ export class ProveedorService {
     deleteProveedor(IDPROVEEDOR: number,proveedor: Proveedor): Observable<Proveedor>{
       return this.http.put<Proveedor>(`${this.urlApi}${'deleteproveedor/'}${IDPROVEEDOR}`,proveedor)
     }
+
+    getProveedorbyCedula(Cedula: string): Observable<Proveedor>{
+      return this.http.get<Proveedor>(`${this.urlApi}${'proveedorcedula/'}${Cedula}`)
+    }
   
 }

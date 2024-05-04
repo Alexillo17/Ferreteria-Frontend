@@ -14,6 +14,7 @@ export interface Factura {
   Precio: number
   Total: number
   Fecha: string
+  IdProducto: number
   }
 
   export interface DatosFactura {

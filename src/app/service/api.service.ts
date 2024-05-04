@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, Subject, catchError } from 'rxjs';
-import {Categoria, Producto, Root} from '../interfaces/producto'
+import { Producto, Root} from '../interfaces/producto'
+import { Categoria } from '../interfaces/categoria';
 import { Proveedor } from '../interfaces/proveedor';
 import { DatosDetalleFactura, DatosFactura, Factura, FacturaRoot } from '../interfaces/factura';
 import { Empleado } from '../interfaces/empleado';
@@ -26,12 +27,58 @@ export class ApiService {
     return this.http.get<Cliente>(`${this.urlApi}${'cliente/'}${CEDULA}`)
   }
   
+  saveCliente(cliente: Cliente): Observable<Cliente>{
+    return this.http.post<Cliente>(this.urlApi +'createcliente',cliente).pipe(catchError
+     (this.handleError)
+    );
+     }
+
+     public getClientes():Observable<Cliente[]>{
+      return this.http.get<Cliente[]>(`${this.urlApi}${'cliente'}`)
+    }
+
+    public getClientebyID(IDCLIENTE: number):Observable<Cliente>{
+      return this.http.get<Cliente>(`${this.urlApi}${'clientebyid/'}${IDCLIENTE}`)
+  }
+
+  updateCliente(IDCLIENTE: number,cliente: Cliente): Observable<Cliente>{
+    return this.http.put<Cliente>(`${this.urlApi}${'updatecliente/'}${IDCLIENTE}`,cliente)
+  }
+
+
+  
 
   //Category API
 
  public getCategory(): Observable<Categoria[]>{
     return this.http.get<Categoria[]>(this.urlApi + 'category')
   }
+
+  public getAllCategory(): Observable<Categoria[]>{
+    return this.http.get<Categoria[]>(this.urlApi + 'allcategory')
+  }
+
+  public getCategoriabyID(IDCATEGORIA: number):Observable<Categoria>{
+    return this.http.get<Categoria>(`${this.urlApi}${'category/'}${IDCATEGORIA}`)
+}
+
+savecategoria(categoria: Categoria): Observable<Categoria>{
+  return this.http.post<Categoria>(this.urlApi +'crearcategoria',categoria).pipe(catchError
+   (this.handleError)
+  );
+   }
+
+   updateCategoria(IDCATEGORIA: number,categoria: Categoria): Observable<Categoria>{
+    return this.http.put<Categoria>(`${this.urlApi}${'updatecategoria/'}${IDCATEGORIA}`,categoria)
+  }
+
+  deletecategoria(IDCATEGORIA: number,categoria: Categoria): Observable<Categoria>{
+    return this.http.put<Categoria>(`${this.urlApi}${'eliminarcategoria/'}${IDCATEGORIA}`,categoria)
+  }
+
+
+
+  
 
   //Product API
   public getProducts(pageNumber: number, pageSize: number): Observable<Root>{
@@ -58,8 +105,12 @@ export class ApiService {
     return this.http.get<Root>(URL);
   }
 
-  public getAllProducts(): Observable<Producto[]>{
+  getAllProducts(): Observable<Producto[]>{
     return this.http.get<Producto[]>(this.urlApi + 'allproducts')
+  }
+
+  getAllProductsbyName(NOMBRE: string): Observable<Producto[]>{
+     return this.http.get<Producto[]>(`${this.urlApi}${'allproducts/'}${NOMBRE}`)
   }
 
 
@@ -82,6 +133,10 @@ saveEmpleado(empleado: Empleado): Observable<Empleado>{
 
    updateEmpleado(IDEMPLEADO: number,empleado: Empleado): Observable<Empleado>{
     return this.http.put<Empleado>(`${this.urlApi}${'updateEmpleado/'}${IDEMPLEADO}`,empleado)
+  }
+
+  getEmpleadobyCedula(Cedula: string): Observable<Empleado>{
+    return this.http.get<Empleado>(`${this.urlApi}${'empleadocedula/'}${Cedula}`)
   }
 
 
@@ -110,6 +165,10 @@ saveEmpleado(empleado: Empleado): Observable<Empleado>{
     return this.http.post<DatosDetalleFactura>(this.urlApi +'createdetallefactura',factura).pipe(catchError
      (this.handleError)
     );
+     }
+
+     DeleteProductodeFactura(NumeroFactura: number, IdProducto:number): Observable<void>{
+      return this.http.delete<void>(`${this.urlApi}${'eliminarproducto/'}${NumeroFactura}${'/'}${IdProducto}`)
      }
 
   private handleError(error: any): Observable<any> {
