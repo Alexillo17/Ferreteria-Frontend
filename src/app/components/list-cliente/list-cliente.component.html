@@ -1,39 +1,58 @@
 <div class="body">
-    <app-nav-bar></app-nav-bar>
-    <div class="wrapper">
-      <h2>Lista de Proveedores</h2>
-      <div class="mat-elevation-z8 listproduct">
-        <div class="headertitlebottom">
-          <div class="searchbar">
-            <input  class="form-control mr-sm-2" type="search" placeholder="Buscar..." aria-label="Search">
-          </div>
-          <button (click)="OpenAddCliente()" class="btn btn-success buttonadd">Agregar Cliente</button>
+  <app-nav-bar></app-nav-bar>
+  <div class="wrapper">
+    <h2>Lista de Clientes</h2>
+    <div class="mat-elevation-z8 listproduct">
+      <div class="headertitlebottom">
+        <div class="searchbar">
+          <input (input)="BuscarClientebyName()" class="form-control mr-sm-2" type="search" placeholder="Buscar..." aria-label="Search" [(ngModel)]="Nombre">
         </div>
-        <table class="table table-striped">
-          <thead>
-            <tr class="centertabledata">
-              <th class="tabledatacolor" scope="col">Nombre</th>
-              <th class="tabledatacolor" scope="col">Apellido</th>
-              <th class="tabledatacolor" scope="col">Cedula</th>
-              <th class="tabledatacolor" scope="col">Estado</th>
-              <th class="tabledatacolor" scope="col">Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr class="centertabledata" *ngFor="let cliente of cliente_result">
+        <section class="example-section">
+          <!-- Agrega [(ngModel)] para enlazar el valor del checkbox con la propiedad checkbox -->
+          <mat-checkbox [(ngModel)]="checkbox" (change)="toggleClienteList()" class="example-margin">Mostrar Inactivos</mat-checkbox>
+        </section>
+        <button (click)="OpenAddCliente()" class="btn btn-success buttonadd">Agregar Cliente</button>
+      </div>
+      <table class="table table-striped">
+        <thead>
+          <tr class="centertabledata">
+            <th class="tabledatacolor" scope="col">Nombre</th>
+            <th class="tabledatacolor" scope="col">Apellido</th>
+            <th class="tabledatacolor" scope="col">Cedula</th>
+            <th class="tabledatacolor" scope="col">Estado</th>
+            <th class="tabledatacolor" scope="col">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Mostrar la lista de clientes original si no se está buscando -->
+          <ng-container *ngIf="!busquedarealizada">
+            <tr class="centertabledata" *ngFor="let cliente of (checkbox ? cliente_resultDis : cliente_result)">
               <td>{{cliente.Nombre}}</td>
               <td>{{cliente.Apellido}}</td>
               <td>{{cliente.Cedula}}</td>
-              <td>XD</td>
+              <td>{{cliente.Estado}}</td>
               <td>
-                <abbr title="Editar"><button (click)="OpenEditCliente(cliente.IDCLIENTE)"  type="button" class="btn btn-primary clean-buttom"><img src="../../../assets/img/editar.png"></button></abbr> 
+                <abbr title="Editar"><button (click)="OpenEditCliente(cliente.IDCLIENTE)" type="button" class="btn btn-primary clean-buttom"><img src="../../../assets/img/editar.png"></button></abbr> 
                 <abbr title="Eliminar"><button type="button" class="btn btn-danger clean-buttom"><img src="../../../assets/img/basura (2) (2).png"></button></abbr>
               </td>
             </tr>
-          </tbody>
-        </table>
- 
-      </div>
+          </ng-container>
+          <!-- Mostrar la lista de clientes filtrada si se está buscando -->
+          <ng-container *ngIf="busquedarealizada">
+            <tr class="centertabledata" *ngFor="let cliente of clientesbyname">
+              <td>{{cliente.Nombre}}</td>
+              <td>{{cliente.Apellido}}</td>
+              <td>{{cliente.Cedula}}</td>
+              <td>{{cliente.Estado}}</td>
+              <td>
+                <abbr title="Editar"><button (click)="OpenEditCliente(cliente.IDCLIENTE)" type="button" class="btn btn-primary clean-buttom"><img src="../../../assets/img/editar.png"></button></abbr> 
+                <abbr title="Eliminar"><button type="button" class="btn btn-danger clean-buttom"><img src="../../../assets/img/basura (2) (2).png"></button></abbr>
+              </td>
+            </tr>
+          </ng-container>
+        </tbody>
+      </table>
+
     </div>
   </div>
-  
+</div>

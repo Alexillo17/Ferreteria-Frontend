@@ -9,6 +9,9 @@ import { AddProductofacturaComponent } from '../add-productofactura/add-producto
 import { Empleado } from 'src/app/interfaces/empleado';
 import { DatosDetalleFactura, DatosFactura, Factura } from 'src/app/interfaces/factura';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { ModalCompletadoComponent } from '../modal-completado/modal-completado.component';
+import { Router } from '@angular/router';
+import { ModalAlertComponent } from '../modal-alert/modal-alert.component';
 
 @Component({
   selector: 'app-crear-factura',
@@ -17,13 +20,11 @@ import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors,
 })
 export class CrearFacturaComponent {
 
-  form: FormGroup;
-
   camposLlenos: boolean = false;
   MostrarCrearFactura: boolean = true;
   Camposseteados: boolean = false
 
-
+  cliente_existe: boolean = false
   DatosCliente: any
   dataSource = new MatTableDataSource<Producto>();
   product_result: Root | undefined;
@@ -50,18 +51,16 @@ constructor(
   private _EmpleadoService:ApiService,
   private _FacturaService: ApiService,
   private dialogRef: MatDialog,
-  private fb: FormBuilder
+  private fb: FormBuilder,
+  private router: Router
 )
 {
-  this.form = this.fb.group({
-    Cedula: ['', [Validators.required, this.validarFormatoCedula]]
-  });
+ 
   this.fechaActual = new Date();    
 }
 
 ngOnInit(): void {
-  
-  this.MostrarProductos(1, 5);
+  console.log(this.factura_resultbyID)
   this.MostrarEmpleado();
 }
 
@@ -76,30 +75,38 @@ MostrarEmpleado(){
   })
 }
 
-Crearcliente(){
-  if(this.CEDULA == '' || this.APELLIDO == '' || this.NOMBRE == ''){
-    debugger;
-    return
+Crearcliente() {
+  // Verifica si los campos necesarios están llenos
+  if (this.CEDULA == '' || this.APELLIDO == '' || this.NOMBRE == '') {
+    // Si alguno de los campos está vacío, muestra un mensaje de error
+    console.error("Por favor complete todos los campos.");
+    return;
+  } else {
+    // Realiza una consulta para verificar si el cliente ya existe
+    this._ClienteService.getClientebyCedula(this.CEDULA).subscribe((cliente: Cliente) => {
+      if (cliente) {
+        console.error("La cédula ya está registrada.");
+      } else {
+        // Si el cliente no existe, crea un nuevo cliente
+        const nuevoCliente: Cliente = {
+          Nombre: this.NOMBRE,
+          Apellido: this.APELLIDO,
+          Cedula: this.CEDULA,
+          Estado: 'Activo'
+        };
+
+        // Guarda el nuevo cliente
+        this._ClienteService.saveCliente(nuevoCliente).subscribe(() => {
+          // Si se guarda exitosamente, actualiza los datos del cliente
+          this.DatosCliente = nuevoCliente;
+          // Abre la ventana/modal para agregar cliente (si es necesario)
+          this.OpenAddCliente();
+        });
+      }
+    });
   }
-  else{
-    const cliente: Cliente = {
-      Nombre:  this.NOMBRE,
-      Apellido: this.APELLIDO,
-      Cedula: this.CEDULA
-  
-    }
-  
-    const jsonCliente = JSON.stringify(cliente);
-  
-    this._ClienteService.saveCliente(cliente).subscribe(() => {
-        this.DatosCliente = cliente;  
-    })
-    this.ObtenerClienteporCedula();
-    debugger
-  
-  }
- 
 }
+
 
 
 CrearFactura(){
@@ -134,36 +141,36 @@ CrearFactura(){
 }
 
 
-MostrarProductos(pageNumber: number, pageSize: number): void {
-  this._ProductService.getProducts(pageNumber, pageSize).subscribe((result: Root) => {
-    this.product_result = result;
-    this.dataSource.data = result.products;
+
+
+ObtenerClienteporCedula(): void {
+  if (!this.CEDULA) {
+    // Si la cédula está vacía, restablecer los campos y habilitar el botón
+    this.Camposseteados = false;
+    this.NOMBRE = '';
+    this.APELLIDO = '';
+    return;
+  }
+
+  this._ClienteService.getClientebyCedula(this.CEDULA).subscribe((cliente: Cliente) => {
+    this.DatosCliente = cliente;
+    console.log("Datos del cliente:", this.DatosCliente);
+    if (this.DatosCliente !== null) {
+      // Si el cliente existe, deshabilitar el botón de Crear Cliente
+      this.Camposseteados = true;
+      this.NOMBRE = this.DatosCliente.Nombre;
+      this.APELLIDO = this.DatosCliente.Apellido;
+    } else {
+      // Si el cliente no existe, habilitar el botón de Crear Cliente
+      this.Camposseteados = false;
+      console.log('no hay');
+      this.NOMBRE = '';
+      this.APELLIDO = '';
+    }
   });
 }
 
 
-ObtenerClienteporCedula(): void {
-
-  this._ClienteService.getClientebyCedula(this.CEDULA).subscribe((cliente: Cliente) =>{
-    this.DatosCliente = cliente;
-    console.log("Datos del cliente:", this.DatosCliente);
-    if(this.DatosCliente !== null){
-      this.Camposseteados = true
-      this.NOMBRE = this.DatosCliente.Nombre;
-    this.APELLIDO = this.DatosCliente.Apellido;
-    const IDCLIENTE = this.DatosCliente.IDCLIENTE
-    }
-    else{
-       this.Camposseteados = false
-       console.log('no hay')
-       this.NOMBRE = ''
-       this.APELLIDO = ''
-       this.Empleado = ''
-    }
-
-
-  })
-}
 
 OpenAddProductFactura(){
   this.dialogRef.open(AddProductofacturaComponent,{
@@ -175,8 +182,10 @@ OpenAddProductFactura(){
 }
 
 verificarCampos(): void {
-  this.camposLlenos = !!this.CEDULA && !!this.NOMBRE && !!this.Empleado;
+  this.camposLlenos = !!this.CEDULA && !!this.NOMBRE;
 }
+
+
 
 async MostrarUltimaFactura() {
   try {
@@ -199,21 +208,29 @@ async MostrarUltimaFactura() {
 
 
 
-  MostrarProductosAgregados(){
-  this._FacturaService.getFacturabyID(this.Detallefactura[0].NUMEROFACTURA).subscribe((factura_result: Factura) =>{
-    this.factura_resultbyID = factura_result;
-    console.log(this.factura_resultbyID)
-     this.TotalSum = 0
-  
-     for(let i = 0; i < this.factura_resultbyID.length; i++){
-      this.TotalSum += this.factura_resultbyID[i].Total;
-     }
-  
-     console.log("Total sumado:", this.TotalSum);
+async MostrarProductosAgregados() {
+  try {
+    const factura_result = await this._FacturaService.getFacturabyID(this.Detallefactura[0].NUMEROFACTURA).toPromise();
     
-    debugger
-  })
+    this.factura_resultbyID = factura_result;
+    console.log(this.factura_resultbyID);
+
+    this.TotalSum = 0;
+
+    for (let i = 0; i < this.factura_resultbyID.length; i++) {
+      this.TotalSum += this.factura_resultbyID[i].Total;
+    }
+
+    console.log("Total sumado:", this.TotalSum);
+    
+    debugger; 
+
+  } catch (error) {
+    console.error("Error al obtener la factura:", error);
+    
+  }
 }
+
 
 EliminarProducto(NumeroFactura: number, IdProducto: number){
   this._FacturaService.DeleteProductodeFactura(NumeroFactura, IdProducto).subscribe(
@@ -236,12 +253,58 @@ EliminarProducto(NumeroFactura: number, IdProducto: number){
   )
 }
 
-validarFormatoCedula(control: FormControl): { [key: string]: boolean } | null {
-  const cedula = control.value;
+validarFormatoCedula(): boolean {
+  const cedula = this.CEDULA;
   if (!cedula || !/^[0-9]{3}-[0-9]{6}-[0-9]{4}[A-Z]$/i.test(cedula)) {
-    return { 'cedulaInvalida': true };
+      return false;
   }
-  return null;
+  return true;
 }
+
+
+TerminarFactura(){
+  this.dialogRef.open(ModalCompletadoComponent, {
+    data: {
+      TituloModalAccion:  'creado',
+      TituloModal: 'Factura',
+    },
+    disableClose: true
+  }).afterClosed().subscribe(()=>{
+    this.router.navigate(['/list-factura'])
+  });
+}
+
+CancelarFactura(): void{
+  this.dialogRef.open(ModalAlertComponent,{
+    disableClose: true
+  }).afterClosed().subscribe((confirmado: boolean)=>{
+    if(confirmado){
+      if(this.Detallefactura[0].NUMEROFACTURA > 0){
+         this._FacturaService.DeleteFactura(this.Detallefactura[0].NUMEROFACTURA).subscribe(()=>{
+          this.router.navigate(['/list-factura'])
+        })
+      }
+      else{
+        this.router.navigate(['/list-factura'])
+      } 
+    }else{
+      return;
+    }
+  })
+}
+
+OpenAddCliente(): void {
+  this.dialogRef.open(ModalCompletadoComponent, {
+    data: {
+      TituloModalAccion: 'agregado',
+      TituloModal: 'Cliente',
+    },
+    disableClose: true
+  }).afterClosed().subscribe(() => {
+    this.ObtenerClienteporCedula();
+  });
+}
+
+
 }
 

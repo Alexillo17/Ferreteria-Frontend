@@ -29,6 +29,7 @@ import { SpinnerComponent } from './shared/spinner/spinner.component';
 import { ListClienteComponent } from './components/list-cliente/list-cliente.component';
 import { AddEditCategoriaComponent } from './components/add-edit-categoria/add-edit-categoria.component';
 import { AddEditClienteComponent } from './components/add-edit-cliente/add-edit-cliente.component';
+import { ModalAlertComponent } from './components/modal-alert/modal-alert.component';
 
 
 @NgModule({
@@ -51,7 +52,8 @@ import { AddEditClienteComponent } from './components/add-edit-cliente/add-edit-
     SpinnerComponent,
     ListClienteComponent,
     AddEditCategoriaComponent,
-    AddEditClienteComponent
+    AddEditClienteComponent,
+    ModalAlertComponent
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,28 @@
+.centrar{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: green;
+  }
+
+  .Button{
+    margin-right: 10px;
+  }
+  
+.body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.logo{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.imagen{
+  width: 200px;
+  height: 200px;
+}
+

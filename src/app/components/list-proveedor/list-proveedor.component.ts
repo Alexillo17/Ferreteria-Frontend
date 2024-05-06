@@ -92,7 +92,7 @@ toggleProveedorList() {
   OpenDeleteProveedor(): void {
     this.dialogRef.open(ModalCompletadoComponent, {
       data: {
-        TituloModalAccion: 'eliminado',
+        TituloModalAccion: 'dado de baja',
         TituloModal: 'Proveedor',
       }
     }).afterClosed().subscribe(()=>{

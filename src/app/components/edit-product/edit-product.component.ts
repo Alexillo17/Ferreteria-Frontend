@@ -44,10 +44,10 @@ export class EditProductComponent {
   }
 
   ngOnInit(): void{
-    this.MostrarCategoria();
-    this.MostrarProveedor();
     this.inputdata = this.data;
     if(this.inputdata.IDPRODUCTO>0){
+      this.MostrarCategoria();
+    this.MostrarProveedor();
       this.MostrarProductoporID(this.IDPRODUCTO)
     }
     debugger;
@@ -58,19 +58,29 @@ export class EditProductComponent {
   this.ref.close();
 }
 
-  MostrarCategoria(){
-    this._CategoryService.getCategory().subscribe(category_result =>{
-      this.category_result = category_result 
-      console.log(category_result)
-    })
+async MostrarCategoria() {
+  try {
+    const category_result = await this._CategoryService.getCategory().toPromise();
+    this.category_result = category_result || [];
+    console.log(category_result);
+  } catch (error) {
+    console.error("Error al obtener las categorías:", error);
   }
+}
 
-  MostrarProveedor(){
-    this._ProveedorService.getProveedor().subscribe(proveedor_result =>{
-      this.proveedor_result = proveedor_result
-      console.log(proveedor_result);
-    })
+async MostrarProveedor() {
+  try {
+    const proveedor_result = await this._ProveedorService.getProveedorInactivos().toPromise();
+    this.proveedor_result = proveedor_result || [];
+    console.log(proveedor_result);
+
+    if (this.inputdata.IDPRODUCTO > 0) {
+      this.MostrarProductoporID(this.IDPRODUCTO);
+    }
+  } catch (error) {
+    console.error("Error al obtener los proveedores:", error);
   }
+}
 
 
   async MostrarProductoporID(IDPRODUCTO: number) {
@@ -82,7 +92,7 @@ export class EditProductComponent {
   
         const categoriaSeleccionado = this.category_result.find(categoria => categoria.Nombre === this.editdata.IDCATEGORIA);
         const proveedorSeleccionado = this.proveedor_result.find(proveedor => proveedor.Nombre === this.editdata.IDPROVEEDOR);
-  
+        debugger;
         console.log(categoriaSeleccionado);
         this.form.patchValue({
           Nombre: this.editdata.NOMBRE,
@@ -125,8 +135,9 @@ export class EditProductComponent {
       data: {
         TituloModalAccion: 'editado',
         TituloModal: 'Producto',
-        Link: '/list-product'
       }
+    }).afterClosed().subscribe(()=>{
+      this.CloseAddProduct();
     });
     
   }

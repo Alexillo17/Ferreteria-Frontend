@@ -31,6 +31,7 @@ export class AddEditClienteComponent {
        Nombre: ['', Validators.required],
        Apellido: ['',Validators.required],
        Cedula: ['', [Validators.required], [this.validarCedula.bind(this)]],
+       Estado: ['',Validators.required]
     })
   
     this.IDCLIENTE = data?.IDCLIENTE || 0;
@@ -54,6 +55,7 @@ export class AddEditClienteComponent {
         Nombre: this.editdata.Nombre,
         Apellido: this.editdata.Apellido,
         Cedula: this.editdata.Cedula,
+        Estado: this.editdata.Estado
       });
     });
   }
@@ -66,11 +68,14 @@ export class AddEditClienteComponent {
 
     const cliente: Cliente = {
       Nombre: this.form.value.Nombre,
-      Apellido: this.form.value.Apelido,
-      Cedula: this.form.value.Cedula
+      Apellido: this.form.value.Apellido,
+      Cedula: this.form.value.Cedula,
+      Estado: this.form.value.Estado
     };
 
     const jsonCliente = JSON.stringify(cliente)
+    debugger
+    console.log(jsonCliente)
 
     if(this.IDCLIENTE !== 0){
       this._ClienteService.updateCliente(this.IDCLIENTE,cliente).subscribe(()=>{

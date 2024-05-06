@@ -2,15 +2,12 @@
   <app-nav-bar></app-nav-bar>
   <div class="wrapper">
     <h2>Lista de Productos</h2>
-    <div class="loading" *ngIf="loading">
-      <app-spinner></app-spinner>
-      <p>Cargando...</p>
-    </div>
     <div *ngIf="!loading" class="mat-elevation-z8 listproduct">
       <div class="headertitlebottom">
         <div class="searchbar">
           <input (input)="MostraProductosPorNombre(paginator.pageIndex + 1, paginator.pageSize)" class="form-control mr-sm-2" type="search" placeholder="Buscar..." aria-label="Search" [(ngModel)]="NOMBRE">
         </div>
+        
         <button class="btn btn-success buttonadd" (click)="OpenEditProduct()">Agregar Producto</button>
       </div>
       <table class="table table-striped">

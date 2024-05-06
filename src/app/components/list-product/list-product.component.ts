@@ -20,6 +20,7 @@ export class ListProductComponent implements OnInit, AfterViewInit {
   dataSource = new MatTableDataSource<Producto>();
   NOMBRE: string = '';
   loading: boolean = false 
+  
 
   @ViewChild('paginator') paginator!: MatPaginator;
 
@@ -29,22 +30,14 @@ export class ListProductComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {}
 
   ngAfterViewInit(): void {
-    this.paginator.page.subscribe(() => {
-      this.cambiarPagina();
-    });
-
-    // Cargar productos por defecto
-    if (!this.busquedarealizada) {
-      this.MostrarProductos(1, this.paginator.pageSize);
-    }
+    this.paginator.page.subscribe(() => this.MostrarProductos(this.paginator.pageIndex + 1, this.paginator.pageSize));
+    this.MostrarProductos(1, 10);
   }
 
   MostrarProductos(pageNumber: number, pageSize: number): void {
-    this.loading = true
     this.productservice.getProducts(pageNumber, pageSize).subscribe((result: Root) => {
       this.product_result = result;
       this.dataSource.data = result.products;
-      this.loading = false
     });
   }
 
@@ -59,7 +52,10 @@ export class ListProductComponent implements OnInit, AfterViewInit {
   OpenEditProduct(IDPRODUCTO?: number): void{
     if(IDPRODUCTO !== undefined && IDPRODUCTO !== null) {
       this.dialogRef.open(EditProductComponent,{
+        disableClose: true,
         data: {IDPRODUCTO: IDPRODUCTO}
+      }).afterClosed().subscribe(()=>{
+        this.MostrarProductos(this.paginator.pageIndex + 1, this.paginator.pageSize);
       });
     } else {
       IDPRODUCTO = 0;
@@ -75,7 +71,7 @@ export class ListProductComponent implements OnInit, AfterViewInit {
       this.productservice.getproductbyname(pageNumber, pageSize, this.NOMBRE).subscribe((producto: Root) =>{
         this.productosbyname = producto;
         this.busquedarealizada = true;
-        this.dataSource.data = producto.products; // Actualizar dataSource
+        this.dataSource.data = producto.products; 
         console.log(producto);
       });
     }

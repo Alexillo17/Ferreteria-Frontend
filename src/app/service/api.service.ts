@@ -37,6 +37,10 @@ export class ApiService {
       return this.http.get<Cliente[]>(`${this.urlApi}${'cliente'}`)
     }
 
+    public getClientesInactivos():Observable<Cliente[]>{
+      return this.http.get<Cliente[]>(`${this.urlApi}${'clienteinactivo'}`)
+    }
+
     public getClientebyID(IDCLIENTE: number):Observable<Cliente>{
       return this.http.get<Cliente>(`${this.urlApi}${'clientebyid/'}${IDCLIENTE}`)
   }
@@ -44,6 +48,10 @@ export class ApiService {
   updateCliente(IDCLIENTE: number,cliente: Cliente): Observable<Cliente>{
     return this.http.put<Cliente>(`${this.urlApi}${'updatecliente/'}${IDCLIENTE}`,cliente)
   }
+
+  getclientesbyname(Nombre: string): Observable<Cliente[]>{
+    return this.http.get<Cliente[]>(`${this.urlApi}${'clientebyname/'}${Nombre}`)
+ }
 
 
   
@@ -169,6 +177,10 @@ saveEmpleado(empleado: Empleado): Observable<Empleado>{
 
      DeleteProductodeFactura(NumeroFactura: number, IdProducto:number): Observable<void>{
       return this.http.delete<void>(`${this.urlApi}${'eliminarproducto/'}${NumeroFactura}${'/'}${IdProducto}`)
+     }
+
+     DeleteFactura(NumFactura:number): Observable<void>{
+      return this.http.delete<void>(`${this.urlApi}${'eliminarfactura/'}${NumFactura}`)
      }
 
   private handleError(error: any): Observable<any> {

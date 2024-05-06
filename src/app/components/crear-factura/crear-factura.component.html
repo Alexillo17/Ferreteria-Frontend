@@ -5,15 +5,22 @@
       <h3 class="titulo">Datos Factura</h3>
       <div class="cliente">
         <div class="form-group form-cliente">
-            <div class="row title">
-              <div class="col">
-                <label for="exampleInputEmail1">Cedula</label>
-                <input (input)="verificarCampos()" (input)="ObtenerClienteporCedula()" type="text" class="form-control input-reducido" id="formGroupExampleInput" placeholder="Cedula"  [(ngModel)]="CEDULA" maxlength="16"> 
-                <div class="warning" *ngIf="form.get('Cedula')?.hasError('cedulaInvalida') && form.get('Cedula')?.touched">
-                  La cédula no es válida.
-                </div>
+          <div class="row title">
+            <div class="col">
+              <label for="exampleInputEmail1">Cedula</label>
+              <input (input)="ObtenerClienteporCedula()" 
+                     type="text" 
+                     class="form-control input-reducido" 
+                     id="formGroupExampleInput" 
+                     placeholder="Cedula"  
+                     [(ngModel)]="CEDULA" 
+                     maxlength="16"
+                     [ngClass]="{ 'is-invalid': !validarFormatoCedula() && CEDULA }"> 
+              <div class="warning" *ngIf="!validarFormatoCedula() && CEDULA">
+                La cédula no es válida.
               </div>
             </div>
+          </div>
           <div>
             <p class="mt-3 mb-0">
               Fecha:  {{fechaActual | date: 'dd/MM/yyyy'}}
@@ -23,11 +30,20 @@
         <div class="form-group form-cliente mt-3"> 
           <div>
             <label for="formGroupExampleInput2" class="mb-2">Nombre</label>
-            <input [disabled]="Camposseteados" (input)="verificarCampos()" type="text" class="form-control input-reducido" id="formGroupExampleInput2" placeholder="Nombre"  [(ngModel)]="NOMBRE">
+            <input [disabled]="Camposseteados" 
+                   (input)="verificarCampos()" 
+                   type="text" 
+                   class="form-control input-reducido" 
+                   id="formGroupExampleInput2" 
+                   placeholder="Nombre" 
+                   [(ngModel)]="NOMBRE">
           </div>
           <div>
             <label for="formGroupExampleInput2" class="mb-2">Empleado</label>
-            <select class="form-select" aria-label="Default select example"  [(ngModel)]="Empleado" (change)="verificarCampos()">
+            <select class="form-select" 
+                    aria-label="Default select example"  
+                    [(ngModel)]="Empleado" 
+                    (change)="verificarCampos()">
               <option value="" disabled selected>Selecciona un empleado</option>
               <option *ngFor="let empleado of empleado_result" [ngValue]="empleado.IDEMPLEADO">{{empleado.Nombre}}</option>
             </select>          
@@ -36,10 +52,21 @@
         <div class="form-group form-cliente mt-3">
           <div>
             <label for="formGroupExampleInput3" class="mb-2">Apellido</label>
-            <input [disabled]="Camposseteados" (input)="verificarCampos()" type="text" class="form-control input-reducido" id="formGroupExampleInput3" placeholder="Apellido"  [(ngModel)]="APELLIDO">
+            <input [disabled]="Camposseteados" 
+                   (input)="verificarCampos()" 
+                   type="text" 
+                   class="form-control input-reducido" 
+                   id="formGroupExampleInput3" 
+                   placeholder="Apellido"  
+                   [(ngModel)]="APELLIDO">
             <div class="botonagregar">
-              <button (click)="Crearcliente()"  type="button" class="btn btn-primary" [disabled]="DatosCliente != null">Crear Cliente</button>
-            </div>
+              <button (click)="Crearcliente()" 
+                      type="button" 
+                      class="btn btn-primary" 
+                      [disabled]="!camposLlenos || !CEDULA"> <!-- Modificado: agregar condición !CEDULA -->
+                Crear Cliente
+              </button>
+            </div>        
           </div>    
         </div>
       </div>
@@ -47,10 +74,21 @@
       </div>
       <div>
         <div class="botonagregar">
-          <button (click)="CrearFactura()"  type="button" class="btn btn-success" [disabled]="!camposLlenos" [hidden]="!MostrarCrearFactura">Agregar Producto</button>
+          <button (click)="CrearFactura()"  
+                  type="button" 
+                  class="btn btn-success" 
+                  [disabled]="!camposLlenos" 
+                  [hidden]="!MostrarCrearFactura">
+            Agregar Producto
+          </button>
         </div>
         <div class="botonagregar" *ngIf="!MostrarCrearFactura">
-            <button (click)="OpenAddProductFactura()" type="button" class="btn btn-success" [disabled]="!camposLlenos">Agregar Producto</button>
+          <button (click)="OpenAddProductFactura()" 
+                  type="button" 
+                  class="btn btn-success" 
+                  [disabled]="!camposLlenos">
+            Agregar Producto
+          </button>
         </div>
       </div>
       <div class="tablasfactura">
@@ -68,13 +106,17 @@
             <tbody>
               <tr *ngFor="let detallefactura of factura_resultbyID">
                 <td>{{detallefactura.Producto}}</td>
-                <td>
-                {{detallefactura.Cantidad}}
-                </td>
+                <td>{{detallefactura.Cantidad}}</td>
                 <td>C${{detallefactura.Precio}}</td>
                 <td>C${{detallefactura.Total}}</td>
                 <td>
-                  <abbr title="Eliminar"><button (click)="EliminarProducto(detallefactura.NumeroFactura, detallefactura.IdProducto)" type="button" class="btn btn-danger clean-buttom"><img src="../../../assets/img/basura (2) (2).png"></button></abbr>
+                  <abbr title="Eliminar">
+                    <button (click)="EliminarProducto(detallefactura.NumeroFactura, detallefactura.IdProducto)" 
+                            type="button" 
+                            class="btn btn-danger clean-buttom">
+                      <img src="../../../assets/img/basura (2) (2).png">
+                    </button>
+                  </abbr>
                 </td>
               </tr>
               <tr *ngIf="TotalSum > 0 ">
@@ -89,7 +131,14 @@
         </div>
       </div>
       <div class="botonagregar">
-        <button routerLink="/list-factura" type="button" class="btn btn-secondary">Terminar Factura</button>
+        <button [disabled]="!camposLlenos || factura_resultbyID === undefined || factura_resultbyID.length === 0" 
+                (click)="TerminarFactura()" 
+                type="button" 
+                class="btn btn-secondary">
+          Terminar Factura
+        </button>
+        
+            <button (click)="CancelarFactura()" class="btn btn-danger">Cancelar Factura</button>
       </div>
     </div>
   </div>

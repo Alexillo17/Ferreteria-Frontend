@@ -32,14 +32,21 @@ export class AddProductofacturaComponent {
     this.MostrarUltimaFactura();
   }
 
-  MostrarUltimaFactura(){
-    this._FacturaService.getUltimaFactura().subscribe(numfactura =>{
-      this.Detallefactura = numfactura
-      console.log(numfactura);
-    })
+  async MostrarUltimaFactura() {
+    try {
+        const numfactura = await this._FacturaService.getUltimaFactura().toPromise();
+        if (numfactura) {
+            this.Detallefactura = numfactura;
+            console.log(numfactura);
+        } else {
+            console.error("El valor devuelto por el servicio es undefined.");
+        }
+    } catch (error) {
+        console.error("Error al obtener la última factura:", error);
+    }
+}
 
-  }
-    
+
 
   MostrarAllProductos(){
     this._ProductService.getAllProducts().subscribe(product_result =>{

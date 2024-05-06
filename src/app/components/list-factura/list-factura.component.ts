@@ -38,6 +38,7 @@ export class ListFacturaComponent {
    this._FacturaService.getFactura(pageNumber,pageSize).subscribe((result: FacturaRoot) =>{
     this.factura_result = result;
     this.dataSource.data = result.facturas
+    debugger
    })
   
   }

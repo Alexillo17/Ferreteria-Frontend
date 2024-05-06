@@ -3,4 +3,5 @@ export interface Cliente {
     Nombre: string
     Apellido: string
     Cedula: string
+    Estado: string
 }
