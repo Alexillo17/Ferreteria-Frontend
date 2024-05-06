@@ -63,7 +63,7 @@
               <button (click)="Crearcliente()" 
                       type="button" 
                       class="btn btn-primary" 
-                      [disabled]="!camposLlenos || !CEDULA"> <!-- Modificado: agregar condición !CEDULA -->
+                      [disabled]="!CEDULA || !NOMBRE || !APELLIDO"> <!-- Modificado: agregar condición !CEDULA -->
                 Crear Cliente
               </button>
             </div>        
@@ -77,7 +77,7 @@
           <button (click)="CrearFactura()"  
                   type="button" 
                   class="btn btn-success" 
-                  [disabled]="!camposLlenos" 
+                  [disabled]="!CEDULA || !NOMBRE || !APELLIDO || !Empleado" 
                   [hidden]="!MostrarCrearFactura">
             Agregar Producto
           </button>

@@ -274,23 +274,24 @@ TerminarFactura(){
   });
 }
 
-CancelarFactura(): void{
-  this.dialogRef.open(ModalAlertComponent,{
+
+//Cancelar una factura y validado tanto si la factura ya fue creada o si no
+CancelarFactura(): void {
+  this.dialogRef.open(ModalAlertComponent, {
     disableClose: true
-  }).afterClosed().subscribe((confirmado: boolean)=>{
-    if(confirmado){
-      if(this.Detallefactura[0].NUMEROFACTURA > 0){
-         this._FacturaService.DeleteFactura(this.Detallefactura[0].NUMEROFACTURA).subscribe(()=>{
-          this.router.navigate(['/list-factura'])
-        })
+  }).afterClosed().subscribe((confirmado: boolean) => {
+    if (confirmado) {
+      if (this.Detallefactura[0] && this.Detallefactura[0].NUMEROFACTURA) { // Verifica si this.Detallefactura[0] y this.Detallefactura[0].NUMEROFACTURA están definidos
+        this._FacturaService.DeleteFactura(this.Detallefactura[0].NUMEROFACTURA).subscribe(() => {
+          this.router.navigate(['/list-factura']);
+        });
+      } else {
+        this.router.navigate(['/list-factura']);
       }
-      else{
-        this.router.navigate(['/list-factura'])
-      } 
-    }else{
+    } else {
       return;
     }
-  })
+  });
 }
 
 OpenAddCliente(): void {
