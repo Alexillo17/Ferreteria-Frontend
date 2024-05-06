@@ -53,6 +53,14 @@ export class ApiService {
     return this.http.get<Cliente[]>(`${this.urlApi}${'clientebyname/'}${Nombre}`)
  }
 
+ getclientesInactivosbyname(Nombre: string): Observable<Cliente[]>{
+  return this.http.get<Cliente[]>(`${this.urlApi}${'clienteinactivosbyname/'}${Nombre}`)
+}
+
+deletecliente(IDCLIENTE: number,cliente: Cliente): Observable<Cliente>{
+  return this.http.put<Cliente>(`${this.urlApi}${'eliminarcliente/'}${IDCLIENTE}`,cliente)
+}
+
 
   
 
@@ -94,6 +102,11 @@ savecategoria(categoria: Categoria): Observable<Categoria>{
     return this.http.get<Root>(URL);
   }
 
+  public getProductsInactivos(pageNumber: number, pageSize: number): Observable<Root>{
+    const URL = `${this.urlApi + 'productsinactivos'}?pageNumber=${pageNumber}&pageSize=${pageSize}`;
+    return this.http.get<Root>(URL);
+  }
+
   public getProductibyID(IDPRODUCTO: number):Observable<Producto>{
     return this.http.get<Producto>(`${this.urlApi}${'products/'}${IDPRODUCTO}`)
   }
@@ -108,8 +121,18 @@ savecategoria(categoria: Categoria): Observable<Categoria>{
     return this.http.put<Producto>(`${this.urlApi}${'updateproduct/'}${IDPRODUCTO}`,product)
   }
 
+  deleteproducto(IDPRODUCTO: number,product: Producto): Observable<Producto>{
+    return this.http.put<Producto>(`${this.urlApi}${'EliminarProducto/'}${IDPRODUCTO}`,product)
+  }
+
+
   getproductbyname(pageNumber: number, pageSize: number, NOMBRE: string): Observable<Root> {
     const URL = `${this.urlApi}buscarproducts/${NOMBRE}?pageNumber=${pageNumber}&pageSize=${pageSize}`;
+    return this.http.get<Root>(URL);
+  }
+
+  getproductInactivosbyname(pageNumber: number, pageSize: number, NOMBRE: string): Observable<Root> {
+    const URL = `${this.urlApi}buscarproductsinactivos/${NOMBRE}?pageNumber=${pageNumber}&pageSize=${pageSize}`;
     return this.http.get<Root>(URL);
   }
 
@@ -129,6 +152,11 @@ savecategoria(categoria: Categoria): Observable<Categoria>{
     return this.http.get<Empleado[]>(this.urlApi + 'empleados')
   }
 
+  public getEmpleadosInactivos(): Observable<Empleado[]>{
+    return this.http.get<Empleado[]>(this.urlApi + 'empleadosinactivos')
+  }
+
+
   public getEmpleadobyID(IDEMPLEADO: number):Observable<Empleado>{
     return this.http.get<Empleado>(`${this.urlApi}${'empleados/'}${IDEMPLEADO}`)
 }
@@ -146,6 +174,11 @@ saveEmpleado(empleado: Empleado): Observable<Empleado>{
   getEmpleadobyCedula(Cedula: string): Observable<Empleado>{
     return this.http.get<Empleado>(`${this.urlApi}${'empleadocedula/'}${Cedula}`)
   }
+
+  deleteEmpleado(IDEMPLEADO: number,empleado: Empleado): Observable<Empleado>{
+    return this.http.put<Empleado>(`${this.urlApi}${'eliminarempleado/'}${IDEMPLEADO}`,empleado)
+  }
+  
 
 
 

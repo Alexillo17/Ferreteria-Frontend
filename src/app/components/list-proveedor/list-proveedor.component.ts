@@ -86,6 +86,7 @@ toggleProveedorList() {
         console.log('Proveedor Eliminado');
         this.OpenDeleteProveedor();
       });
+      debugger
     }
   }
 

@@ -43,6 +43,13 @@
               <input formControlName="Telefono" type="number" class="form-control custom-border">
             </div>
           </div>
+          <div class="col">
+            <label for="exampleInputEmail1">Estado</label>
+            <select formControlName="Estado" class="form-select custom-border" aria-label="Default select example">
+              <option value="Activo">Activo</option>
+              <option value="Inactivo">Inactivo</option>
+            </select>
+          </div>  
           <div class="d-grid gap-2 col-6 mx-auto custom-spaceM">
             <button type="submit" [disabled]="!todosCamposCompletos()" class="btn btn-primary">{{ Accion }}</button>
           </div>

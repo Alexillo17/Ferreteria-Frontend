@@ -5,6 +5,9 @@
       <h2>Lista de Empleados</h2>
       <div class="mat-elevation-z8 listempleado">
         <div class="headertitlebottom">
+          <section class="example-section">
+          <mat-checkbox [(ngModel)]="checkbox" (change)="toggleClienteList()" class="example-margin">Mostrar Inactivos</mat-checkbox>
+        </section>
             <button (click)="OpenAddEmpleado()" class="btn btn-success buttonadd">Agregar Empleado</button>
           </div>
         <table class="table table-striped">
@@ -15,6 +18,7 @@
               <th  scope="col">Apellido</th>
               <th  scope="col">Telefono</th>
               <th  scope="col">Cedula</th>
+              <th  scope="col">Estado</th>
               <th  scope="col">Acciones</th>
             </tr>
           </thead>
@@ -25,9 +29,10 @@
               <td>{{empleado.Apellido}}</td>
               <td>{{empleado.Telefono}}</td>
               <td>{{empleado.Cedula}}</td>
+              <td>{{empleado.Estado}}</td>
               <td>
                 <abbr title="Editar"><button (click)="OpenEditEmpleado(empleado.IDEMPLEADO)" type="button" class="btn btn-primary clean-buttom"><img src="../../../assets/img/editar.png"></button></abbr> 
-                <abbr title="Eliminar"><button type="button" class="btn btn-danger clean-buttom"><img src="../../../assets/img/basura (2) (2).png"></button></abbr>
+                <abbr title="Eliminar"><button (click)="DeleteCliente(empleado)" type="button" class="btn btn-danger clean-buttom"><img src="../../../assets/img/basura (2) (2).png"></button></abbr>
               </td>
             </tr>
           </tbody>

@@ -36,6 +36,7 @@ export class AddEditEmpleadoComponent {
       Apellido: ['',Validators.required],
       Telefono: ['',Validators.required],
       Cedula: ['', [Validators.required], [this.validarCedula.bind(this)]],
+      Estado: ['',Validators.required]
     })
 
      this.IDEMPLEADO = data?.IDEMPLEADO || 0;
@@ -90,6 +91,7 @@ export class AddEditEmpleadoComponent {
         Apellido: this.editdata.Apellido,
         Telefono: this.editdata.Telefono,
         Cedula: this.editdata.Cedula,
+        Estado: this.editdata.Estado
       })
       debugger;
     })   
@@ -101,6 +103,7 @@ export class AddEditEmpleadoComponent {
     const apellido = this.form.value.Apellido;
     const telefono = this.form.value.Telefono;
     const cedula = this.form.value.Cedula;
+    const estado = this.form.value.Estado
 
     if(!idempleado || !nombre || !telefono || !cedula){
       console.error('Relleno los campos')
@@ -112,7 +115,8 @@ export class AddEditEmpleadoComponent {
       Nombre: nombre,
       Apellido: apellido,
       Telefono: telefono,
-      Cedula: cedula
+      Cedula: cedula,
+      Estado: estado
      }
      debugger
 

@@ -4,4 +4,5 @@ export interface Empleado {
     Apellido: string
     Cedula: string
     Telefono: number
+    Estado: string
 }

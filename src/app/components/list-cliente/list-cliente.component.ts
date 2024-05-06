@@ -4,6 +4,7 @@ import { Cliente } from 'src/app/interfaces/cliente';
 
 import { ApiService } from 'src/app/service/api.service';
 import { AddEditClienteComponent } from '../add-edit-cliente/add-edit-cliente.component';
+import { ModalCompletadoComponent } from '../modal-completado/modal-completado.component';
 
 @Component({
   selector: 'app-list-cliente',
@@ -32,6 +33,7 @@ export class ListClienteComponent {
   MostrarClientes() {
     this._ClienteService.getClientes().subscribe(clientes => {
       this.cliente_result = clientes;
+      console.log(clientes)
     });
   }
 
@@ -51,10 +53,23 @@ export class ListClienteComponent {
   }
   
   BuscarClientebyName(){
-    this._ClienteService.getclientesbyname(this.Nombre).subscribe((cliente: Cliente[])=>{
+    if(this.Nombre === ''){
+      this.busquedarealizada = false
+    }
+    else{
+      if (this.checkbox) {
+        this._ClienteService.getclientesInactivosbyname(this.Nombre).subscribe((cliente: Cliente[])=>{
+          this.clientesbyname = cliente;
+          this.busquedarealizada = true
+        })
+      } else {
+   this._ClienteService.getclientesbyname(this.Nombre).subscribe((cliente: Cliente[])=>{
       this.clientesbyname = cliente;
       this.busquedarealizada = true
     })
+      }
+   
+    }
   }
 
 
@@ -82,4 +97,35 @@ export class ListClienteComponent {
     });
   }
 
+  DeleteCliente(cliente: Cliente): void {
+    if(cliente.Estado === 'Inactivo'){
+      return;
+    }
+    else{
+      if (cliente !== undefined && cliente !== null && cliente.IDCLIENTE !== undefined && cliente.IDCLIENTE !== null) {
+      this._ClienteService.deletecliente(cliente.IDCLIENTE, cliente).subscribe(() => {
+        console.log('Cliente Eliminado');
+        this.OpenDeleteCliente();
+      });
+      debugger
+    }
+    }
+  }
+
+  OpenDeleteCliente(): void {
+    this.dialogRef.open(ModalCompletadoComponent, {
+      data: {
+        TituloModalAccion: 'dado de baja',
+        TituloModal: 'Cliente',
+      }
+    }).afterClosed().subscribe(()=>{
+      if (this.checkbox) {
+        this.MostrarClientesInactivos();
+      } else {
+        this.MostrarClientes();
+      }
+    });
+    
+  }
+  
 }

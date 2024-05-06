@@ -6,6 +6,7 @@ import { AddProductComponent } from '../add-product/add-product.component';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { EditProductComponent } from '../edit-product/edit-product.component';
+import { ModalCompletadoComponent } from '../modal-completado/modal-completado.component';
 
 @Component({
   selector: 'app-list-product',
@@ -15,12 +16,12 @@ import { EditProductComponent } from '../edit-product/edit-product.component';
 export class ListProductComponent implements OnInit, AfterViewInit {
 
   product_result: Root | undefined;
+  checkbox: boolean = false
   productosbyname: Root | undefined;
   busquedarealizada: boolean = false;
   dataSource = new MatTableDataSource<Producto>();
   NOMBRE: string = '';
   loading: boolean = false 
-  
 
   @ViewChild('paginator') paginator!: MatPaginator;
 
@@ -34,12 +35,36 @@ export class ListProductComponent implements OnInit, AfterViewInit {
     this.MostrarProductos(1, 10);
   }
 
+  toggleClienteList() {
+    if (this.checkbox) {
+      this.MostrarProductosInactivos(this.paginator.pageIndex + 1, this.paginator.pageSize)
+    } else {
+      this.MostrarProductos(this.paginator.pageIndex + 1, this.paginator.pageSize);
+    }
+  }
+
   MostrarProductos(pageNumber: number, pageSize: number): void {
     this.productservice.getProducts(pageNumber, pageSize).subscribe((result: Root) => {
       this.product_result = result;
       this.dataSource.data = result.products;
     });
   }
+
+  MostrarProductosInactivos(pageNumber: number, pageSize: number): void {
+    this.productservice.getProductsInactivos(pageNumber, pageSize).subscribe((result: Root) => {
+      this.product_result = result;
+      this.dataSource.data = result.products;
+    });
+  }
+
+  toggleProveedorList() {
+    if (this.checkbox) {
+      
+    } else {
+      
+    }
+  }
+
 
   OpenAddProduct(): void {
     this.dialogRef.open(AddProductComponent,{
@@ -68,12 +93,22 @@ export class ListProductComponent implements OnInit, AfterViewInit {
     if (this.NOMBRE === '') {
       this.busquedarealizada = false;
     } else {
-      this.productservice.getproductbyname(pageNumber, pageSize, this.NOMBRE).subscribe((producto: Root) =>{
+      if (this.checkbox) {
+        this.productservice.getproductInactivosbyname(pageNumber, pageSize, this.NOMBRE).subscribe((producto: Root) =>{
+          this.productosbyname = producto;
+          this.busquedarealizada = true;
+          this.dataSource.data = producto.products; 
+          console.log(producto);
+        });
+      } else {
+        this.productservice.getproductbyname(pageNumber, pageSize, this.NOMBRE).subscribe((producto: Root) =>{
         this.productosbyname = producto;
         this.busquedarealizada = true;
         this.dataSource.data = producto.products; 
         console.log(producto);
       });
+      }
+      
     }
   }
 
@@ -84,4 +119,37 @@ export class ListProductComponent implements OnInit, AfterViewInit {
       this.MostrarProductos(this.paginator.pageIndex + 1, this.paginator.pageSize);
     }
   }
+
+  DeleteProducto(producto: Producto): void {
+    if(producto.ESTADO === 'Agotado'){
+      return;
+    }
+    else{
+      if (producto !== undefined && producto !== null && producto.IDPRODUCTO !== undefined && producto.IDPRODUCTO !== null) {
+      this.productservice.deleteproducto(producto.IDPRODUCTO, producto).subscribe(() => {
+        console.log('Empleado Eliminado');
+        this.OpenDeleteProducto()
+      });
+      debugger
+    }
+    }
+  }
+
+  OpenDeleteProducto(): void {
+    this.dialogRef.open(ModalCompletadoComponent, {
+      data: {
+        TituloModalAccion: 'dado de baja',
+        TituloModal: 'Producto',
+      }
+    }).afterClosed().subscribe(()=>{
+      if (this.checkbox) {
+        this.MostrarProductosInactivos(this.paginator.pageIndex + 1, this.paginator.pageSize)
+      } else {
+        this.MostrarProductos(this.paginator.pageIndex + 1, this.paginator.pageSize);
+      }
+    });
+    
+  }
+    
+
 }

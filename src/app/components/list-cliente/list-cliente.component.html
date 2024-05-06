@@ -8,7 +8,6 @@
           <input (input)="BuscarClientebyName()" class="form-control mr-sm-2" type="search" placeholder="Buscar..." aria-label="Search" [(ngModel)]="Nombre">
         </div>
         <section class="example-section">
-          <!-- Agrega [(ngModel)] para enlazar el valor del checkbox con la propiedad checkbox -->
           <mat-checkbox [(ngModel)]="checkbox" (change)="toggleClienteList()" class="example-margin">Mostrar Inactivos</mat-checkbox>
         </section>
         <button (click)="OpenAddCliente()" class="btn btn-success buttonadd">Agregar Cliente</button>
@@ -24,7 +23,6 @@
           </tr>
         </thead>
         <tbody>
-          <!-- Mostrar la lista de clientes original si no se está buscando -->
           <ng-container *ngIf="!busquedarealizada">
             <tr class="centertabledata" *ngFor="let cliente of (checkbox ? cliente_resultDis : cliente_result)">
               <td>{{cliente.Nombre}}</td>
@@ -33,7 +31,7 @@
               <td>{{cliente.Estado}}</td>
               <td>
                 <abbr title="Editar"><button (click)="OpenEditCliente(cliente.IDCLIENTE)" type="button" class="btn btn-primary clean-buttom"><img src="../../../assets/img/editar.png"></button></abbr> 
-                <abbr title="Eliminar"><button type="button" class="btn btn-danger clean-buttom"><img src="../../../assets/img/basura (2) (2).png"></button></abbr>
+                <abbr title="Eliminar"><button (click)="DeleteCliente(cliente)" type="button" class="btn btn-danger clean-buttom"><img src="../../../assets/img/basura (2) (2).png"></button></abbr>
               </td>
             </tr>
           </ng-container>
@@ -46,7 +44,7 @@
               <td>{{cliente.Estado}}</td>
               <td>
                 <abbr title="Editar"><button (click)="OpenEditCliente(cliente.IDCLIENTE)" type="button" class="btn btn-primary clean-buttom"><img src="../../../assets/img/editar.png"></button></abbr> 
-                <abbr title="Eliminar"><button type="button" class="btn btn-danger clean-buttom"><img src="../../../assets/img/basura (2) (2).png"></button></abbr>
+                <abbr title="Eliminar"><button (click)="DeleteCliente(cliente)" type="button" class="btn btn-danger clean-buttom"><img src="../../../assets/img/basura (2) (2).png"></button></abbr>
               </td>
             </tr>
           </ng-container>

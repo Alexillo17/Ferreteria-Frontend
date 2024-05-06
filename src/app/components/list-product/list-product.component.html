@@ -7,7 +7,9 @@
         <div class="searchbar">
           <input (input)="MostraProductosPorNombre(paginator.pageIndex + 1, paginator.pageSize)" class="form-control mr-sm-2" type="search" placeholder="Buscar..." aria-label="Search" [(ngModel)]="NOMBRE">
         </div>
-        
+        <section class="example-section">
+          <mat-checkbox [(ngModel)]="checkbox" (change)="toggleClienteList()" class="example-margin">Mostrar Inactivos</mat-checkbox>
+        </section>
         <button class="btn btn-success buttonadd" (click)="OpenEditProduct()">Agregar Producto</button>
       </div>
       <table class="table table-striped">
@@ -33,7 +35,7 @@
               <td>{{productobyname.IDPROVEEDOR}}</td>
               <td>
                 <abbr title="Editar"><button (click)="OpenEditProduct(productobyname.IDPRODUCTO)" type="button" class="btn btn-primary clean-buttom"><img src="../../../assets/img/editar.png"></button></abbr> 
-                <abbr title="Eliminar"><button type="button" class="btn btn-danger clean-buttom"><img src="../../../assets/img/basura (2) (2).png"></button></abbr>
+                <abbr title="Eliminar"><button (click)="DeleteProducto(productobyname)" type="button" class="btn btn-danger clean-buttom"><img src="../../../assets/img/basura (2) (2).png"></button></abbr>
               </td>
             </tr>
           </ng-container>
@@ -47,7 +49,7 @@
               <td>{{producto.IDPROVEEDOR}}</td>
               <td>
                 <abbr title="Editar"><button (click)="OpenEditProduct(producto.IDPRODUCTO)" type="button" class="btn btn-primary clean-buttom"><img src="../../../assets/img/editar.png"></button></abbr> 
-                <abbr title="Eliminar"><button type="button" class="btn btn-danger clean-buttom"><img src="../../../assets/img/basura (2) (2).png"></button></abbr>
+                <abbr title="Eliminar"><button (click)="DeleteProducto(producto)" type="button" class="btn btn-danger clean-buttom"><img src="../../../assets/img/basura (2) (2).png"></button></abbr>
               </td>
               
             </tr>
