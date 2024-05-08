@@ -5,8 +5,9 @@
     <div class="mat-elevation-z8 listproduct">
       <div class="headertitlebottom">
         <div class="searchbar">
-          <input (input)="BuscarClientebyName()" class="form-control mr-sm-2" type="search" placeholder="Buscar..." aria-label="Search" [(ngModel)]="Nombre">
+          <input class="form-control mr-sm-2" type="search" placeholder="Buscar..." aria-label="Search" [(ngModel)]="Nombre">
         </div>
+        <button (click)="BuscarClientebyName()" type="button" class="btn btn-success"><img src="../../../assets/img/buscar (1).png"></button>
         <section class="example-section">
           <mat-checkbox [(ngModel)]="checkbox" (change)="toggleClienteList()" class="example-margin">Mostrar Inactivos</mat-checkbox>
         </section>

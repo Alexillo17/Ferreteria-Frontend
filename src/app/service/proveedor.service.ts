@@ -8,7 +8,7 @@ import { Proveedor } from '../interfaces/proveedor';
 })
 export class ProveedorService {
 
-  private urlApi = 'http://localhost:3000/api/'
+  private urlApi = 'http://localhost:3000/proveedor/'
 
   constructor(private http: HttpClient) { }
 

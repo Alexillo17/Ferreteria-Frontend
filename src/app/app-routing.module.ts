@@ -12,10 +12,12 @@ import { DetalleFacturaComponent } from './components/detalle-factura/detalle-fa
 import { CrearFacturaComponent } from './components/crear-factura/crear-factura.component';
 import { AddProductofacturaComponent } from './components/add-productofactura/add-productofactura.component';
 import { ListClienteComponent } from './components/list-cliente/list-cliente.component';
+import { HomeComponent } from './components/home/home.component';
 
 const routes: Routes = [
-{path: '', redirectTo: 'list-product', pathMatch: 'full'},
+{path: '', redirectTo: 'home', pathMatch: 'full'},
 {path: 'add-product', component: AddProductComponent},
+{path: 'home', component: HomeComponent},
 {path: 'edit-product/:IDPRODUCTO', component: AddProductComponent},
 {path: 'list-product', component: ListProductComponent},
 {path: 'nav-bar', component: NavBarComponent},

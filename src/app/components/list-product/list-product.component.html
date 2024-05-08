@@ -5,10 +5,11 @@
     <div *ngIf="!loading" class="mat-elevation-z8 listproduct">
       <div class="headertitlebottom">
         <div class="searchbar">
-          <input (input)="MostraProductosPorNombre(paginator.pageIndex + 1, paginator.pageSize)" class="form-control mr-sm-2" type="search" placeholder="Buscar..." aria-label="Search" [(ngModel)]="NOMBRE">
+          <input class="form-control mr-sm-2" type="search" placeholder="Buscar..." aria-label="Search" [(ngModel)]="NOMBRE">
         </div>
+        <button (click)="MostraProductosPorNombre(paginator.pageIndex + 1, paginator.pageSize)" type="button" class="btn btn-success"><img src="../../../assets/img/buscar (1).png"></button>
         <section class="example-section">
-          <mat-checkbox [(ngModel)]="checkbox" (change)="toggleClienteList()" class="example-margin">Mostrar Inactivos</mat-checkbox>
+          <mat-checkbox [(ngModel)]="checkbox" (change)="toggleProductoList()" class="example-margin">Mostrar Inactivos</mat-checkbox>
         </section>
         <button class="btn btn-success buttonadd" (click)="OpenEditProduct()">Agregar Producto</button>
       </div>
@@ -29,7 +30,7 @@
             <tr *ngFor="let productobyname of productosbyname?.products" class="centertabledata">
               <td>{{productobyname.NOMBRE}}</td>
               <td>{{productobyname.UNIDADES}}</td>
-              <td>{{productobyname.PRECIO}}</td>
+              <td>C${{productobyname.PRECIO}}</td>
               <td>{{productobyname.ESTADO}}</td>
               <td>{{productobyname.IDCATEGORIA}}</td>
               <td>{{productobyname.IDPROVEEDOR}}</td>
@@ -39,11 +40,11 @@
               </td>
             </tr>
           </ng-container>
-          <ng-container *ngIf="!busquedarealizada">
+          <ng-container *ngIf="!busquedarealizada && !checkbox">
             <tr *ngFor="let producto of product_result?.products" class="centertabledata">
               <td>{{producto.NOMBRE}}</td>
               <td>{{producto.UNIDADES}}</td>
-              <td>{{producto.PRECIO}}</td>
+              <td>C${{producto.PRECIO}}</td>
               <td>{{producto.ESTADO}}</td>
               <td>{{producto.IDCATEGORIA}}</td>
               <td>{{producto.IDPROVEEDOR}}</td>
@@ -54,13 +55,33 @@
               
             </tr>
           </ng-container>
+          <ng-container *ngIf="!busquedarealizada && checkbox">
+            <tr *ngFor="let producto of productagotado_result?.products" class="centertabledata">
+              <td>{{producto.NOMBRE}}</td>
+              <td>{{producto.UNIDADES}}</td>
+              <td>C${{producto.PRECIO}}</td>
+              <td>{{producto.ESTADO}}</td>
+              <td>{{producto.IDCATEGORIA}}</td>
+              <td>{{producto.IDPROVEEDOR}}</td>
+              <td>
+                <abbr title="Editar"><button (click)="OpenEditProduct(producto.IDPRODUCTO)" type="button" class="btn btn-primary clean-buttom"><img src="../../../assets/img/editar.png"></button></abbr> 
+                <abbr title="Eliminar"><button (click)="DeleteProducto(producto)" type="button" class="btn btn-danger clean-buttom"><img src="../../../assets/img/basura (2) (2).png"></button></abbr>
+              </td>
+            </tr>
+          </ng-container>
         </tbody>
+        <tfoot *ngIf="!busquedarealizada && !NOMBRE && (!product_result || product_result.products.length === 0)">
+          <tr>
+            <td colspan="7" class="text-center">No se encontraron productos</td>
+          </tr>
+        </tfoot>                     
       </table>
-      <mat-paginator #paginator [length]="busquedarealizada ? (productosbyname?.totalItems || 0) : (product_result?.totalItems || 0)"
-                     [pageSize]="10"
-                     [pageSizeOptions]="[5, 10]"
-                     (page)="cambiarPagina()">
-      </mat-paginator>
+      <mat-paginator #paginator [length]="busquedarealizada ? (productosbyname?.totalItems || 0) : (checkbox ? (productagotado_result?.totalItems || 0) : (product_result?.totalItems || 0))"
+      [pageSize]="10"
+      [pageSizeOptions]="[5, 10]"
+      (page)="cambiarPagina($event)">
+</mat-paginator>
+
     </div>
   </div>
 </div>

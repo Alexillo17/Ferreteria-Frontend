@@ -30,6 +30,7 @@ import { ListClienteComponent } from './components/list-cliente/list-cliente.com
 import { AddEditCategoriaComponent } from './components/add-edit-categoria/add-edit-categoria.component';
 import { AddEditClienteComponent } from './components/add-edit-cliente/add-edit-cliente.component';
 import { ModalAlertComponent } from './components/modal-alert/modal-alert.component';
+import { HomeComponent } from './components/home/home.component';
 
 
 @NgModule({
@@ -53,7 +54,8 @@ import { ModalAlertComponent } from './components/modal-alert/modal-alert.compon
     ListClienteComponent,
     AddEditCategoriaComponent,
     AddEditClienteComponent,
-    ModalAlertComponent
+    ModalAlertComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,

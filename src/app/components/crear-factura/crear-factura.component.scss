@@ -1,5 +1,6 @@
 .body {
   height: 100%;
+  background-color: #D0D0D0 ;
 }
 
 .factura {
@@ -11,6 +12,7 @@
   flex-direction: column; /* Establece la dirección del flex a columna */
   margin-top: 10px; 
   border: 2px solid #275DAD;
+  background-color: white ;
   width: 80%;
 }
 

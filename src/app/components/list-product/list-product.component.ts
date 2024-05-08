@@ -16,12 +16,14 @@ import { ModalCompletadoComponent } from '../modal-completado/modal-completado.c
 export class ListProductComponent implements OnInit, AfterViewInit {
 
   product_result: Root | undefined;
+  productagotado_result: Root | undefined;
   checkbox: boolean = false
   productosbyname: Root | undefined;
   busquedarealizada: boolean = false;
   dataSource = new MatTableDataSource<Producto>();
   NOMBRE: string = '';
   loading: boolean = false 
+  productosEncontrados: boolean = true;
 
   @ViewChild('paginator') paginator!: MatPaginator;
 
@@ -35,13 +37,25 @@ export class ListProductComponent implements OnInit, AfterViewInit {
     this.MostrarProductos(1, 10);
   }
 
-  toggleClienteList() {
+  toggleProductoList() {
     if (this.checkbox) {
-      this.MostrarProductosInactivos(this.paginator.pageIndex + 1, this.paginator.pageSize)
+      if (this.NOMBRE === '') {
+        this.MostrarProductosInactivos(1, this.paginator.pageSize); // Mostrar productos inactivos si el checkbox está marcado
+      } else {
+        this.MostraProductosPorNombre(1, this.paginator.pageSize); // Mostrar productos inactivos filtrados por nombre
+      }
     } else {
-      this.MostrarProductos(this.paginator.pageIndex + 1, this.paginator.pageSize);
+      if (this.NOMBRE === '') {
+        this.NOMBRE === '';
+        this.busquedarealizada = false;
+        this.MostrarProductos(1, this.paginator.pageSize); // Mostrar productos activos si el checkbox está desmarcado
+      } else {
+        this.busquedarealizada = false;
+        this.MostraProductosPorNombre(1, this.paginator.pageSize); // Mostrar productos activos filtrados por nombre
+      }
     }
   }
+  
 
   MostrarProductos(pageNumber: number, pageSize: number): void {
     this.productservice.getProducts(pageNumber, pageSize).subscribe((result: Root) => {
@@ -52,20 +66,12 @@ export class ListProductComponent implements OnInit, AfterViewInit {
 
   MostrarProductosInactivos(pageNumber: number, pageSize: number): void {
     this.productservice.getProductsInactivos(pageNumber, pageSize).subscribe((result: Root) => {
-      this.product_result = result;
+      this.productagotado_result = result;
       this.dataSource.data = result.products;
     });
   }
 
-  toggleProveedorList() {
-    if (this.checkbox) {
-      
-    } else {
-      
-    }
-  }
-
-
+ 
   OpenAddProduct(): void {
     this.dialogRef.open(AddProductComponent,{
       disableClose: true
@@ -92,31 +98,36 @@ export class ListProductComponent implements OnInit, AfterViewInit {
   MostraProductosPorNombre(pageNumber: number, pageSize: number): void {
     if (this.NOMBRE === '') {
       this.busquedarealizada = false;
+      this.productosEncontrados = true; // No hay búsqueda, por lo tanto, hay productos
     } else {
       if (this.checkbox) {
         this.productservice.getproductInactivosbyname(pageNumber, pageSize, this.NOMBRE).subscribe((producto: Root) =>{
           this.productosbyname = producto;
           this.busquedarealizada = true;
-          this.dataSource.data = producto.products; 
-          console.log(producto);
+          this.productosEncontrados = producto.products.length > 0; // Verificar si se encontraron productos
+          this.dataSource.data = producto.products;
         });
       } else {
         this.productservice.getproductbyname(pageNumber, pageSize, this.NOMBRE).subscribe((producto: Root) =>{
-        this.productosbyname = producto;
-        this.busquedarealizada = true;
-        this.dataSource.data = producto.products; 
-        console.log(producto);
-      });
+          this.productosbyname = producto;
+          this.busquedarealizada = true;
+          this.productosEncontrados = producto.products.length > 0; // Verificar si se encontraron productos
+          this.dataSource.data = producto.products;
+        });
       }
-      
     }
   }
+  
 
-  cambiarPagina() {
+  cambiarPagina(event: any) {
     if (this.busquedarealizada) {
-      this.MostraProductosPorNombre(this.paginator.pageIndex + 1, this.paginator.pageSize);
+      this.MostraProductosPorNombre(event.pageIndex + 1, event.pageSize); // Buscar por nombre con paginación
     } else {
-      this.MostrarProductos(this.paginator.pageIndex + 1, this.paginator.pageSize);
+      if (this.checkbox) {
+        this.MostrarProductosInactivos(event.pageIndex + 1, event.pageSize); // Mostrar productos inactivos
+      } else {
+        this.MostrarProductos(event.pageIndex + 1, event.pageSize); // Mostrar productos activos
+      }
     }
   }
 
@@ -143,9 +154,9 @@ export class ListProductComponent implements OnInit, AfterViewInit {
       }
     }).afterClosed().subscribe(()=>{
       if (this.checkbox) {
-        this.MostrarProductosInactivos(this.paginator.pageIndex + 1, this.paginator.pageSize)
+        this.MostrarProductosInactivos(1, this.paginator.pageSize)
       } else {
-        this.MostrarProductos(this.paginator.pageIndex + 1, this.paginator.pageSize);
+        this.MostrarProductos( 1, this.paginator.pageSize);
       }
     });
     
