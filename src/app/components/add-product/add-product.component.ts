@@ -42,6 +42,7 @@ private dialogRef1: MatDialog,
     Estado: ['',Validators.required],
     Categoria: ['',Validators.required],
     Proveedor: ['',Validators.required],
+    Stock: ['',Validators.required],
   })
 }
 
@@ -76,6 +77,7 @@ CloseAddProduct(): void
     const estado = this.form.value.Estado;
     const categoria = this.form.value.Categoria;
     const proveedor = this.form.value.Proveedor;
+    const stock = this.form.value.Stock;
   
 
     if (!nombre || !unidades || !precio || !estado || !categoria || !proveedor) {
@@ -91,7 +93,8 @@ CloseAddProduct(): void
       PRECIO: precio,
       ESTADO: estado,
       IDCATEGORIA: categoria.IDCATEGORIA,
-      IDPROVEEDOR: proveedor.IDPROVEEDOR
+      IDPROVEEDOR: proveedor.IDPROVEEDOR,
+      Stock: stock
     };
   
 

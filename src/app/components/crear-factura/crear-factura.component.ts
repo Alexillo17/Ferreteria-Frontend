@@ -282,6 +282,7 @@ CancelarFactura(): void {
   }).afterClosed().subscribe((confirmado: boolean) => {
     if (confirmado) {
       if (this.Detallefactura[0] && this.Detallefactura[0].NUMEROFACTURA) { // Verifica si this.Detallefactura[0] y this.Detallefactura[0].NUMEROFACTURA están definidos
+       debugger
         this._FacturaService.DeleteFactura(this.Detallefactura[0].NUMEROFACTURA).subscribe(() => {
           this.router.navigate(['/list-factura']);
         });

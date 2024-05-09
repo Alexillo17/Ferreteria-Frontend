@@ -63,7 +63,7 @@ private dialogRef: MatDialogRef<AddEditCategoriaComponent>
     this.dialogRefModal.open(ModalCompletadoComponent,{
       data: {
         TituloModalAccion: 'agregado',
-        TituloModal: 'Empleado',
+        TituloModal: 'Categoria',
       }
     }).afterClosed().subscribe(()=>{
       this.CloseCategoria();

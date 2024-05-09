@@ -39,6 +39,7 @@ export class EditProductComponent {
     Estado: ['',Validators.required],
     Categoria: ['',Validators.required],
     Proveedor: ['',Validators.required],
+    Stock: ['',Validators.required],
   })
   this.IDPRODUCTO = data.IDPRODUCTO
   }
@@ -99,6 +100,7 @@ async MostrarProveedor() {
           Unidades: this.editdata.UNIDADES,
           Precio: this.editdata.PRECIO,
           Estado: this.editdata.ESTADO,
+          Stock: this.editdata.Stock,
           Categoria: categoriaSeleccionado,
           Proveedor: proveedorSeleccionado,
         });
@@ -118,6 +120,7 @@ async MostrarProveedor() {
       UNIDADES: this.form.value.Unidades,
       PRECIO: this.form.value.Precio,
       ESTADO: this.form.value.Estado,
+      Stock: this.form.value.Stock,
       IDCATEGORIA: this.form.value.Categoria.IDCATEGORIA,
       IDPROVEEDOR: this.form.value.Proveedor.IDPROVEEDOR
     }

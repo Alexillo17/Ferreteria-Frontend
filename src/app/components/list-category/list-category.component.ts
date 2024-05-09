@@ -87,7 +87,7 @@ export class ListCategoryComponent {
   OpenDeleteCategoria(){
     this.dialogref.open(ModalCompletadoComponent, {
       data: {
-        TituloModalAccion: 'eliminado',
+        TituloModalAccion: 'dado de baja',
         TituloModal: 'Categoria',
       }
     }).afterClosed().subscribe(()=>{

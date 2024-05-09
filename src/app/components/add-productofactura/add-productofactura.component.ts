@@ -58,16 +58,19 @@ export class AddProductofacturaComponent {
 
   async agregarProducto(producto: Producto, cantidad: number) {
     if (cantidad && cantidad > 0) {
+      // Obtener el mínimo entre la cantidad y el stock del producto
+      const cantidadMaxima = Math.min(cantidad, producto.Stock);
+  
       const productoFactura: DatosDetalleFactura = {
         NUMEROFACTURA: this.Detallefactura ? this.Detallefactura[0].NUMEROFACTURA : 0,
         IDPRODUCTO: producto.IDPRODUCTO,
-        Cantidad: cantidad,
+        Cantidad: cantidadMaxima, // Usar la cantidad máxima
         PrecioUnitario: producto.PRECIO
       };
   
       try {
         await this._FacturaService.CrearDetalleFactura(productoFactura).toPromise();
-        console.log('MALDITA FACTURA CREADA');
+        console.log('Factura creada');
       } catch (error) {
         console.error('Error al crear factura:', error);
       }
@@ -82,5 +85,16 @@ export class AddProductofacturaComponent {
       this.busquedarealizada = true
     })
   }
+
+  limitarCantidad(event: any, stock: number) {
+    const input = event.target;
+    const valor = input.valueAsNumber;
+  
+    // Si el valor ingresado supera el stock, establecer el valor del input al stock máximo
+    if (valor > stock) {
+      input.value = stock.toString();
+    }
+  }
+  
 
 }

@@ -1,12 +1,12 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { ApiService } from 'src/app/service/api.service';
-import { Producto, Root } from 'src/app/interfaces/producto';
 import { MatDialog } from '@angular/material/dialog';
 import { AddProductComponent } from '../add-product/add-product.component';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { EditProductComponent } from '../edit-product/edit-product.component';
 import { ModalCompletadoComponent } from '../modal-completado/modal-completado.component';
+import { Producto, Root } from 'src/app/interfaces/producto';
 
 @Component({
   selector: 'app-list-product',
@@ -61,6 +61,7 @@ export class ListProductComponent implements OnInit, AfterViewInit {
     this.productservice.getProducts(pageNumber, pageSize).subscribe((result: Root) => {
       this.product_result = result;
       this.dataSource.data = result.products;
+      console.log(result)
     });
   }
 

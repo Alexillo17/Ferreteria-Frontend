@@ -13,6 +13,7 @@ export interface Producto {
   ESTADO: string
   IDCATEGORIA: string
   IDPROVEEDOR: string
+  Stock: number
 }
 
 
