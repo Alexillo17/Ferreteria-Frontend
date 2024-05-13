@@ -87,7 +87,11 @@ export class ListProductComponent implements OnInit, AfterViewInit {
         disableClose: true,
         data: {IDPRODUCTO: IDPRODUCTO}
       }).afterClosed().subscribe(()=>{
-        this.MostrarProductos(this.paginator.pageIndex + 1, this.paginator.pageSize);
+        if (this.checkbox) {
+          this.MostrarProductosInactivos(1, this.paginator.pageSize); // Mostrar productos inactivos
+        } else {
+          this.MostrarProductos(1, this.paginator.pageSize); // Mostrar productos activos
+        }
       });
     } else {
       IDPRODUCTO = 0;

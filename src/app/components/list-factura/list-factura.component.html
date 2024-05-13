@@ -1,5 +1,5 @@
-<app-nav-bar></app-nav-bar>
 <div class="body">
+  <app-nav-bar></app-nav-bar>
     <div class="wrapper">
       <h2>Lista de Facturas</h2>
       <div class="mat-elevation-z8 listfactura">  
@@ -12,6 +12,8 @@
               <th class="" scope="col">Numero Factura</th>
               <th class="" scope="col">Cliente</th>
               <th class="" scope="col">Empleado</th>
+              <th class="" scope="col">Fecha</th>
+              <th class="" scope="col">Total</th>
               <th>Acciones</th>
             </tr>
           </thead>
@@ -21,6 +23,8 @@
               <td>{{factura.NumeroFactura}}</td>
               <td>{{factura.Cliente}}</td>
               <td>{{factura.Empleado}}</td>
+              <td>{{factura.Fecha | date:'dd/MM/yyyy'}}</td>
+              <td>C${{ factura.Total.toLocaleString('es-ES', { minimumFractionDigits: 2 }) }}</td>
               <td>
                 <button type="button" (click)="OpenDetalleFactura(factura.NumeroFactura)" class="btn btn-primary clean-buttom"><img src="../../../assets/img/lista.png"></button>
                 <button type="button" class="btn btn-danger clean-buttom"><img src="../../../assets/img/basura (2) (2).png"></button>

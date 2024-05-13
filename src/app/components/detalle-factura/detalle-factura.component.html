@@ -25,13 +25,13 @@
               <td>{{factura.Producto}}</td>
               <td>${{factura.Precio}}</td>
               <td>{{factura.Cantidad}}</td>
-              <td>${{factura.Total}}</td>
+              <td>C${{factura.Total.toLocaleString('es-ES', { minimumFractionDigits: 2 }) }}</td>
             </tr>
              <tr class="centertabledata">
               <td></td>
               <td></td>
               <td>Total:</td>
-              <td>${{TotalSum}}</td>
+              <td>C${{TotalSum.toLocaleString('es-ES', { minimumFractionDigits: 2 }) }}</td>
              </tr>
           </tbody>
         </table>

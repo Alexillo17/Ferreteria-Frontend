@@ -108,7 +108,7 @@
                 <td>{{detallefactura.Producto}}</td>
                 <td>{{detallefactura.Cantidad}}</td>
                 <td>C${{detallefactura.Precio}}</td>
-                <td>C${{detallefactura.Total}}</td>
+                <td>C${{detallefactura.Total.toLocaleString('es-ES', { minimumFractionDigits: 2 }) }}</td>
                 <td>
                   <abbr title="Eliminar">
                     <button (click)="EliminarProducto(detallefactura.NumeroFactura, detallefactura.IdProducto)" 
@@ -123,7 +123,7 @@
                 <td></td>
                 <td></td>
                 <td>Total:</td>
-                <td>C${{TotalSum}}</td>
+                <td>C${{TotalSum.toLocaleString('es-ES', { minimumFractionDigits: 2 }) }}</td>
                 <td></td>
               </tr>
             </tbody>

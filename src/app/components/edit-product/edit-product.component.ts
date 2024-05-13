@@ -71,7 +71,7 @@ async MostrarCategoria() {
 
 async MostrarProveedor() {
   try {
-    const proveedor_result = await this._ProveedorService.getProveedorInactivos().toPromise();
+    const proveedor_result = await this._ProveedorService.getProveedor().toPromise();
     this.proveedor_result = proveedor_result || [];
     console.log(proveedor_result);
 

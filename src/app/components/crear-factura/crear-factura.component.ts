@@ -109,37 +109,30 @@ Crearcliente() {
 
 
 
-CrearFactura(){
-  const idempleado = this.Empleado
+async CrearFactura() {
+  const idempleado = this.Empleado;
   const fecha = this.fechaActual.toLocaleDateString();
 
+  const factura = {
+    IDEMPLEADO: idempleado,
+    Fecha: fecha,
+    IDCLIENTE: this.DatosCliente.IDCLIENTE
+  };
 
-     //Si no pos se busca y ya
-    const factura: DatosFactura = {
-      IDEMPLEADO: idempleado,
-      Fecha: fecha,
-      IDCLIENTE: this.DatosCliente.IDCLIENTE
-    }
-  
-  
-    const jsonProduct = JSON.stringify(factura);
-  
-    console.log(jsonProduct)
-  
-   
-      this._FacturaService.CrearFactura(factura).subscribe(()=>{
-        console.log('Factura Creada')
-      })
-    
-      this.MostrarCrearFactura = false;
-    
-      this.OpenAddProductFactura();
-    
-      debugger
-  
- 
+  const jsonFactura = JSON.stringify(factura);
+
+  console.log(jsonFactura);
+
+  try {
+    await this._FacturaService.CrearFactura(factura).toPromise();
+    console.log('Factura Creada');
+  } catch (error) {
+    console.error('Error al crear la factura:', error);
+  }
+
+  this.MostrarCrearFactura = false;
+  this.OpenAddProductFactura();
 }
-
 
 
 
@@ -281,14 +274,10 @@ CancelarFactura(): void {
     disableClose: true
   }).afterClosed().subscribe((confirmado: boolean) => {
     if (confirmado) {
-      if (this.Detallefactura[0] && this.Detallefactura[0].NUMEROFACTURA) { // Verifica si this.Detallefactura[0] y this.Detallefactura[0].NUMEROFACTURA están definidos
        debugger
         this._FacturaService.DeleteFactura(this.Detallefactura[0].NUMEROFACTURA).subscribe(() => {
           this.router.navigate(['/list-factura']);
         });
-      } else {
-        this.router.navigate(['/list-factura']);
-      }
     } else {
       return;
     }
