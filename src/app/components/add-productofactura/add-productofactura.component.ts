@@ -11,6 +11,7 @@ import { ApiService } from 'src/app/service/api.service';
 })
 export class AddProductofacturaComponent {
 
+  productosSeleccionados: { producto: Producto, cantidad: number }[] = [];
 
   busquedarealizada: boolean = false
   NOMBRE: string = '';
@@ -58,25 +59,49 @@ export class AddProductofacturaComponent {
 
   async agregarProducto(producto: Producto, cantidad: number) {
     if (cantidad && cantidad > 0) {
-      // Obtener el mínimo entre la cantidad y el stock del producto
-      const cantidadMaxima = Math.min(cantidad, producto.Stock);
-  
-      const productoFactura: DatosDetalleFactura = {
-        NUMEROFACTURA: this.Detallefactura ? this.Detallefactura[0].NUMEROFACTURA : 0,
-        IDPRODUCTO: producto.IDPRODUCTO,
-        Cantidad: cantidadMaxima, // Usar la cantidad máxima
-        PrecioUnitario: producto.PRECIO
-      };
-  
-      try {
+        // Obtener el mínimo entre la cantidad y el stock del producto
+        const cantidadMaxima = Math.min(cantidad, producto.Stock);
+
+        // Agregar el producto a la lista de productos seleccionados
+        this.productosSeleccionados.push({ producto, cantidad: cantidadMaxima });
+
+        console.log('Producto agregado:', producto.NOMBRE, 'Cantidad:', cantidadMaxima);
+    }
+}
+
+async agregarProductosSeleccionados() {
+  try {
+    for (let i = 0; i < this.cantidades.length; i++) {
+      const cantidad = this.cantidades[i];
+      const producto = this.busquedarealizada ? this.productsbyname[i] : this.product_result[i];
+      
+      if (cantidad && cantidad > 0) {
+        const cantidadMaxima = Math.min(cantidad, producto.Stock);
+        
+        const productoFactura: DatosDetalleFactura = {
+          NUMEROFACTURA: this.Detallefactura ? this.Detallefactura[0].NUMEROFACTURA : 0,
+          IDPRODUCTO: producto.IDPRODUCTO,
+          Cantidad: cantidadMaxima,
+          PrecioUnitario: producto.PRECIO
+        };
+        
         await this._FacturaService.CrearDetalleFactura(productoFactura).toPromise();
-        console.log('Factura creada');
-      } catch (error) {
-        console.error('Error al crear factura:', error);
+        
+        console.log('Producto agregado a la factura:', producto.NOMBRE);
       }
     }
+    
+    console.log('Productos agregados a la factura correctamente');
+    this.ref.close(); // Cerrar el diálogo después de agregar los productos
+  } catch (error) {
+    console.error('Error al agregar productos a la factura:', error);
   }
-  
+}
+
+cantidadesValidas(): boolean {
+  return this.cantidades.some(cantidad => cantidad && cantidad > 0);
+}
+ 
 
   BuscarProductobyName(){
     this._ProductService.getAllProductsbyName(this.NOMBRE).subscribe((producto: Producto[])=>{

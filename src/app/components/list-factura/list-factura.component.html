@@ -1,40 +1,77 @@
 <div class="body">
   <app-nav-bar></app-nav-bar>
-    <div class="wrapper">
-      <h2>Lista de Facturas</h2>
-      <div class="mat-elevation-z8 listfactura">  
-        <div class="headertitlebottom">
-          <button routerLink="/crear-factura"  class="btn btn-success buttonadd">Crear Factura</button>
-        </div> 
-        <table class="table table-striped">
-          <thead>
-            <tr class="centertabledata">
-              <th class="" scope="col">Numero Factura</th>
-              <th class="" scope="col">Cliente</th>
-              <th class="" scope="col">Empleado</th>
-              <th class="" scope="col">Fecha</th>
-              <th class="" scope="col">Total</th>
-              <th>Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            <ng-container>
-              <tr class="centertabledata" *ngFor="let factura of factura_result?.facturas">
+  <div class="wrapper">
+    <h2>Lista de Facturas</h2>
+    <div class="mat-elevation-z8 listfactura">  
+      <div class="headertitlebottom">
+        <div class="filtrardate">
+          <div class="titlefiltrar">
+            <h2>Filtrar por fecha</h2>
+          </div>
+          <div class="formdate">
+            <div class="fechainput">
+              <label class="form-label labeldate">Desde: </label>
+              <input type="date" class="form-control date" [(ngModel)]="FechaInicio" (ngModelChange)="checkInputs()" max="{{ getCurrentDate() }}">
+            </div>
+            <div class="fechainput">
+              <label class="form-label labeldate">Hasta: </label>
+              <input type="date" class="form-control date" [(ngModel)]="FechaFinal" (ngModelChange)="checkInputs()" max="{{ getCurrentDate() }}">
+            </div>
+            <button class="btn btn-success botonfiltrar" [disabled]="!camposRellenos" (click)="ReporteFacturabyDate(1, paginator.pageSize)"><img src="../../../assets/img/filtrar (1).png"></button>
+          </div>
+        </div>
+        
+      <button routerLink="/crear-factura" class="btn btn-success buttonadd">Crear Factura</button>
+      </div> 
+      <table class="table table-striped">
+        <thead>
+          <tr class="centertabledata">
+            <th class="" scope="col">Numero Factura</th>
+            <th class="" scope="col">Cliente</th>
+            <th class="" scope="col">Empleado</th>
+            <th class="" scope="col">Fecha</th>
+            <th class="" scope="col">Total</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>    
+          <ng-container *ngIf="!busquedarealizada">
+            <tr class="centertabledata" *ngFor="let factura of factura_result?.facturas">
               <td>{{factura.NumeroFactura}}</td>
               <td>{{factura.Cliente}}</td>
               <td>{{factura.Empleado}}</td>
-              <td>{{factura.Fecha | date:'dd/MM/yyyy'}}</td>
+              <td>{{factura.Fecha}}</td>
               <td>C${{ factura.Total.toLocaleString('es-ES', { minimumFractionDigits: 2 }) }}</td>
               <td>
                 <button type="button" (click)="OpenDetalleFactura(factura.NumeroFactura)" class="btn btn-primary clean-buttom"><img src="../../../assets/img/lista.png"></button>
                 <button type="button" class="btn btn-danger clean-buttom"><img src="../../../assets/img/basura (2) (2).png"></button>
               </td>
-              </tr>
-            </ng-container>
-          </tbody>
-        </table>
-        <mat-paginator [length]="factura_result?.totalFacturas" [pageSize]="5" [pageSizeOptions]="[5, 10]">
-        </mat-paginator>
-      </div>
+            </tr>
+          </ng-container>
+          <ng-container *ngIf="busquedarealizada">
+            <tr class="centertabledata" *ngFor="let factura of facturabydate?.facturas">
+              <td>{{factura.NumeroFactura}}</td>
+              <td>{{factura.Cliente}}</td>
+              <td>{{factura.Empleado}}</td>
+              <td>{{factura.Fecha}}</td>
+              <td>C${{ factura.Total.toLocaleString('es-ES', { minimumFractionDigits: 2 }) }}</td>
+              <td>
+                <button type="button" (click)="OpenDetalleFactura(factura.NumeroFactura)" class="btn btn-primary clean-buttom"><img src="../../../assets/img/lista.png"></button>
+                <button type="button" class="btn btn-danger clean-buttom"><img src="../../../assets/img/basura (2) (2).png"></button>
+              </td>
+            </tr>
+          </ng-container>
+        </tbody>
+        <tfoot *ngIf="busquedarealizada && (!facturabydate || !facturabydate.facturas || facturabydate.facturas.length === 0)">
+          <tr>
+            <td colspan="7" class="text-center">No se encontraron facturas</td>
+          </tr>
+        </tfoot>   
+      </table>
+      <mat-paginator #paginator [length]="busquedarealizada ? (facturabydate?.totalFacturas || 0) : 0 || factura_result?.totalFacturas"
+      [pageSize]="10"
+      [pageSizeOptions]="[5, 10]">
+    </mat-paginator>
     </div>
   </div>
+</div>

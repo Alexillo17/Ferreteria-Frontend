@@ -119,6 +119,8 @@ async CrearFactura() {
     IDCLIENTE: this.DatosCliente.IDCLIENTE
   };
 
+
+
   const jsonFactura = JSON.stringify(factura);
 
   console.log(jsonFactura);
@@ -270,19 +272,26 @@ TerminarFactura(){
 
 //Cancelar una factura y validado tanto si la factura ya fue creada o si no
 CancelarFactura(): void {
-  this.dialogRef.open(ModalAlertComponent, {
-    disableClose: true
-  }).afterClosed().subscribe((confirmado: boolean) => {
-    if (confirmado) {
-       debugger
-        this._FacturaService.DeleteFactura(this.Detallefactura[0].NUMEROFACTURA).subscribe(() => {
-          this.router.navigate(['/list-factura']);
+  if (this.Detallefactura && this.Detallefactura.length > 0) {
+    // Si hay productos en la factura, abrir el diálogo de confirmación
+    this.dialogRef.open(ModalAlertComponent, {
+      disableClose: true
+    }).afterClosed().subscribe((confirmado: boolean) => {
+      if (confirmado) {
+        const numeroFactura = this.Detallefactura[0].NUMEROFACTURA;
+        this._FacturaService.DeleteFactura(numeroFactura).subscribe(() => {
         });
-    } else {
-      return;
-    }
-  });
+        this.router.navigate(['/list-factura']);
+      } else {
+        return;
+      }
+    });
+  } else {
+    // Si no hay productos en la factura, navegar directamente a la lista de facturas
+    this.router.navigate(['/list-factura']);
+  }
 }
+
 
 OpenAddCliente(): void {
   this.dialogRef.open(ModalCompletadoComponent, {
@@ -295,6 +304,7 @@ OpenAddCliente(): void {
     this.ObtenerClienteporCedula();
   });
 }
+
 
 
 }

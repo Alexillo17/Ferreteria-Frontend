@@ -43,6 +43,7 @@ private dialogRef1: MatDialog,
     Categoria: ['',Validators.required],
     Proveedor: ['',Validators.required],
     Stock: ['',Validators.required],
+    Fecha: ['', Validators.required]
   })
 }
 
@@ -78,9 +79,10 @@ CloseAddProduct(): void
     const categoria = this.form.value.Categoria;
     const proveedor = this.form.value.Proveedor;
     const stock = this.form.value.Stock;
+    const fecha = this.form.value.Fecha
   
 
-    if (!nombre || !unidades || !precio || !estado || !categoria || !proveedor) {
+    if (!nombre || !unidades || !precio || !estado || !categoria || !proveedor || !fecha) {
 
       console.error('Por favor completa todos los campos.');
       return; 
@@ -94,7 +96,8 @@ CloseAddProduct(): void
       ESTADO: estado,
       IDCATEGORIA: categoria.IDCATEGORIA,
       IDPROVEEDOR: proveedor.IDPROVEEDOR,
-      Stock: stock
+      Stock: stock,
+      Fecha: fecha
     };
   
 

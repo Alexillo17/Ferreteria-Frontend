@@ -1,68 +1,119 @@
-.body{
+.body {
   height: 100%;
-  background-color: #D0D0D0 ;
-  }
-  
-  .wrapper{
-   width: 97%;
-   margin: 0px 20px;
-   display: flex;
-   justify-content: center;
-   flex-direction: column;
-   align-items: center;
-  }
-  
-  .logo{
-    width: 30%;
-    margin: 10% 60px;
-    cursor: pointer;
-    transition: all 0.5%;
-  }
-  
-  .logo:hover{
-    transform: scale(1.3);
-  }
-  
-  
-  .mat-elevation-z8{
-    background-color: white;
-  }
-  
-  .listfactura{
-    width: 80%;
-    background-color: white;
-    text-align: center;
-  }
-  
-  .clean-buttom{
-    border: none;
-    outline: none; 
-    padding: 5px; 
-    margin-right: 10px;
-  }
-  
-  .centertabledata{
-text-align: center;
-  }
-  
-  .buttonadd{
-    margin-left: 84%;
-    margin-bottom: 10px;
-    margin-top: 10px;
-  }
+  background-color: #D0D0D0;
+}
 
-  .matdialogcustom{
-    width: 700px; /* Ancho deseado */
-  height: 700px; /* Altura deseada */
-  }
+.wrapper {
+  width: 97%;
+  margin: 0px 20px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
 
-  .customadatosfactura{
-    margin-left: 20px;
-    text-align: left;
-    color: black;
-  }
+.logo {
+  width: 30%;
+  margin: 10% 60px;
+  cursor: pointer;
+  transition: all 0.5%;
+}
 
-  .buttonadd{
-    margin: 10px 0px 10px 80%;
-  }
-  
+.logo:hover {
+  transform: scale(1.3);
+}
+
+
+.mat-elevation-z8 {
+  background-color: white;
+}
+
+.listfactura {
+  width: 100%;
+  text-align: center;
+}
+
+.clean-buttom {
+  border: none;
+  outline: none;
+  padding: 5px;
+  margin-right: 10px;
+}
+
+.centertabledata {
+  text-align: center;
+}
+
+
+
+.matdialogcustom {
+  width: 700px;
+  /* Ancho deseado */
+  height: 700px;
+  /* Altura deseada */
+}
+
+.customadatosfactura {
+  margin-left: 20px;
+  text-align: left;
+  color: black;
+}
+
+.buttonadd {
+  width: 150px;
+  height: 40px;
+}
+
+
+.filtrardate {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background-color: white;
+}
+
+.formdate {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  background-color: white;
+}
+
+.titlefiltrar {
+  margin-bottom: 10px;
+}
+
+.fechainput {
+  margin: 0 10px;
+  /* Espacio entre los inputs */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.labeldate {
+  margin-bottom: 5px;
+}
+
+.date {
+  width: 150px;
+  height: 40px;
+}
+
+.botonfiltrar {
+  margin-left: 10px;
+  margin-top: 25px;
+  /* Añade un margen izquierdo para separar el botón del último input */
+}
+
+.headertitlebottom {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  padding: 10px;
+  align-items: center;
+}

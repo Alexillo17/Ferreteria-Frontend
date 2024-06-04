@@ -40,6 +40,7 @@ export class EditProductComponent {
     Categoria: ['',Validators.required],
     Proveedor: ['',Validators.required],
     Stock: ['',Validators.required],
+    Fecha: ['', Validators.required]
   })
   this.IDPRODUCTO = data.IDPRODUCTO
   }
@@ -84,35 +85,38 @@ async MostrarProveedor() {
 }
 
 
-  async MostrarProductoporID(IDPRODUCTO: number) {
-    try {
-      const product_result: Producto | undefined = await this.service.getProductibyID(IDPRODUCTO).toPromise();
-      if (product_result) {
-        this.editdata = product_result;
-        console.log(this.editdata);
-  
-        const categoriaSeleccionado = this.category_result.find(categoria => categoria.Nombre === this.editdata.IDCATEGORIA);
-        const proveedorSeleccionado = this.proveedor_result.find(proveedor => proveedor.Nombre === this.editdata.IDPROVEEDOR);
-        debugger;
-        console.log(categoriaSeleccionado);
-        this.form.patchValue({
-          Nombre: this.editdata.NOMBRE,
-          Unidades: this.editdata.UNIDADES,
-          Precio: this.editdata.PRECIO,
-          Estado: this.editdata.ESTADO,
-          Stock: this.editdata.Stock,
-          Categoria: categoriaSeleccionado,
-          Proveedor: proveedorSeleccionado,
-        });
-        debugger;
-      } else {
-        console.error("No se encontró ningún producto con el ID especificado.");
-      }
-    } catch (error) {
-      console.error("Error al mostrar el producto:", error);
+async MostrarProductoporID(IDPRODUCTO: number) {
+  try {
+    const product_result: Producto | undefined = await this.service.getProductibyID(IDPRODUCTO).toPromise();
+    if (product_result) {
+      this.editdata = product_result;
+      console.log(this.editdata);
+
+      const categoriaSeleccionado = this.category_result.find(categoria => categoria.Nombre === this.editdata.IDCATEGORIA);
+      const proveedorSeleccionado = this.proveedor_result.find(proveedor => proveedor.Nombre === this.editdata.IDPROVEEDOR);
+      
+      // Conversión de fecha
+      const fechaConvertida = new Date(this.editdata.Fecha).toISOString().substring(0, 10);
+      console.log(categoriaSeleccionado);
+
+      this.form.patchValue({
+        Nombre: this.editdata.NOMBRE,
+        Unidades: this.editdata.UNIDADES,
+        Precio: this.editdata.PRECIO,
+        Estado: this.editdata.ESTADO,
+        Stock: this.editdata.Stock,
+        Fecha: fechaConvertida, // Asignar la fecha convertida
+        Categoria: categoriaSeleccionado,
+        Proveedor: proveedorSeleccionado,
+      });
+    } else {
+      console.error("No se encontró ningún producto con el ID especificado.");
     }
+  } catch (error) {
+    console.error("Error al mostrar el producto:", error);
   }
-  
+}
+
   
   Editroduct(){
     const product: Producto = {
@@ -121,6 +125,7 @@ async MostrarProveedor() {
       PRECIO: this.form.value.Precio,
       ESTADO: this.form.value.Estado,
       Stock: this.form.value.Stock,
+      Fecha: this.form.value.Fecha,
       IDCATEGORIA: this.form.value.Categoria.IDCATEGORIA,
       IDPROVEEDOR: this.form.value.Proveedor.IDPROVEEDOR
     }

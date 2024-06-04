@@ -4,14 +4,38 @@
     <h2>Lista de Productos</h2>
     <div *ngIf="!loading" class="mat-elevation-z8 listproduct">
       <div class="headertitlebottom">
-        <div class="searchbar">
-          <input class="form-control mr-sm-2" type="search" placeholder="Buscar..." aria-label="Search" [(ngModel)]="NOMBRE">
+        <div class="filtrardate">
+          <div class="titlefiltrar">
+            <h2>Filtrar por fecha</h2>
+          </div>
+          <div class="formdate">
+            <div class="fechainput">
+              <label class="form-label labeldate">Desde: </label>
+              <input type="date" class="form-control date" [(ngModel)]="DateInicio" (ngModelChange)="checkInputs()" max="{{ getCurrentDate() }}">
+            </div>
+            <div class="fechainput">
+              <label class="form-label labeldate">Hasta: </label>
+              <input type="date" class="form-control date" [(ngModel)]="DateFinal" (ngModelChange)="checkInputs()" max="{{ getCurrentDate() }}">
+            </div>
+            <button (click)="MostrarProductosbyDate(1,paginator.pageSize)" [disabled]="!camposRellenos" class="btn btn-success botonfiltrar"><img
+                src="../../../assets/img/filtrar (1).png"></button>
+          </div>
         </div>
-        <button (click)="MostraProductosPorNombre(paginator.pageIndex + 1, paginator.pageSize)" type="button" class="btn btn-success"><img src="../../../assets/img/buscar (1).png"></button>
-        <section class="example-section">
-          <mat-checkbox [(ngModel)]="checkbox" (change)="toggleProductoList()" class="example-margin">Mostrar Inactivos</mat-checkbox>
-        </section>
-        <button class="btn btn-success buttonadd" (click)="OpenEditProduct()">Agregar Producto</button>
+        <div class="right-actions">
+          <section class="example-section">
+            <mat-checkbox [(ngModel)]="checkbox" (change)="toggleProductoList()" class="example-margin">Mostrar
+              Inactivos</mat-checkbox>
+          </section>
+          <div class="searchbar">
+            <input class="form-control mr-sm-2" type="search" placeholder="Buscar..." aria-label="Search"
+              [(ngModel)]="NOMBRE">
+          </div>
+          <button (click)="MostraProductosPorNombre(paginator.pageIndex + 1, paginator.pageSize)" type="button"
+            class="btn btn-success search-button">
+            <img src="../../../assets/img/buscar (1).png">
+          </button>
+          <button class="btn btn-success buttonadd" (click)="OpenEditProduct()">Agregar Producto</button>
+        </div>
       </div>
       <table class="table table-striped">
         <thead>
@@ -21,6 +45,7 @@
             <th class="tabledatacolor" scope="col">Precio</th>
             <th class="tabledatacolor" scope="col">Stock</th>
             <th class="tabledatacolor" scope="col">Estado</th>
+            <th class="tabledatacolor" scope="col">Fecha de Ingreso</th>
             <th class="tabledatacolor" scope="col">Categoria</th>
             <th class="tabledatacolor" scope="col">Proveedor</th>
             <th class="tabledatacolor" scope="col">Acciones</th>
@@ -34,57 +59,93 @@
               <td>C${{productobyname.PRECIO}}</td>
               <td>{{productobyname.Stock}}</td>
               <td>{{productobyname.ESTADO}}</td>
+              <td>{{productobyname.Fecha}}</td>
               <td>{{productobyname.IDCATEGORIA}}</td>
               <td>{{productobyname.IDPROVEEDOR}}</td>
               <td>
-                <abbr title="Editar"><button (click)="OpenEditProduct(productobyname.IDPRODUCTO)" type="button" class="btn btn-primary clean-buttom"><img src="../../../assets/img/editar.png"></button></abbr> 
-                <abbr title="Eliminar"><button (click)="DeleteProducto(productobyname)" type="button" class="btn btn-danger clean-buttom"><img src="../../../assets/img/basura (2) (2).png"></button></abbr>
+                <abbr title="Editar"><button (click)="OpenEditProduct(productobyname.IDPRODUCTO)" type="button"
+                    class="btn btn-primary clean-buttom"><img src="../../../assets/img/editar.png"></button></abbr>
+                <abbr title="Eliminar"><button (click)="DeleteProducto(productobyname)" type="button"
+                    class="btn btn-danger clean-buttom"><img
+                      src="../../../assets/img/basura (2) (2).png"></button></abbr>
               </td>
             </tr>
           </ng-container>
-          <ng-container *ngIf="!busquedarealizada && !checkbox">
+          <ng-container *ngIf="!busquedabydate && !busquedarealizada && !checkbox">
             <tr *ngFor="let producto of product_result?.products" class="centertabledata">
               <td>{{producto.NOMBRE}}</td>
               <td>{{producto.UNIDADES}}</td>
               <td>C${{producto.PRECIO}}</td>
               <td>{{producto.Stock}}</td>
               <td>{{producto.ESTADO}}</td>
+              <td>{{producto.Fecha}}</td>
               <td>{{producto.IDCATEGORIA}}</td>
               <td>{{producto.IDPROVEEDOR}}</td>
               <td>
-                <abbr title="Editar"><button (click)="OpenEditProduct(producto.IDPRODUCTO)" type="button" class="btn btn-primary clean-buttom"><img src="../../../assets/img/editar.png"></button></abbr> 
-                <abbr title="Eliminar"><button (click)="DeleteProducto(producto)" type="button" class="btn btn-danger clean-buttom"><img src="../../../assets/img/basura (2) (2).png"></button></abbr>
+                <abbr title="Editar"><button (click)="OpenEditProduct(producto.IDPRODUCTO)" type="button"
+                    class="btn btn-primary clean-buttom"><img src="../../../assets/img/editar.png"></button></abbr>
+                <abbr title="Eliminar"><button (click)="DeleteProducto(producto)" type="button"
+                    class="btn btn-danger clean-buttom"><img
+                      src="../../../assets/img/basura (2) (2).png"></button></abbr>
               </td>
-              
+
             </tr>
           </ng-container>
-          <ng-container *ngIf="!busquedarealizada && checkbox">
+          <ng-container *ngIf="!busquedabydate && !busquedarealizada && checkbox">
             <tr *ngFor="let producto of productagotado_result?.products" class="centertabledata">
               <td>{{producto.NOMBRE}}</td>
               <td>{{producto.UNIDADES}}</td>
               <td>C${{producto.PRECIO}}</td>
               <td>{{producto.Stock}}</td>
               <td>{{producto.ESTADO}}</td>
+              <td>{{producto.Fecha}}</td>
               <td>{{producto.IDCATEGORIA}}</td>
               <td>{{producto.IDPROVEEDOR}}</td>
               <td>
-                <abbr title="Editar"><button (click)="OpenEditProduct(producto.IDPRODUCTO)" type="button" class="btn btn-primary clean-buttom"><img src="../../../assets/img/editar.png"></button></abbr> 
-                <abbr title="Eliminar"><button (click)="DeleteProducto(producto)" type="button" class="btn btn-danger clean-buttom"><img src="../../../assets/img/basura (2) (2).png"></button></abbr>
+                <abbr title="Editar"><button (click)="OpenEditProduct(producto.IDPRODUCTO)" type="button"
+                    class="btn btn-primary clean-buttom"><img src="../../../assets/img/editar.png"></button></abbr>
+                <abbr title="Eliminar"><button (click)="DeleteProducto(producto)" type="button"
+                    class="btn btn-danger clean-buttom"><img
+                      src="../../../assets/img/basura (2) (2).png"></button></abbr>
+              </td>
+            </tr>
+          </ng-container>
+          <ng-container *ngIf="busquedabydate">
+            <tr *ngFor="let productobyname of productbydate?.products" class="centertabledata">
+              <td>{{productobyname.NOMBRE}}</td>
+              <td>{{productobyname.UNIDADES}}</td>
+              <td>C${{productobyname.PRECIO}}</td>
+              <td>{{productobyname.Stock}}</td>
+              <td>{{productobyname.ESTADO}}</td>
+              <td>{{productobyname.Fecha}}</td>
+              <td>{{productobyname.IDCATEGORIA}}</td>
+              <td>{{productobyname.IDPROVEEDOR}}</td>
+              <td>
+                <abbr title="Editar"><button (click)="OpenEditProduct(productobyname.IDPRODUCTO)" type="button"
+                    class="btn btn-primary clean-buttom"><img src="../../../assets/img/editar.png"></button></abbr>
+                <abbr title="Eliminar"><button (click)="DeleteProducto(productobyname)" type="button"
+                    class="btn btn-danger clean-buttom"><img
+                      src="../../../assets/img/basura (2) (2).png"></button></abbr>
               </td>
             </tr>
           </ng-container>
         </tbody>
-        <tfoot *ngIf="!busquedarealizada && !NOMBRE && (!product_result || product_result.products.length === 0)">
+        <tfoot *ngIf="busquedarealizada && (!product_result || product_result.products.length === 0)">
           <tr>
-            <td colspan="7" class="text-center">No se encontraron productos</td>
+            <td colspan="8" class="text-center">No se encontraron productos</td>
           </tr>
-        </tfoot>                     
+        </tfoot>
       </table>
-      <mat-paginator #paginator [length]="busquedarealizada ? (productosbyname?.totalItems || 0) : (checkbox ? (productagotado_result?.totalItems || 0) : (product_result?.totalItems || 0))"
-      [pageSize]="10"
-      [pageSizeOptions]="[5, 10]"
-      (page)="cambiarPagina($event)">
-</mat-paginator>
+      <mat-paginator #paginator [length]="
+        busquedarealizada 
+          ? (productbydate?.totalItems || 0) 
+          : (
+              checkbox 
+                ? (productagotado_result?.totalItems || 0) 
+                : (product_result?.totalItems || 0)
+            )" [pageSize]="10" [pageSizeOptions]="[5, 10]" (page)="cambiarPagina($event)">
+      </mat-paginator>
+
 
     </div>
   </div>

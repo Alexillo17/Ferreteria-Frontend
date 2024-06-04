@@ -14,6 +14,7 @@ export interface Producto {
   IDCATEGORIA: string
   IDPROVEEDOR: string
   Stock: number
+  Fecha: string
 }
 
 

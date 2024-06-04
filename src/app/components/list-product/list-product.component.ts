@@ -17,13 +17,18 @@ export class ListProductComponent implements OnInit, AfterViewInit {
 
   product_result: Root | undefined;
   productagotado_result: Root | undefined;
+  productbydate: Root | undefined;
   checkbox: boolean = false
   productosbyname: Root | undefined;
   busquedarealizada: boolean = false;
+  busquedabydate: boolean = false;
   dataSource = new MatTableDataSource<Producto>();
   NOMBRE: string = '';
   loading: boolean = false 
   productosEncontrados: boolean = true;
+  DateInicio: string = ''
+  DateFinal: string = ''
+
 
   @ViewChild('paginator') paginator!: MatPaginator;
 
@@ -100,7 +105,39 @@ export class ListProductComponent implements OnInit, AfterViewInit {
     }
   }
 
+  camposRellenos: boolean = false;
+
+  checkInputs() {
+    this.camposRellenos = !!(this.DateInicio && this.DateFinal);
+  }
+
+  getCurrentDate(): string {
+    const currentDate = new Date();
+    // Formatear la fecha actual en el formato YYYY-MM-DD requerido por el input type="date"
+    const year = currentDate.getFullYear();
+    const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
+    const day = currentDate.getDate().toString().padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  }
+
+
   MostraProductosPorNombre(pageNumber: number, pageSize: number): void {
+
+    const fechaInicio = this.DateInicio;
+    const fechaFin = this.DateFinal;
+    const nombre = this.NOMBRE; // or null if you don't want to filter by name
+
+    if(fechaInicio !== '' && fechaFin !== '' && nombre !== ''){
+      debugger
+      this.productservice.getProductsByDate(fechaInicio, fechaFin, nombre, pageNumber, pageSize)
+      .subscribe((productodate: Root) =>{
+        this.productosbyname = productodate;
+        this.busquedabydate = false
+        this.busquedarealizada = true;
+        this.dataSource.data = productodate.products;
+      }) 
+      return; 
+    }
     if (this.NOMBRE === '') {
       this.busquedarealizada = false;
       this.productosEncontrados = true; // No hay búsqueda, por lo tanto, hay productos
@@ -121,6 +158,21 @@ export class ListProductComponent implements OnInit, AfterViewInit {
         });
       }
     }
+    
+  }
+
+  MostrarProductosbyDate(pageNumber: number, pageSize: number): void{
+    const fechaInicio = this.DateInicio;
+    const fechaFin = this.DateFinal;
+    const nombre = null
+    console.log('Hola')
+    this.productservice.getProductsByDate(fechaInicio, fechaFin, nombre, pageNumber, pageSize)
+      .subscribe((productodate: Root) =>{
+        console.log(productodate)
+        this.productbydate = productodate;
+        this.busquedabydate = true
+        this.dataSource.data = productodate.products;
+      })  
   }
   
 
