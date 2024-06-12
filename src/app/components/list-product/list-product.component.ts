@@ -113,7 +113,6 @@ export class ListProductComponent implements OnInit, AfterViewInit {
 
   getCurrentDate(): string {
     const currentDate = new Date();
-    // Formatear la fecha actual en el formato YYYY-MM-DD requerido por el input type="date"
     const year = currentDate.getFullYear();
     const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
     const day = currentDate.getDate().toString().padStart(2, '0');
@@ -161,18 +160,27 @@ export class ListProductComponent implements OnInit, AfterViewInit {
     
   }
 
-  MostrarProductosbyDate(pageNumber: number, pageSize: number): void{
-    const fechaInicio = this.DateInicio;
-    const fechaFin = this.DateFinal;
-    const nombre = null
-    console.log('Hola')
+  MostrarProductosbyDate(pageNumber: number, pageSize: number): void {
+    const fechaInicio = this.formatearFecha(this.DateInicio);
+    const fechaFin = this.formatearFecha(this.DateFinal);
+    const nombre = null;
+  
+    console.log('Hola');
     this.productservice.getProductsByDate(fechaInicio, fechaFin, nombre, pageNumber, pageSize)
-      .subscribe((productodate: Root) =>{
-        console.log(productodate)
+      .subscribe((productodate: Root) => {
+        console.log(productodate);
         this.productbydate = productodate;
-        this.busquedabydate = true
+        this.busquedabydate = true;
         this.dataSource.data = productodate.products;
-      })  
+      });
+  }
+  
+  formatearFecha(fecha: string): string {
+    const fechaActual = new Date(fecha);
+    const formattedFecha = (fechaActual.getMonth() + 1).toString().padStart(2, '0') + '/' +
+                           fechaActual.getDate().toString().padStart(2, '0') + '/' +
+                           fechaActual.getFullYear();
+    return formattedFecha;
   }
   
 

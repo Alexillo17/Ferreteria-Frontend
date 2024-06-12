@@ -9,69 +9,70 @@ import { Proveedor } from 'src/app/interfaces/proveedor';
 import { ModalCompletadoComponent } from '../modal-completado/modal-completado.component';
 import { ProveedorService } from 'src/app/service/proveedor.service';
 
-
-
 @Component({
   selector: 'app-add-product',
   templateUrl: './add-product.component.html',
   styleUrls: ['./add-product.component.scss']
 })
-export class AddProductComponent implements OnInit{
+export class AddProductComponent implements OnInit {
 
-form: FormGroup;
-
+  form: FormGroup;
   category_result: Categoria[] = [];
   proveedor_result: Proveedor[] = [];
   editproducto: any
   Operacion: string = 'Agregar'
 
-
-constructor(private fb: FormBuilder,
-private _ProductService: ApiService,
-private _CategoryService: ApiService,
-private _ProveedorService: ProveedorService,
-private dialogRef: MatDialogRef<AddProductComponent>,
-private dialogRef1: MatDialog,
-@Inject(MAT_DIALOG_DATA) public data: any,
-)
- {
-  this.form = this.fb.group({
-    Nombre: ['',Validators.required],
-    Unidades: ['',Validators.required],
-    Precio: ['',Validators.required],
-    Estado: ['',Validators.required],
-    Categoria: ['',Validators.required],
-    Proveedor: ['',Validators.required],
-    Stock: ['',Validators.required],
-    Fecha: ['', Validators.required]
-  })
-}
-
-CloseAddProduct(): void
-{
-  this.dialogRef.close();
-}
-  ngOnInit(): void{
-    
-  this.MostrarCategoria();
-  this.MostrarProveedor();
+  constructor(
+    private fb: FormBuilder,
+    private _ProductService: ApiService,
+    private _CategoryService: ApiService,
+    private _ProveedorService: ProveedorService,
+    private dialogRef: MatDialogRef<AddProductComponent>,
+    private dialogRef1: MatDialog,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+  ) {
+    this.form = this.fb.group({
+      Nombre: ['', Validators.required],
+      Unidades: ['', Validators.required],
+      Precio: ['', Validators.required],
+      Estado: ['', Validators.required],
+      Categoria: ['', Validators.required],
+      Proveedor: ['', Validators.required],
+      Stock: ['', Validators.required],
+      Fecha: ['', Validators.required]
+    });
   }
 
-  MostrarCategoria(){
-    this._CategoryService.getCategory().subscribe(category_result =>{
-      this.category_result = category_result 
-      console.log(category_result)
-    })
+  CloseAddProduct(): void {
+    this.dialogRef.close();
   }
 
-  MostrarProveedor(){
-    this._ProveedorService.getProveedor().subscribe(proveedor_result =>{
-      this.proveedor_result = proveedor_result
+  ngOnInit(): void {
+    this.MostrarCategoria();
+    this.MostrarProveedor();
+    this.setFechaActual();
+  }
+
+  MostrarCategoria() {
+    this._CategoryService.getCategory().subscribe(category_result => {
+      this.category_result = category_result;
+      console.log(category_result);
+    });
+  }
+
+  MostrarProveedor() {
+    this._ProveedorService.getProveedor().subscribe(proveedor_result => {
+      this.proveedor_result = proveedor_result;
       console.log(proveedor_result);
-    })
+    });
   }
 
-  addProduct() {
+  setFechaActual() {
+    const fechaActual = new Date().toISOString().split('T')[0];
+    this.form.patchValue({ Fecha: fechaActual });
+  }
+
+  async addProduct() {
     const nombre = this.form.value.Nombre;
     const unidades = this.form.value.Unidades;
     const precio = this.form.value.Precio;
@@ -79,16 +80,19 @@ CloseAddProduct(): void
     const categoria = this.form.value.Categoria;
     const proveedor = this.form.value.Proveedor;
     const stock = this.form.value.Stock;
-    const fecha = this.form.value.Fecha
+    const fecha = this.form.value.Fecha;
   
-
     if (!nombre || !unidades || !precio || !estado || !categoria || !proveedor || !fecha) {
-
       console.error('Por favor completa todos los campos.');
-      return; 
+      return;
     }
   
-
+    // Formatear la fecha a mm/dd/yyyy
+    const fechaActual = new Date(fecha);
+    const formattedFecha = (fechaActual.getMonth() + 1).toString().padStart(2, '0') + '/' +
+                           fechaActual.getDate().toString().padStart(2, '0') + '/' +
+                           fechaActual.getFullYear();
+  
     const product: Producto = {
       NOMBRE: nombre,
       UNIDADES: unidades,
@@ -97,20 +101,19 @@ CloseAddProduct(): void
       IDCATEGORIA: categoria.IDCATEGORIA,
       IDPROVEEDOR: proveedor.IDPROVEEDOR,
       Stock: stock,
-      Fecha: fecha
+      Fecha: formattedFecha // Usar la fecha formateada
     };
   
-
     const jsonProduct = JSON.stringify(product);
-  
     console.log('Datos del producto:', jsonProduct);
   
-
-    this._ProductService.saveProducts(product).subscribe(() => {
+    try {
+      await this._ProductService.saveProducts(product).toPromise();
       console.log('Producto Agregado');
-    });
-  
-    this.OpenAddProduct();
+      this.OpenAddProduct();
+    } catch (error) {
+      console.error('Error al agregar el producto:', error);
+    }
   }
   
 
@@ -120,9 +123,8 @@ CloseAddProduct(): void
         TituloModalAccion: 'agregado',
         TituloModal: 'Producto'
       }
-    }).afterClosed().subscribe(()=>{
+    }).afterClosed().subscribe(() => {
       this.CloseAddProduct();
-    })
-    
+    });
   }
 }

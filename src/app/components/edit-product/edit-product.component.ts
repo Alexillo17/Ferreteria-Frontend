@@ -118,25 +118,43 @@ async MostrarProductoporID(IDPRODUCTO: number) {
 }
 
   
-  Editroduct(){
-    const product: Producto = {
-      NOMBRE: this.form.value.Nombre,
-      UNIDADES: this.form.value.Unidades,
-      PRECIO: this.form.value.Precio,
-      ESTADO: this.form.value.Estado,
-      Stock: this.form.value.Stock,
-      Fecha: this.form.value.Fecha,
-      IDCATEGORIA: this.form.value.Categoria.IDCATEGORIA,
-      IDPROVEEDOR: this.form.value.Proveedor.IDPROVEEDOR
-    }
+async EditProduct() {
+  const nombre = this.form.value.Nombre;
+  const unidades = this.form.value.Unidades;
+  const precio = this.form.value.Precio;
+  const estado = this.form.value.Estado;
+  const stock = this.form.value.Stock;
+  const fecha = this.form.value.Fecha;
+  const categoria = this.form.value.Categoria;
+  const proveedor = this.form.value.Proveedor;
 
-    product.IDPRODUCTO = this.IDPRODUCTO;
-    this._ProductService.updateProducts(this.IDPRODUCTO, product).subscribe(() =>{
-    })
+  // Formatear la fecha a mm/dd/yyyy
+  const fechaActual = new Date(fecha);
+  const formattedFecha = (fechaActual.getMonth() + 1).toString().padStart(2, '0') + '/' +
+                         fechaActual.getDate().toString().padStart(2, '0') + '/' +
+                         fechaActual.getFullYear();
 
+  const product: Producto = {
+    NOMBRE: nombre,
+    UNIDADES: unidades,
+    PRECIO: precio,
+    ESTADO: estado,
+    Stock: stock,
+    Fecha: formattedFecha, // Usar la fecha formateada
+    IDCATEGORIA: categoria.IDCATEGORIA,
+    IDPROVEEDOR: proveedor.IDPROVEEDOR
+  };
+
+  product.IDPRODUCTO = this.IDPRODUCTO;
+
+  try {
+    await this._ProductService.updateProducts(this.IDPRODUCTO, product).toPromise();
+    console.log('Producto Editado');
     this.OpenModalCompletado();
-
+  } catch (error) {
+    console.error('Error al editar el producto:', error);
   }
+}
 
   OpenModalCompletado(): void {
     this.dialogRefModal.open(ModalCompletadoComponent, {
