@@ -128,11 +128,14 @@ async EditProduct() {
   const categoria = this.form.value.Categoria;
   const proveedor = this.form.value.Proveedor;
 
+  if (!nombre || !unidades || !precio || !estado || !stock || !fecha || !categoria || !proveedor) {
+    console.error('Por favor completa todos los campos.');
+    return;
+  }
+
   // Formatear la fecha a mm/dd/yyyy
-  const fechaActual = new Date(fecha);
-  const formattedFecha = (fechaActual.getMonth() + 1).toString().padStart(2, '0') + '/' +
-                         fechaActual.getDate().toString().padStart(2, '0') + '/' +
-                         fechaActual.getFullYear();
+  const [year, month, day] = fecha.split('-');
+  const formattedFecha = `${month.padStart(2, '0')}/${day.padStart(2, '0')}/${year}`;
 
   const product: Producto = {
     NOMBRE: nombre,
@@ -155,6 +158,16 @@ async EditProduct() {
     console.error('Error al editar el producto:', error);
   }
 }
+
+getCurrentDate(): string {
+  const currentDate = new Date();
+  const year = currentDate.getFullYear();
+  const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
+  const day = currentDate.getDate().toString().padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
+
+
 
   OpenModalCompletado(): void {
     this.dialogRefModal.open(ModalCompletadoComponent, {

@@ -72,6 +72,14 @@ export class AddProductComponent implements OnInit {
     this.form.patchValue({ Fecha: fechaActual });
   }
 
+  getCurrentDate(): string {
+    const currentDate = new Date();
+    const year = currentDate.getFullYear();
+    const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
+    const day = currentDate.getDate().toString().padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  }
+
   async addProduct() {
     const nombre = this.form.value.Nombre;
     const unidades = this.form.value.Unidades;
@@ -88,10 +96,8 @@ export class AddProductComponent implements OnInit {
     }
   
     // Formatear la fecha a mm/dd/yyyy
-    const fechaActual = new Date(fecha);
-    const formattedFecha = (fechaActual.getMonth() + 1).toString().padStart(2, '0') + '/' +
-                           fechaActual.getDate().toString().padStart(2, '0') + '/' +
-                           fechaActual.getFullYear();
+    const [year, month, day] = fecha.split('-');
+    const formattedFecha = `${month.padStart(2, '0')}/${day.padStart(2, '0')}/${year}`;
   
     const product: Producto = {
       NOMBRE: nombre,
@@ -103,6 +109,8 @@ export class AddProductComponent implements OnInit {
       Stock: stock,
       Fecha: formattedFecha // Usar la fecha formateada
     };
+
+    debugger
   
     const jsonProduct = JSON.stringify(product);
     console.log('Datos del producto:', jsonProduct);
@@ -115,6 +123,7 @@ export class AddProductComponent implements OnInit {
       console.error('Error al agregar el producto:', error);
     }
   }
+  
   
 
   OpenAddProduct(): void {

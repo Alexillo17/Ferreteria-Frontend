@@ -77,10 +77,19 @@ export class ListFacturaComponent {
   ReporteFacturabyDate(pageNumber: number, pageSize: number) {
     // Verificamos si las fechas son válidas
     if (this.FechaInicio && this.FechaFinal) {
-      const fechaInicioFormatted = this.formatearFecha(this.FechaInicio);
-      const fechaFinalFormatted = this.formatearFecha(this.FechaFinal);
+      const formatFecha = (fecha: string) => {
+        const partes = fecha.split('-'); // Asumiendo que la fecha viene en formato 'yyyy-mm-dd'
+        const year = partes[0];
+        const month = partes[1];
+        const day = partes[2];
+        return `${month}/${day}/${year}`;
+      };
+  
+      const fechaInicioFormatted = formatFecha(this.FechaInicio);
+      const fechaFinalFormatted = formatFecha(this.FechaFinal);
+  
       debugger
-      
+  
       this._FacturaService.getFacturabyDate(fechaInicioFormatted, fechaFinalFormatted, pageNumber, pageSize)
         .subscribe((factura: FacturaRoot) => {
           this.facturabydate = factura;
@@ -93,13 +102,7 @@ export class ListFacturaComponent {
     }
   }
   
-  formatearFecha(fecha: string): string {
-    const fechaActual = new Date(fecha);
-    const formattedFecha = (fechaActual.getMonth() + 1).toString().padStart(2, '0') + '/' +
-                           fechaActual.getDate().toString().padStart(2, '0') + '/' +
-                           fechaActual.getFullYear();
-    return formattedFecha;
-  }
+  
   
 
 }

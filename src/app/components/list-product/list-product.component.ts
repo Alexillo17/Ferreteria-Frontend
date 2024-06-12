@@ -161,11 +161,19 @@ export class ListProductComponent implements OnInit, AfterViewInit {
   }
 
   MostrarProductosbyDate(pageNumber: number, pageSize: number): void {
-    const fechaInicio = this.formatearFecha(this.DateInicio);
-    const fechaFin = this.formatearFecha(this.DateFinal);
+    const formatFecha = (fecha: string) => {
+      const partes = fecha.split('-'); // Asumiendo que la fecha viene en formato 'yyyy-mm-dd'
+      const year = partes[0];
+      const month = partes[1];
+      const day = partes[2];
+      return `${month}/${day}/${year}`;
+    };
+  
+    const fechaInicio = formatFecha(this.DateInicio);
+    const fechaFin = formatFecha(this.DateFinal);
     const nombre = null;
   
-    console.log('Hola');
+debugger
     this.productservice.getProductsByDate(fechaInicio, fechaFin, nombre, pageNumber, pageSize)
       .subscribe((productodate: Root) => {
         console.log(productodate);
@@ -175,13 +183,6 @@ export class ListProductComponent implements OnInit, AfterViewInit {
       });
   }
   
-  formatearFecha(fecha: string): string {
-    const fechaActual = new Date(fecha);
-    const formattedFecha = (fechaActual.getMonth() + 1).toString().padStart(2, '0') + '/' +
-                           fechaActual.getDate().toString().padStart(2, '0') + '/' +
-                           fechaActual.getFullYear();
-    return formattedFecha;
-  }
   
 
   cambiarPagina(event: any) {

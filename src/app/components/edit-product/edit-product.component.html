@@ -53,7 +53,7 @@
         </div>
         <div class="col">
           <label for="exampleInputEmail1">Fecha</label>
-          <input formControlName="Fecha" type="date"  class="form-control custom-border">
+          <input formControlName="Fecha" type="date"  class="form-control custom-border" max="{{ getCurrentDate() }}">
         </div>
 
       <div class="d-grid gap-2 col-6 mx-auto custom-spaceM">
