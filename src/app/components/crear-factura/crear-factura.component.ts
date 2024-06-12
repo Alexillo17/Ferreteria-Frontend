@@ -112,11 +112,16 @@ Crearcliente() {
 async CrearFactura() {
   const idempleado = this.Empleado;
 
-  // Obtener la fecha actual y formatearla a mm/dd/yyyy
+  // Asegurándote de que this.fechaActual sea un objeto Date válido
   const fechaActual = new Date(this.fechaActual); // Suponiendo que this.fechaActual es un objeto Date
-  const fecha = (fechaActual.getMonth() + 1).toString().padStart(2, '0') + '/' +
-                fechaActual.getDate().toString().padStart(2, '0') + '/' +
-                fechaActual.getFullYear();
+
+  // Obtener los componentes de la fecha
+  const year = fechaActual.getUTCFullYear();
+  const month = (fechaActual.getUTCMonth() + 1).toString().padStart(2, '0');
+  const day = fechaActual.getUTCDate().toString().padStart(2, '0');
+
+  // Formatear la fecha a mm/dd/yyyy
+  const fecha = `${month}/${day}/${year}`;
 
   const factura = {
     IDEMPLEADO: idempleado,
@@ -124,7 +129,7 @@ async CrearFactura() {
     IDCLIENTE: this.DatosCliente.IDCLIENTE
   };
 
-  debugger
+  debugger;
 
   const jsonFactura = JSON.stringify(factura);
 
@@ -140,6 +145,7 @@ async CrearFactura() {
   this.MostrarCrearFactura = false;
   this.OpenAddProductFactura();
 }
+
 
 
 
