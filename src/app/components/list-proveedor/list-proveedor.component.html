@@ -8,6 +8,7 @@
           <!-- Agrega [(ngModel)] para enlazar el valor del checkbox con la propiedad checkbox -->
           <mat-checkbox [(ngModel)]="checkbox" (change)="toggleProveedorList()" class="example-margin">Mostrar Inactivos</mat-checkbox>
         </section>
+        <button (click)="OpenAddProductExistencia()"  class="btn btn-success buttonaddexistencia" >Agregar existencia de Producto</button>
         <button (click)="OpenAddProveedor()" class="btn btn-success buttonadd">Agregar Proveedor</button>
       </div>
       <table class="table table-striped">

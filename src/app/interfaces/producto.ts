@@ -17,4 +17,11 @@ export interface Producto {
   Fecha: string
 }
 
+export interface ProductoRegistrado {
+  idProducto?: number
+  Cantidad: number
+  Fecha: string
+}
+
+
 

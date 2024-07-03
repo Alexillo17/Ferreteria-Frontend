@@ -40,6 +40,8 @@ export class CrearFacturaComponent {
   TotalSum: number = 0
   NumeroFactura: number = 0
   Detallefactura: DatosDetalleFactura[] = [];
+  Cantidad: number = 0
+  PrecioUnitario: number = 100
 
  
 
@@ -78,16 +80,15 @@ MostrarEmpleado(){
 Crearcliente() {
   // Verifica si los campos necesarios están llenos
   if (this.CEDULA == '' || this.APELLIDO == '' || this.NOMBRE == '') {
-    // Si alguno de los campos está vacío, muestra un mensaje de error
     console.error("Por favor complete todos los campos.");
     return;
   } else {
-    // Realiza una consulta para verificar si el cliente ya existe
+
     this._ClienteService.getClientebyCedula(this.CEDULA).subscribe((cliente: Cliente) => {
       if (cliente) {
         console.error("La cédula ya está registrada.");
       } else {
-        // Si el cliente no existe, crea un nuevo cliente
+
         const nuevoCliente: Cliente = {
           Nombre: this.NOMBRE,
           Apellido: this.APELLIDO,
@@ -95,11 +96,11 @@ Crearcliente() {
           Estado: 'Activo'
         };
 
-        // Guarda el nuevo cliente
+
         this._ClienteService.saveCliente(nuevoCliente).subscribe(() => {
-          // Si se guarda exitosamente, actualiza los datos del cliente
+
           this.DatosCliente = nuevoCliente;
-          // Abre la ventana/modal para agregar cliente (si es necesario)
+
           this.OpenAddCliente();
         });
       }
@@ -107,6 +108,12 @@ Crearcliente() {
   }
 }
 
+convertirFecha(fechaString: string): string {
+ 
+  const [year, day, month] = fechaString.split('-');
+ 
+  return `${year}-${month}-${day}`;
+}
 
 
 async CrearFactura() {
@@ -221,10 +228,19 @@ async MostrarProductosAgregados() {
     this.factura_resultbyID = factura_result;
     console.log(this.factura_resultbyID);
 
+    // Recalcular el TotalSum basado en los productos actuales
     this.TotalSum = 0;
 
     for (let i = 0; i < this.factura_resultbyID.length; i++) {
-      this.TotalSum += this.factura_resultbyID[i].Total;
+      const producto = this.factura_resultbyID[i];
+      // Actualizar la cantidad en cada producto de la factura
+      producto.Cantidad = this.Detallefactura.find(df => df.IDPRODUCTO === producto.IdProducto)?.Cantidad || producto.Cantidad;
+
+      // Calcular el total del producto
+      producto.Total = producto.Cantidad * producto.Precio;
+
+      // Sumar al TotalSum
+      this.TotalSum += producto.Total;
     }
 
     console.log("Total sumado:", this.TotalSum);
@@ -233,9 +249,62 @@ async MostrarProductosAgregados() {
 
   } catch (error) {
     console.error("Error al obtener la factura:", error);
-    
   }
 }
+
+limitarCantidad(event: any, producto: any) {
+  const input = event.target;
+  let valor = input.valueAsNumber;
+
+  // Calcula el máximo valor permitido
+  let maximoValorPermitido = 0;
+  
+  if (producto.Stock === 0) {
+    // Si el stock es 0, el máximo valor permitido es igual a CantidadEdit
+    maximoValorPermitido = producto.CantidadEdit;
+  } else {
+    // De lo contrario, calcula el mínimo entre Stock y CantidadEdit
+    maximoValorPermitido = Math.min(producto.CantidadEdit + producto.Stock);
+  }
+
+  // Si el valor ingresado es mayor al máximo permitido, ajusta al máximo permitido
+  if (valor > maximoValorPermitido) {
+    valor = maximoValorPermitido;
+  }
+
+  // Establece el valor del input al valor ajustado
+  input.value = valor.toString();
+}
+
+
+actualizarCantidad(producto: any) {
+  debugger
+  this._FacturaService.UpdateCantidadProducto(producto.NumeroFactura, producto.IdProducto, producto.Cantidad)
+    .subscribe(
+      response => {
+        console.log('Cantidad actualizada:', response);
+        this._FacturaService.getFacturabyID(this.Detallefactura[0].NUMEROFACTURA).subscribe((factura_result: Factura) =>{
+          this.factura_resultbyID = factura_result;
+          console.log(this.factura_resultbyID)
+        debugger
+           this.TotalSum = 0
+        
+           for(let i = 0; i < this.factura_resultbyID.length; i++){
+            this.TotalSum += this.factura_resultbyID[i].Total;
+           }
+        
+           console.log("Total sumado:", this.TotalSum);
+          
+          debugger
+        })
+      },
+      error => {
+        console.error('Error al actualizar la cantidad:', error);
+      }
+    );
+    debugger
+}
+
 
 
 EliminarProducto(NumeroFactura: number, IdProducto: number){
@@ -258,6 +327,8 @@ EliminarProducto(NumeroFactura: number, IdProducto: number){
     }
   )
 }
+
+
 
 validarFormatoCedula(): boolean {
   const cedula = this.CEDULA;

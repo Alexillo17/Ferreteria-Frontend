@@ -25,10 +25,6 @@
           <input formControlName="Precio" type="number"  min="1" pattern="^[0-9]+" class="form-control custom-border">
         </div>
       </div>
-      <div class="col">
-        <label for="exampleInputEmail1">Stock</label>
-        <input formControlName="Stock" type="number"  min="1" pattern="^[0-9]+" class="form-control custom-border">
-      </div>
         <div class="row title">
           <div class="col">
             <label for="exampleInputEmail1">Estado</label>
@@ -51,11 +47,6 @@
             </select>
           </div>      
         </div>
-        <div class="col">
-          <label for="exampleInputEmail1">Fecha</label>
-          <input formControlName="Fecha" type="date"  class="form-control custom-border" max="{{ getCurrentDate() }}">
-        </div>
-
       <div class="d-grid gap-2 col-6 mx-auto custom-spaceM">
         <button type="submit"  class="btn btn-primary">Editar</button>
       </div>

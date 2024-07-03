@@ -98,6 +98,7 @@ export class AddProductComponent implements OnInit {
     // Formatear la fecha a mm/dd/yyyy
     const [year, month, day] = fecha.split('-');
     const formattedFecha = `${month.padStart(2, '0')}/${day.padStart(2, '0')}/${year}`;
+
   
     const product: Producto = {
       NOMBRE: nombre,

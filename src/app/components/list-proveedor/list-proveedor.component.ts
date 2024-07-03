@@ -4,6 +4,7 @@ import { Proveedor } from 'src/app/interfaces/proveedor';
 import { AddEditProveedorComponent } from '../add-edit-proveedor/add-edit-proveedor.component';
 import { ModalCompletadoComponent } from '../modal-completado/modal-completado.component';
 import { ProveedorService } from 'src/app/service/proveedor.service';
+import { AddExistenciaproductComponent } from '../add-existenciaproduct/add-existenciaproduct.component';
 
 @Component({
   selector: 'app-list-proveedor',
@@ -100,5 +101,12 @@ toggleProveedorList() {
       this.MostrarProveedor();
     });
     
+  }
+
+  OpenAddProductExistencia(){
+    this.dialogRef.open(AddExistenciaproductComponent,{
+      disableClose: true
+    }
+  )
   }
 }

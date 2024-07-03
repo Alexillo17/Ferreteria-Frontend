@@ -1,0 +1,88 @@
+<h2 mat-dialog-title class="titulo">Agregar Existencia de productos</h2>
+<mat-dialog-content class="mat-typography">
+  <div class="body">
+  <div class="factura">
+    <div class="wrapper">
+      <div class="cliente">
+        <div class="tablasfactura">
+          <div class="mat-elevation-z8 producto">
+            <div class="searchbar">
+              <div>
+                <input (input)="BuscarProductobyName()" type="text" class="form-control input-reducido" id="formGroupExampleInput" placeholder="Buscar" [(ngModel)]="NOMBRE"> 
+              </div>
+              <div>
+                <select class="form-select custom-border" [(ngModel)]="idProveedorSeleccionado" (change)="BuscarProductobyProveedor()">
+                  <option *ngFor="let proveedor of proveedor_result" [value]="proveedor.IDPROVEEDOR">
+                    {{ proveedor.Nombre + ' ' + proveedor.Apellido }}
+                  </option>
+                </select>                                                         
+              </div>              
+              <div class="btonadd">
+                <button [disabled]="!cantidadesValidas()" class="btn btn-success"  (click)="agregarProductosSeleccionados()">Agregar Existencia</button>
+              </div>
+            </div>       
+            <table class="table table-striped contenidotabla">
+              <thead>
+                <tr>
+                  <th scope="col">Codigo</th>
+                  <th scope="col">Nombre</th>
+                  <th scope="col">Cantidad</th>
+                  <th scope="col">Stock Actual</th>
+                  <th scope="col">Estado</th>
+                  <th scope="col">Proveedor</th>
+                </tr>
+              </thead>
+              <tbody>
+              <ng-container *ngIf="!busquedarealizada && !busquedarealizadaproveedor">
+                <tr *ngFor="let producto of product_result; let i = index">
+                  <th scope="row">{{producto.IDPRODUCTO}}</th>
+                  <td>{{producto.NOMBRE}}</td>
+                  <td class="inputcentrado">
+                    <input type="number" class="input-cantidad" id="Cantidad_{{i}}" 
+                    [(ngModel)]="cantidades[i]" (input)="limitarCantidad($event, producto.Stock)" 
+                    onkeypress="return event.charCode >= 48" min="1">                       
+                  </td>
+                  <td>{{producto.Stock}}</td>
+                  <td [ngClass]="getEstadoClass(producto.ESTADO)">{{producto.ESTADO}}</td>
+                  <td>{{producto.IDPROVEEDOR}}</td>
+                 </tr>
+              </ng-container>
+              <ng-container *ngIf="busquedarealizada">
+                <tr *ngFor="let producto of productsbyname; let i = index">
+                  <th scope="row">{{producto.IDPRODUCTO}}</th>
+                  <td>{{producto.NOMBRE}}</td>
+                  <td class="inputcentrado">
+                    <input type="number" class="input-cantidad" id="Cantidad_{{i}}" [(ngModel)]="cantidades[i]" 
+                    onkeypress="return event.charCode >= 48" min="1" [max]="producto.Stock">             
+                  </td>
+                  <td>{{producto.Stock}}</td>
+                  <td [ngClass]="getEstadoClass(producto.ESTADO)">{{producto.ESTADO}}</td>
+                  <td>{{producto.IDPROVEEDOR}}</td>
+                  </tr>
+              </ng-container>
+              <ng-container *ngIf="busquedarealizadaproveedor">
+                <tr *ngFor="let producto of productsbyproveedor; let i = index">
+                  <th scope="row">{{producto.IDPRODUCTO}}</th>
+                  <td>{{producto.NOMBRE}}</td>
+                  <td class="inputcentrado">
+                    <input type="number" class="input-cantidad" id="Cantidad_{{i}}" [(ngModel)]="cantidades[i]" 
+                    onkeypress="return event.charCode >= 48" min="1" [max]="producto.Stock">             
+                  </td>
+                  <td>{{producto.Stock}}</td>
+                  <td [ngClass]="getEstadoClass(producto.ESTADO)">{{producto.ESTADO}}</td>
+                  <td >{{producto.IDPROVEEDOR}}</td>
+                  </tr>
+              </ng-container>
+             </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</mat-dialog-content>
+<mat-dialog-actions align="center">
+  <button mat-button mat-dialog-close class="btn btn-danger">Volver</button>
+</mat-dialog-actions>
+

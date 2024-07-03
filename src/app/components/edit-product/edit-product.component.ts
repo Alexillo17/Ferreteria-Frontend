@@ -128,7 +128,7 @@ async EditProduct() {
   const categoria = this.form.value.Categoria;
   const proveedor = this.form.value.Proveedor;
 
-  if (!nombre || !unidades || !precio || !estado || !stock || !fecha || !categoria || !proveedor) {
+  if (!nombre || !unidades || !precio || !estado || !categoria || !proveedor) {
     console.error('Por favor completa todos los campos.');
     return;
   }
@@ -147,6 +147,8 @@ async EditProduct() {
     IDCATEGORIA: categoria.IDCATEGORIA,
     IDPROVEEDOR: proveedor.IDPROVEEDOR
   };
+
+  debugger
 
   product.IDPRODUCTO = this.IDPRODUCTO;
 

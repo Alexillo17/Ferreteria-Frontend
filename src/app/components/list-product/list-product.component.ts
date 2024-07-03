@@ -2,11 +2,13 @@ import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { ApiService } from 'src/app/service/api.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AddProductComponent } from '../add-product/add-product.component';
-import { MatPaginator } from '@angular/material/paginator';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { EditProductComponent } from '../edit-product/edit-product.component';
 import { ModalCompletadoComponent } from '../modal-completado/modal-completado.component';
 import { Producto, Root } from 'src/app/interfaces/producto';
+import { jsPDF } from 'jspdf';
+import 'jspdf-autotable'
 
 @Component({
   selector: 'app-list-product',
@@ -16,8 +18,10 @@ import { Producto, Root } from 'src/app/interfaces/producto';
 export class ListProductComponent implements OnInit, AfterViewInit {
 
   product_result: Root | undefined;
+  product_resultPDF: Producto[] = [];
   productagotado_result: Root | undefined;
   productbydate: Root | undefined;
+  allProducts: any[] = [];
   checkbox: boolean = false
   productosbyname: Root | undefined;
   busquedarealizada: boolean = false;
@@ -40,6 +44,7 @@ export class ListProductComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     this.paginator.page.subscribe(() => this.MostrarProductos(this.paginator.pageIndex + 1, this.paginator.pageSize));
     this.MostrarProductos(1, 10);
+    this.loadAllProducts();
   }
 
   toggleProductoList() {
@@ -83,6 +88,7 @@ export class ListProductComponent implements OnInit, AfterViewInit {
       disableClose: true
     }).afterClosed().subscribe(()=>{
       this.MostrarProductos(1, this.paginator.pageSize);
+      
     });
   }
 
@@ -92,6 +98,7 @@ export class ListProductComponent implements OnInit, AfterViewInit {
         disableClose: true,
         data: {IDPRODUCTO: IDPRODUCTO}
       }).afterClosed().subscribe(()=>{
+        this.loadAllProducts();
         if (this.checkbox) {
           this.MostrarProductosInactivos(1, this.paginator.pageSize); // Mostrar productos inactivos
         } else {
@@ -185,17 +192,27 @@ debugger
   
   
 
-  cambiarPagina(event: any) {
+  cambiarPagina(event: PageEvent): void {
+    const pageNumber = event.pageIndex + 1; // Sumar 1 porque los índices de página suelen ser basados en 0
+    const pageSize = event.pageSize;
+  
     if (this.busquedarealizada) {
-      this.MostraProductosPorNombre(event.pageIndex + 1, event.pageSize); // Buscar por nombre con paginación
+      // Buscar por nombre con paginación
+      this.MostraProductosPorNombre(pageNumber, pageSize);
+    } else if (this.busquedabydate) {
+      // Buscar por fecha con paginación
+      this.MostrarProductosbyDate(pageNumber, pageSize);
     } else {
       if (this.checkbox) {
-        this.MostrarProductosInactivos(event.pageIndex + 1, event.pageSize); // Mostrar productos inactivos
+        // Mostrar productos inactivos con paginación
+        this.MostrarProductosInactivos(pageNumber, pageSize);
       } else {
-        this.MostrarProductos(event.pageIndex + 1, event.pageSize); // Mostrar productos activos
+        // Mostrar productos activos con paginación
+        this.MostrarProductos(pageNumber, pageSize);
       }
     }
   }
+  
 
   DeleteProducto(producto: Producto): void {
     if(producto.ESTADO === 'Agotado'){
@@ -219,6 +236,7 @@ debugger
         TituloModal: 'Producto',
       }
     }).afterClosed().subscribe(()=>{
+      this.loadAllProducts();
       if (this.checkbox) {
         this.MostrarProductosInactivos(1, this.paginator.pageSize)
       } else {
@@ -227,6 +245,62 @@ debugger
     });
     
   }
-    
+
+  async loadAllProducts() {
+    try {
+     await this.productservice.getAllProductsActivo().subscribe(product_result =>{
+        this.allProducts = product_result
+        console.log(product_result);
+      })
+    } catch (error) {
+      console.error('Error loading products', error);
+    }
+  }
+  
+
+  async generatePDF() {
+   
+
+     debugger;
+    const doc = new jsPDF();
+  
+    // Agregar un título al documento
+    const title = 'Listado de Productos';
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const titleWidth = doc.getTextWidth(title);
+    const titleX = (pageWidth - titleWidth) / 2; // Calcular la posición X para centrar el título
+    doc.setFontSize(14); // Tamaño de la fuente para el título
+    doc.text(title, titleX, 20); // Posición del título (centrado)
+  
+    // Definir las cabeceras de la tabla
+    const head = [['Nombre', 'Unidades', 'Precio', 'Stock', 'Estado', 'Fecha', 'Categoría', 'Proveedor']];
+  
+    // Transformar los datos para el cuerpo de la tabla
+    const body = this.allProducts.map(product => [
+      product.NOMBRE,
+      product.UNIDADES,
+      `C${product.PRECIO}`,
+      product.Stock,
+      product.ESTADO,
+      product.Fecha,
+      product.IDCATEGORIA,
+      product.IDPROVEEDOR
+    ]);
+  
+    debugger;
+  
+    // Generar la tabla en el PDF
+    (doc as any).autoTable({
+      head: head,
+      body: body,
+      startY: 30 // Ajusta la posición de inicio de la tabla para que no se superponga con el título
+    });
+  
+    debugger;
+  
+    doc.save('Stock Ferreteria.pdf');
+  }
+  
+  
 
 }

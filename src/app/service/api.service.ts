@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams  } from '@angular/common/http';
 import { Observable, Subject, catchError } from 'rxjs';
-import { Producto, Root} from '../interfaces/producto'
+import { Producto, ProductoRegistrado, Root} from '../interfaces/producto'
 import { Categoria } from '../interfaces/categoria';
 import { Proveedor } from '../interfaces/proveedor';
 import { DatosDetalleFactura, DatosFactura, Factura, FacturaRoot } from '../interfaces/factura';
@@ -110,6 +110,10 @@ savecategoria(categoria: Categoria): Observable<Categoria>{
     return this.http.get<Root>(URL);
   }
 
+  getAllInsercionesProducts(): Observable<Producto[]>{
+    return this.http.get<Producto[]>(this.productoAPI + 'allproducts')
+  }
+
   public getProductsInactivos(pageNumber: number, pageSize: number): Observable<Root>{
     const URL = `${this.productoAPI + 'productsinactivos'}?pageNumber=${pageNumber}&pageSize=${pageSize}`;
     return this.http.get<Root>(URL);
@@ -125,6 +129,12 @@ savecategoria(categoria: Categoria): Observable<Categoria>{
  );
   }
 
+  saveregistroProducts(product: ProductoRegistrado): Observable<ProductoRegistrado>{
+    return this.http.post<ProductoRegistrado>(this.productoAPI +'createregistroproduct',product).pipe(catchError
+     (this.handleError)
+    );
+     }
+
   updateProducts(IDPRODUCTO: number,product: Producto): Observable<Producto>{
     return this.http.put<Producto>(`${this.productoAPI}${'updateproduct/'}${IDPRODUCTO}`,product)
   }
@@ -139,6 +149,17 @@ savecategoria(categoria: Categoria): Observable<Categoria>{
     return this.http.get<Root>(URL);
   }
 
+  getproductbynameproveedor(NOMBRE: string,idProveedor: number): Observable<Producto[]> {
+    return this.http.get<Producto[]>(`${this.productoAPI}SearchbyProveedor/${NOMBRE}/${idProveedor}`);
+  }
+
+  getproductbyproveedor(idProveedor: number): Observable<Producto[]> {
+    return this.http.get<Producto[]>(`${this.productoAPI}SearchProductbyProveedor/${idProveedor}`);
+  }
+
+
+ 
+
   getproductInactivosbyname(pageNumber: number, pageSize: number, NOMBRE: string): Observable<Root> {
     const URL = `${this.productoAPI}buscarproductsinactivos/${NOMBRE}?pageNumber=${pageNumber}&pageSize=${pageSize}`;
     return this.http.get<Root>(URL);
@@ -146,6 +167,10 @@ savecategoria(categoria: Categoria): Observable<Categoria>{
 
   getAllProducts(): Observable<Producto[]>{
     return this.http.get<Producto[]>(this.productoAPI + 'allproducts')
+  }
+
+  getAllProductsActivo(): Observable<Producto[]>{
+    return this.http.get<Producto[]>(this.productoAPI + 'allproductsactivo')
   }
 
   getAllProductsbyName(NOMBRE: string): Observable<Producto[]>{
@@ -248,6 +273,17 @@ saveEmpleado(empleado: Empleado): Observable<Empleado>{
       const URL = `${this.facturaAPI}facturasbyDate/${FechaInicio}/${FechaFinal}?pageNumber=${pageNumber}&pageSize=${pageSize}`;
       return this.http.get<FacturaRoot>(URL);
     }
+
+    getFacturabyDatePDF(FechaInicio: string, FechaFinal: string): Observable<FacturaRoot> {
+      const URL = `${this.facturaAPI}facturasbyDatePDF/${FechaInicio}/${FechaFinal}`;
+      return this.http.get<FacturaRoot>(URL);
+    }
+
+    UpdateCantidadProducto(NumeroFactura: number, IdProducto:number,cantidad: number): Observable<void>{
+      return this.http.put<void>(`${this.facturaAPI}${'editarcantidad/'}${NumeroFactura}${'/'}${IdProducto}`,{
+        Cantidad: cantidad
+      })
+     }
 
   private handleError(error: any): Observable<any> {
     console.error('Error al realizar la solicitud:', error);

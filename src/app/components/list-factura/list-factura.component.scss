@@ -64,6 +64,13 @@
   height: 40px;
 }
 
+.buttonaddpdf {
+  width: 120px;
+  height: 40px;
+  margin-left: 30px;
+}
+
+
 
 .filtrardate {
   width: 100%;
@@ -113,7 +120,7 @@
 .headertitlebottom {
   display: flex;
   flex-direction: row;
-  justify-content: flex-start;
+  justify-content: space-evenly;
   padding: 10px;
   align-items: center;
 }

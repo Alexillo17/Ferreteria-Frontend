@@ -31,6 +31,7 @@ import { AddEditCategoriaComponent } from './components/add-edit-categoria/add-e
 import { AddEditClienteComponent } from './components/add-edit-cliente/add-edit-cliente.component';
 import { ModalAlertComponent } from './components/modal-alert/modal-alert.component';
 import { HomeComponent } from './components/home/home.component';
+import { AddExistenciaproductComponent } from './components/add-existenciaproduct/add-existenciaproduct.component';
 
 
 @NgModule({
@@ -55,7 +56,8 @@ import { HomeComponent } from './components/home/home.component';
     AddEditCategoriaComponent,
     AddEditClienteComponent,
     ModalAlertComponent,
-    HomeComponent
+    HomeComponent,
+    AddExistenciaproductComponent
   ],
   imports: [
     BrowserModule,
